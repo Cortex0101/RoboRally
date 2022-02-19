@@ -14,7 +14,7 @@ import javafx.scene.layout.VBox;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * ...
+ * A list 2D of {@link SpaceView}'s.
  *
  * @author Ekkart Kindler, ekki@dtu.dk
  *
