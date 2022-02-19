@@ -6,7 +6,9 @@ import org.jetbrains.annotations.NotNull;
 import static com.roborally.model.Heading.SOUTH;
 
 /**
- * ...
+ * A player is associated with a name, and a color. It has program cards, and i located on a space.
+ *
+ * It has a heading and can be placed on a {@link Space}
  *
  * @author Ekkart Kindler, ekki@dtu.dk
  *
