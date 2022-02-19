@@ -9,7 +9,9 @@ import java.util.List;
 import static com.roborally.model.Phase.INITIALISATION;
 
 /**
- * ...
+ * A board composed of {@link Space}'s, possibly containing {@link Player}'s.
+ *
+ * The board also keeps track of the current player, and support addition of new players.
  *
  * @author Ekkart Kindler, ekki@dtu.dk
  *
@@ -162,18 +164,10 @@ public class Board extends Subject {
         int x = space.x;
         int y = space.y;
         switch (heading) {
-            case SOUTH:
-                y = (y + 1) % height;
-                break;
-            case WEST:
-                x = (x + width - 1) % width;
-                break;
-            case NORTH:
-                y = (y + height - 1) % height;
-                break;
-            case EAST:
-                x = (x + 1) % width;
-                break;
+            case SOUTH -> y = (y + 1) % height;
+            case WEST -> x = (x + width - 1) % width;
+            case NORTH -> y = (y + height - 1) % height;
+            case EAST -> x = (x + 1) % width;
         }
 
         return getSpace(x, y);
