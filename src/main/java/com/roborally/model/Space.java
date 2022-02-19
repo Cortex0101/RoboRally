@@ -3,7 +3,9 @@ package com.roborally.model;
 import designpatterns.observer.Subject;
 
 /**
- * ...
+ * A space on a {@link Board}.
+ *
+ * A space is identified by an (x, y) coordinate. At any time, a space may or may not contain a player.
  *
  * @author Ekkart Kindler, ekki@dtu.dk
  *
