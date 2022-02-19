@@ -13,7 +13,10 @@ import javafx.scene.shape.StrokeLineCap;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * ...
+ * The view for the {@link Space}.
+ *
+ * Will be drawn as black or white depending on the x, y coordinate of the {@link Space} and will also draw
+ * the player, if he is present on the space.
  *
  * @author Ekkart Kindler, ekki@dtu.dk
  *
