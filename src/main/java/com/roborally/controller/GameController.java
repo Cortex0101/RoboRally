@@ -31,7 +31,25 @@ public class GameController {
         //     following the current player
         //   - the counter of moves in the game should be increased by one
         //     if the player is moved
+        if (space.getPlayer() != null)
+            return;
 
+        final Player currentPlayer = board.getCurrentPlayer();
+
+        // Move player
+        currentPlayer.getSpace().setPlayer(null);
+        space.setPlayer(currentPlayer);
+
+        // Set next player as active
+        final int playerNumber = board.getPlayerNumber(currentPlayer);
+        if (playerNumber < (board.getPlayersNumber() - 1)) {
+            board.setCurrentPlayer(board.getPlayer(playerNumber + 1));
+        } else {
+            board.setCurrentPlayer(board.getPlayer(0));
+        }
+
+        // Increment counter
+        board.setStep(board.getStep() + 1);
     }
 
     /**
@@ -41,7 +59,7 @@ public class GameController {
     public void notImplememted() {
         // XXX just for now to indicate that the actual method to be used by a handler
         //     is not yet implemented
-    };
+    }
 
     public boolean moveCards(@NotNull CommandCardField source, @NotNull CommandCardField target) {
         CommandCard sourceCard = source.getCard();
