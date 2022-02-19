@@ -1,7 +1,7 @@
 package com.roborally.model;
 
 /**
- * ...
+ * An enum describing the {@link Player}'s heading.
  *
  * @author Ekkart Kindler, ekki@dtu.dk
  *
