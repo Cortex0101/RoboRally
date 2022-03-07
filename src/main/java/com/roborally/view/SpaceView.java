@@ -1,3 +1,24 @@
+/*
+ *  This file is part of the initial project provided for the
+ *  course "Project in Software Development (02362)" held at
+ *  DTU Compute at the Technical University of Denmark.
+ *
+ *  Copyright (C) 2019, 2020: Ekkart Kindler, ekki@dtu.dk
+ *
+ *  This software is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; version 2 of the License.
+ *
+ *  This project is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this project; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ */
 package com.roborally.view;
 
 import designpatterns.observer.Subject;
@@ -13,18 +34,15 @@ import javafx.scene.shape.StrokeLineCap;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * The view for the {@link Space}.
- *
- * Will be drawn as black or white depending on the x, y coordinate of the {@link Space} and will also draw
- * the player, if he is present on the space.
+ * ...
  *
  * @author Ekkart Kindler, ekki@dtu.dk
  *
  */
 public class SpaceView extends StackPane implements ViewObserver {
 
-    final public static int SPACE_HEIGHT = 75; // 60; // 75;
-    final public static int SPACE_WIDTH = 75;  // 60; // 75;
+    final public static int SPACE_HEIGHT = 60; // 60; // 75;
+    final public static int SPACE_WIDTH = 60;  // 60; // 75;
 
     public final Space space;
 
