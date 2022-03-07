@@ -210,6 +210,4 @@ public class Board extends Subject {
                 ", Player = " + getCurrentPlayer().getName() +
                 ", Step: " + getStep();
     }
-
-
 }
