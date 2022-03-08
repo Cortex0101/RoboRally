@@ -215,33 +215,14 @@ public class GameController {
 
     // TODO Assignment V2
     public void moveForward(@NotNull Player player) {
-        int x = 0;
-        int y = 0;
-        switch (player.getHeading()) {
-            case NORTH: --y; break;
-            case EAST: ++x; break;
-            case SOUTH: ++y; break;
-            case WEST: --x; break;
-        }
-
-        System.out.println(player.getSpace().x);
-        player.setSpace(board.getSpace(player.getSpace().x + x, player.getSpace().y + y));
+        player.setSpace(board.getNeighbour(player.getSpace(), player.getHeading()));
     }
 
     // Assuming this means move 2 forward
     // TODO Assignment V2
     public void fastForward(@NotNull Player player) {
-        int x = 0;
-        int y = 0;
-        switch (player.getHeading()) {
-            case NORTH: y -= 2; break;
-            case EAST: x += 2; break;
-            case SOUTH: y += 2; break;
-            case WEST: x -= 2; break;
-        }
-
-        System.out.println(player.getSpace().x);
-        player.setSpace(board.getSpace(player.getSpace().x + x, player.getSpace().y + y));
+        moveForward(player);
+        moveForward(player);
     }
 
     // TODO Assignment V2
