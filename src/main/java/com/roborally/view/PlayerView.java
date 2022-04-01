@@ -203,7 +203,7 @@ public class PlayerView extends Tab implements ViewObserver {
                     if (command.isInteractive()) {
                         for (Command option : command.getOptions()) {
                             Button button = new Button(option.displayName);
-                            button.setOnAction(e -> gameController.notImplemented());
+                            button.setOnAction(e -> gameController.executeCommandOptionAndContinue(option));
                             button.setDisable(false);
                             playerInteractionPanel.getChildren().add(button);
                         }

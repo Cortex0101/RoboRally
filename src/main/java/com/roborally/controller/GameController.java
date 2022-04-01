@@ -239,6 +239,32 @@ public class GameController {
         }
     }
 
+    public void executeCommandOptionAndContinue(Command command) {
+        board.setPhase(Phase.ACTIVATION);
+        executeCommand(board.getCurrentPlayer(), command);
+
+        int nextPlayerNumber = board.getPlayerNumber(board.getCurrentPlayer()) + 1;
+        if (nextPlayerNumber < board.getPlayersNumber()) {
+            board.setCurrentPlayer(board.getPlayer(nextPlayerNumber));
+        } else {
+            int step = board.getStep();
+            step++;
+            if (step < Player.NO_REGISTERS) {
+                makeProgramFieldsVisible(step);
+                board.setStep(step);
+                board.setCurrentPlayer(board.getPlayer(0));
+            } else {
+                startProgrammingPhase();
+            }
+        }
+
+        if (board.isStepMode()) {
+            executeStep();
+        } else {
+            executePrograms();
+        }
+    }
+
     /**
      * A method called when no corresponding controller operation is implemented yet. This
      * should eventually be removed.
