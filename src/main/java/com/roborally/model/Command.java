@@ -32,10 +32,12 @@ import java.util.List;
  *
  */
 public enum Command {
-    FORWARD("Fwd"),
+    MOVE1("Move 1"),
+    MOVE2("Move 2"),
+    MOVE3("Move 3"),
     RIGHT("Turn Right"),
     LEFT("Turn Left"),
-    FAST_FORWARD("Fast Fwd"),
+    U_TURN("U-turn"),
     OPTION_LEFT_RIGHT("Left OR Right", LEFT, RIGHT);
 
     final public String displayName;

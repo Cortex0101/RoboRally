@@ -187,13 +187,15 @@ public class GameController {
     // XXX: V2
     private void executeCommand(@NotNull Player player, Command command) {
         if (player != null && player.board == board && command != null) {
-            // XXX This is a very simplistic way of dealing with some basic cards and
-            //     their execution. This should eventually be done in a more elegant way
-            //     (this concerns the way cards are modelled as well as the way they are executed).
-
             switch (command) {
-                case FORWARD:
-                    this.moveForward(player);
+                case MOVE1:
+                    this.move1Forward(player);
+                    break;
+                case MOVE2:
+                    this.move2Forward(player);
+                    break;
+                case MOVE3:
+                    this.move3Forward(player);
                     break;
                 case RIGHT:
                     this.turnRight(player);
@@ -201,8 +203,8 @@ public class GameController {
                 case LEFT:
                     this.turnLeft(player);
                     break;
-                case FAST_FORWARD:
-                    this.fastForward(player);
+                case U_TURN:
+                    this.uTurn(player);
                     break;
                 default:
                     // DO NOTHING (for now)
@@ -210,13 +212,19 @@ public class GameController {
         }
     }
 
-    public void moveForward(@NotNull Player player) {
+    public void move1Forward(@NotNull Player player) {
         player.setSpace(board.getNeighbour(player.getSpace(), player.getHeading()));
     }
 
-    public void fastForward(@NotNull Player player) {
-        moveForward(player);
-        moveForward(player);
+    public void move2Forward(@NotNull Player player) {
+        move1Forward(player);
+        move1Forward(player);
+    }
+
+    public void move3Forward(@NotNull Player player) {
+        move1Forward(player);
+        move1Forward(player);
+        move1Forward(player);
     }
 
     public void turnRight(@NotNull Player player) {
@@ -225,6 +233,11 @@ public class GameController {
 
     public void turnLeft(@NotNull Player player) {
         player.setHeading(player.getHeading().prev());
+    }
+
+    public void uTurn(@NotNull Player player) {
+        turnLeft(player);
+        turnLeft(player);
     }
 
     public boolean moveCards(@NotNull CommandCardField source, @NotNull CommandCardField target) {
