@@ -10,6 +10,8 @@ module com.roborally {
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
     requires annotations;
+    requires com.google.gson;
+    requires com.google.common;
 
     opens com.roborally to javafx.fxml;
     exports com.roborally;

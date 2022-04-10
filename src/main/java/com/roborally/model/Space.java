@@ -21,7 +21,11 @@
  */
 package com.roborally.model;
 
+import com.roborally.controller.FieldAction;
 import designpatterns.observer.Subject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * ...
@@ -30,6 +34,8 @@ import designpatterns.observer.Subject;
  *
  */
 public class Space extends Subject {
+    private List<Heading> walls = new ArrayList<>();
+    private List<FieldAction> actions = new ArrayList<>();
 
     public final Board board;
 
@@ -63,6 +69,14 @@ public class Space extends Subject {
             }
             notifyChange();
         }
+    }
+
+    public List<Heading> getWalls() {
+        return walls;
+    }
+
+    public List<FieldAction> getActions() {
+        return actions;
     }
 
     void playerChanged() {
