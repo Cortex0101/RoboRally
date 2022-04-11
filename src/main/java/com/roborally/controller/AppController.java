@@ -35,6 +35,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceDialog;
+import javafx.scene.control.TextInputDialog;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -96,8 +97,20 @@ public class AppController implements Observer {
         }
     }
 
+    private boolean validateSaveName(String name) {
+        return true; // TODO: Validate the name. For instance it can not contain an extension ie .json, and it must not already exsist in the save games directory or else we can overwrite it maybe?
+    }
+
     public void saveGame() {
-        LoadBoard.saveBoard(gameController.board,"newBoard");
+        Optional<String> result;
+        do {
+            TextInputDialog dialog = new TextInputDialog();
+            dialog.setTitle("Save game");
+            dialog.setHeaderText("Type name of save file");
+            result = dialog.showAndWait();
+        } while (!validateSaveName(result.orElse("mysave")));
+
+        LoadBoard.saveBoard(gameController.board, result.orElse("mysave"));
     }
 
     private List<String> getFileNames(String directory) {
