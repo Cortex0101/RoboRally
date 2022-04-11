@@ -37,6 +37,8 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceDialog;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -98,17 +100,25 @@ public class AppController implements Observer {
         LoadBoard.saveBoard(gameController.board,"newBoard");
     }
 
-    public void loadGame() {
-        // XXX needs to be implememted eventually
-        // for now, we just create a new game
-        /*
-        if (gameController == null) {
-            newGame();
+    private List<String> getFileNames(String directory) {
+        List<String> fileNames = new ArrayList<>();
+        File folder = new File(directory);
+        File[] listOfFiles = folder.listFiles();
+        for (File file : listOfFiles) {
+            if (file.isFile())
+                fileNames.add(file.getName().substring(0, file.getName().length() - 5));
         }
+        return fileNames;
+    }
 
-         */
+    public void loadGame() {
+        final List<String> savedGames = getFileNames("D:\\Development\\RoboRally\\src\\main\\resources\\com\\roborally\\boards\\");
+        ChoiceDialog<String> dialog = new ChoiceDialog<>(savedGames.get(0), savedGames);
+        dialog.setTitle("Load game");
+        dialog.setHeaderText("Select game to be loaded");
+        Optional<String> boardToLoad = dialog.showAndWait();
 
-        Board board = LoadBoard.loadBoard("defaultboard");
+        Board board = LoadBoard.loadBoard(boardToLoad.orElse("defaultboard"));
         gameController = new GameController(board);
         int no = 2; // 2 players
         for (int i = 0; i < no; i++) {
