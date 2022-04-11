@@ -15,4 +15,6 @@ module com.roborally {
 
     opens com.roborally to javafx.fxml;
     exports com.roborally;
+    exports com.roborally.fileaccess.model to com.google.gson;
+    exports com.roborally.model to com.google.gson;
 }

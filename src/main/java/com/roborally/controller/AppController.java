@@ -21,6 +21,7 @@
  */
 package com.roborally.controller;
 
+import com.roborally.fileaccess.LoadBoard;
 import designpatterns.observer.Observer;
 import designpatterns.observer.Subject;
 
@@ -94,15 +95,31 @@ public class AppController implements Observer {
     }
 
     public void saveGame() {
-        // XXX needs to be implemented eventually
+        LoadBoard.saveBoard(gameController.board,"newBoard");
     }
 
     public void loadGame() {
         // XXX needs to be implememted eventually
         // for now, we just create a new game
+        /*
         if (gameController == null) {
             newGame();
         }
+
+         */
+
+        Board board = LoadBoard.loadBoard("newBoard");
+        gameController = new GameController(board);
+        int no = 2; // 2 players
+        for (int i = 0; i < no; i++) {
+            Player player = new Player(board, PLAYER_COLORS.get(i), "Player " + (i + 1));
+            board.addPlayer(player);
+            player.setSpace(board.getSpace(i % board.width, i));
+        }
+
+        gameController.startProgrammingPhase();
+        roboRally.createBoardView(gameController);
+
     }
 
     /**
