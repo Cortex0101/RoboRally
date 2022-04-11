@@ -27,9 +27,13 @@ import com.roborally.model.Player;
 import com.roborally.model.Space;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
+import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeLineCap;
 import org.jetbrains.annotations.NotNull;
 
@@ -44,7 +48,10 @@ public class SpaceView extends StackPane implements ViewObserver {
     final public static int SPACE_HEIGHT = 60; // 60; // 75;
     final public static int SPACE_WIDTH = 60;  // 60; // 75;
 
-    public final Space space;
+    final public  Space space;
+
+    final public static Paint WALL_COLOR = Color.RED;
+    final public static int WALL_THICKNESS = 5;
 
 
     public SpaceView(@NotNull Space space) {
@@ -91,10 +98,35 @@ public class SpaceView extends StackPane implements ViewObserver {
         }
     }
 
+    private void updateWall() {
+        if (space.getWalls().isEmpty())
+            return;
+
+        for (var wallHeading : space.getWalls()) {
+            Pane pane = new Pane();
+            Rectangle rectangle = new Rectangle(0.0, 0.0, SPACE_WIDTH, SPACE_HEIGHT);
+            rectangle.setFill(Color.TRANSPARENT);
+            pane.getChildren().add(rectangle);
+
+            Line line = null;
+            switch (wallHeading) {
+                case NORTH -> line = new Line(2, 2, SPACE_WIDTH - 2, 2);
+                case EAST -> line = new Line(SPACE_WIDTH - 2, 2, SPACE_WIDTH - 2, SPACE_HEIGHT - 2);
+                case SOUTH -> line = new Line(2, SPACE_HEIGHT - 2, SPACE_WIDTH - 2, SPACE_HEIGHT - 2);
+                case WEST -> line = new Line(2, 2, 2, SPACE_HEIGHT - 2);
+            }
+            line.setStroke(WALL_COLOR);
+            line.setStrokeWidth(WALL_THICKNESS);
+            pane.getChildren().add(line);
+            this.getChildren().add(pane);
+        }
+    }
+
     @Override
     public void updateView(Subject subject) {
         if (subject == this.space) {
             updatePlayer();
+            updateWall();
         }
     }
 

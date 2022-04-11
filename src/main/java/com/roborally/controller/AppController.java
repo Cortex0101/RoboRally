@@ -108,7 +108,7 @@ public class AppController implements Observer {
 
          */
 
-        Board board = LoadBoard.loadBoard("newBoard");
+        Board board = LoadBoard.loadBoard("defaultboard");
         gameController = new GameController(board);
         int no = 2; // 2 players
         for (int i = 0; i < no; i++) {
