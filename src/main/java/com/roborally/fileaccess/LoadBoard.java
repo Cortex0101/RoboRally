@@ -5,9 +5,11 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import com.roborally.fileaccess.model.BoardTemplate;
+import com.roborally.fileaccess.model.PlayerTemplate;
 import com.roborally.fileaccess.model.SpaceTemplate;
 import com.roborally.controller.FieldAction;
 import com.roborally.model.Board;
+import com.roborally.model.Player;
 import com.roborally.model.Space;
 
 import java.io.*;
@@ -54,6 +56,11 @@ public class LoadBoard {
                 if (space != null) {
                     space.getActions().addAll(spaceTemplate.actions);
                     space.getWalls().addAll(spaceTemplate.walls);
+                    if (spaceTemplate.player != null) {
+                        Player player = new Player(result, spaceTemplate.player.color, spaceTemplate.player.name);
+                        player.setHeading(spaceTemplate.player.heading);
+                        space.setPlayer(player);
+                    }
                 }
             }
             reader.close();
@@ -82,12 +89,19 @@ public class LoadBoard {
         for (int i=0; i<board.width; i++) {
             for (int j=0; j<board.height; j++) {
                 Space space = board.getSpace(i,j);
-                if (!space.getWalls().isEmpty() || !space.getActions().isEmpty()) {
-                    SpaceTemplate spaceTemplate = new SpaceTemplate();
+                SpaceTemplate spaceTemplate = new SpaceTemplate();
+                boolean anythingOnSpace = false;
+                if (!space.getWalls().isEmpty() || !space.getActions().isEmpty() || space.getPlayer() != null) {
                     spaceTemplate.x = space.x;
                     spaceTemplate.y = space.y;
                     spaceTemplate.actions.addAll(space.getActions());
                     spaceTemplate.walls.addAll(space.getWalls());
+                    if (space.getPlayer() != null) {
+                        spaceTemplate.player = new PlayerTemplate();
+                        spaceTemplate.player.name = space.getPlayer().getName();
+                        spaceTemplate.player.color = space.getPlayer().getColor();
+                        spaceTemplate.player.heading = space.getPlayer().getHeading();
+                    }
                     template.spaces.add(spaceTemplate);
                 }
             }

@@ -2,22 +2,17 @@ package com.roborally.fileaccess.model;
 
 import com.roborally.controller.FieldAction;
 import com.roborally.model.Heading;
+import com.roborally.model.Player;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * ...
- *
- * @author Ekkart Kindler, ekki@dtu.dk
- *
- */
 public class SpaceTemplate {
-
     public List<Heading> walls = new ArrayList<>();
     public List<FieldAction> actions = new ArrayList<>();
 
     public int x;
     public int y;
 
+    public PlayerTemplate player;
 }

@@ -18,6 +18,17 @@
       "y": 0
     },
     {
+      "walls": [],
+      "actions": [],
+      "x": 0,
+      "y": 5,
+      "player": {
+        "name": "Player 1",
+        "color": "red",
+        "heading": "WEST"
+      }
+    },
+    {
       "walls": [
         "NORTH"
       ],
@@ -71,7 +82,12 @@
         }
       ],
       "x": 1,
-      "y": 3
+      "y": 3,
+      "player": {
+        "name": "Player 2",
+        "color": "green",
+        "heading": "EAST"
+      }
     },
     {
       "walls": [],
