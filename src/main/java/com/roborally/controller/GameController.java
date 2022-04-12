@@ -170,8 +170,10 @@ public class GameController {
                         makeProgramFieldsVisible(step);
                         board.setStep(step);
                         board.setCurrentPlayer(board.getPlayer(0));
+                        activateBoardElements();
                     } else {
                         startProgrammingPhase();
+                        activateBoardElements();
                     }
                 }
             } else {
@@ -181,6 +183,18 @@ public class GameController {
         } else {
             // this should not happen
             assert false;
+        }
+    }
+
+    private void activateBoardElements() {
+        // Iterate over all board spaces
+        for (int i = 0; i < board.width; i++) {
+            for (int j = 0; j < board.height; j++) {
+                Space space = board.getSpace(i, j);
+                for (FieldAction action : space.getActions()) {
+                    action.doAction(this, space);
+                }
+            }
         }
     }
 

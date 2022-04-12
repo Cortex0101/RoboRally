@@ -20,8 +20,17 @@ public class ConveyorBelt extends FieldAction {
 
     @Override
     public boolean doAction(@NotNull GameController gameController, @NotNull Space space) {
-        // TODO needs to be implemented
-        return false;
+        Player player = space.getPlayer();
+        if (player == null) {
+            return false;
+        }
+        Heading playerHeading = player.getHeading();
+
+        player.setHeading(heading);
+        gameController.move1Forward(player);
+        player.setHeading(playerHeading);
+
+        return true;
     }
 
 }

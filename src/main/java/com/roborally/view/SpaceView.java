@@ -21,12 +21,11 @@
  */
 package com.roborally.view;
 
+import com.roborally.controller.ConveyorBelt;
+import com.roborally.controller.FieldAction;
 import designpatterns.observer.Subject;
-import com.roborally.model.Heading;
 import com.roborally.model.Player;
 import com.roborally.model.Space;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -34,7 +33,6 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.StrokeLineCap;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -52,6 +50,8 @@ public class SpaceView extends StackPane implements ViewObserver {
 
     final public static Paint WALL_COLOR = Color.RED;
     final public static int WALL_THICKNESS = 5;
+
+    final public static Paint CONVEYOR_BELT_COLOR = Color.LIGHTSEAGREEN;
 
 
     public SpaceView(@NotNull Space space) {
@@ -80,8 +80,6 @@ public class SpaceView extends StackPane implements ViewObserver {
     }
 
     private void updatePlayer() {
-        this.getChildren().clear();
-
         Player player = space.getPlayer();
         if (player != null) {
             Polygon arrow = new Polygon(0.0, 0.0,
@@ -122,11 +120,39 @@ public class SpaceView extends StackPane implements ViewObserver {
         }
     }
 
+
+    private void updateConveyorBelt() {
+        for (FieldAction fieldAction : space.getActions()) {
+            if (fieldAction.getClass().getName().equals("com.roborally.controller.ConveyorBelt")) {
+                ConveyorBelt conveyorBelt = (ConveyorBelt) fieldAction;
+
+                Pane pane = new Pane();
+
+                Polygon arrow = new Polygon(SPACE_WIDTH / 2.0, 10,
+                        SPACE_WIDTH - 10, 20,
+                        SPACE_WIDTH - 20, 20,
+                        SPACE_WIDTH - 20, SPACE_HEIGHT - 10,
+                        20, SPACE_HEIGHT - 10,
+                        20, 20,
+                        10, 20);
+
+                arrow.setFill(CONVEYOR_BELT_COLOR);
+
+                arrow.setRotate(((90 * conveyorBelt.getHeading().ordinal()) % 360) - 180);
+
+                pane.getChildren().add(arrow);
+                this.getChildren().add(pane);
+            }
+        }
+    }
+
     @Override
     public void updateView(Subject subject) {
         if (subject == this.space) {
-            updatePlayer();
+            this.getChildren().clear();
             updateWall();
+            updateConveyorBelt();
+            updatePlayer();
         }
     }
 
