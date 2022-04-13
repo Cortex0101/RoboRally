@@ -101,7 +101,7 @@ public class BoardView extends VBox implements ViewObserver {
         }
 
         @Override
-        public void handle(MouseEvent event) {
+        public void handle(MouseEvent event) { // TODO: Remove this method.
             Object source = event.getSource();
             if (source instanceof SpaceView) {
                 SpaceView spaceView = (SpaceView) source;

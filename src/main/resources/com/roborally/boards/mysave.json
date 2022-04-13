@@ -30,12 +30,7 @@
         }
       ],
       "x": 1,
-      "y": 0,
-      "player": {
-        "name": "Player 1",
-        "color": "red",
-        "heading": "EAST"
-      }
+      "y": 0
     },
     {
       "walls": [
@@ -133,6 +128,17 @@
       "y": 2
     },
     {
+      "walls": [],
+      "actions": [],
+      "x": 3,
+      "y": 0,
+      "player": {
+        "name": "Player 1",
+        "color": "red",
+        "heading": "SOUTH"
+      }
+    },
+    {
       "walls": [
         "EAST"
       ],
@@ -146,6 +152,17 @@
       ],
       "x": 3,
       "y": 3
+    },
+    {
+      "walls": [],
+      "actions": [],
+      "x": 4,
+      "y": 0,
+      "player": {
+        "name": "Player 2",
+        "color": "green",
+        "heading": "WEST"
+      }
     },
     {
       "walls": [
@@ -191,17 +208,6 @@
       ],
       "x": 6,
       "y": 6
-    },
-    {
-      "walls": [],
-      "actions": [],
-      "x": 7,
-      "y": 0,
-      "player": {
-        "name": "Player 2",
-        "color": "green",
-        "heading": "SOUTH"
-      }
     },
     {
       "walls": [
