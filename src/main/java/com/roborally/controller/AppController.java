@@ -91,7 +91,7 @@ public class AppController implements Observer {
 
             // XXX: V2
             // board.setCurrentPlayer(board.getPlayer(0));
-            gameController.startProgrammingPhase();
+            gameController.startProgrammingPhase(false);
 
             roboRally.createBoardView(gameController);
         }
@@ -131,18 +131,21 @@ public class AppController implements Observer {
         dialog.setHeaderText("Select game to be loaded");
         Optional<String> boardToLoad = dialog.showAndWait();
 
-        Board board = LoadBoard.loadBoard(boardToLoad.orElse("defaultboard"));
+        String boardLoaded = boardToLoad.orElse("defaultboard");
+        System.out.println("Loaded board: " + boardLoaded);
+        Board board = LoadBoard.loadBoard(boardLoaded);
         gameController = new GameController(board);
+        /*
         int no = 2; // 2 players
         for (int i = 0; i < no; i++) {
             Player player = new Player(board, PLAYER_COLORS.get(i), "Player " + (i + 1));
             board.addPlayer(player);
             player.setSpace(board.getSpace(i % board.width, i));
         }
+         */
 
-        gameController.startProgrammingPhase();
+        gameController.startProgrammingPhase(false);
         roboRally.createBoardView(gameController);
-
     }
 
     /**

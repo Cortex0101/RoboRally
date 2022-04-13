@@ -67,11 +67,16 @@ public class GameController {
     }
 
     // XXX: V2
-    public void startProgrammingPhase() {
+    public void startProgrammingPhase(boolean resetRegisters) {
         board.setPhase(Phase.PROGRAMMING);
         board.setCurrentPlayer(board.getPlayer(0));
         board.setStep(0);
 
+        if (resetRegisters)
+            resetRegisters();
+    }
+
+    private void resetRegisters() {
         for (int i = 0; i < board.getPlayersNumber(); i++) {
             Player player = board.getPlayer(i);
             if (player != null) {
@@ -172,7 +177,7 @@ public class GameController {
                         board.setCurrentPlayer(board.getPlayer(0));
                         activateBoardElements();
                     } else {
-                        startProgrammingPhase();
+                        startProgrammingPhase(true);
                         activateBoardElements();
                     }
                 }
@@ -334,7 +339,7 @@ public class GameController {
                 board.setStep(step);
                 board.setCurrentPlayer(board.getPlayer(0));
             } else {
-                startProgrammingPhase();
+                startProgrammingPhase(true);
             }
         }
 

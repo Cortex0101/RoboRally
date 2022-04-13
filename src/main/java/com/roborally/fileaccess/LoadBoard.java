@@ -8,9 +8,7 @@ import com.roborally.fileaccess.model.BoardTemplate;
 import com.roborally.fileaccess.model.PlayerTemplate;
 import com.roborally.fileaccess.model.SpaceTemplate;
 import com.roborally.controller.FieldAction;
-import com.roborally.model.Board;
-import com.roborally.model.Player;
-import com.roborally.model.Space;
+import com.roborally.model.*;
 
 import java.io.*;
 
@@ -60,6 +58,23 @@ public class LoadBoard {
                         Player player = new Player(result, spaceTemplate.player.color, spaceTemplate.player.name);
                         player.setHeading(spaceTemplate.player.heading);
                         space.setPlayer(player);
+                        if (spaceTemplate.player.commandCards != null) {
+                            for (int i = 0; i < spaceTemplate.player.commandCards.size(); i++) {
+                                if (spaceTemplate.player.commandCards.get(i) != null)
+                                    player.getCardField(i).setCard(new CommandCard(spaceTemplate.player.commandCards.get(i)));
+                                else
+                                    player.getCardField(i).setCard(null);
+                            }
+                        }
+                        if (spaceTemplate.player.commandCardsInRegisters != null) {
+                            for (int i = 0; i < spaceTemplate.player.commandCardsInRegisters.size(); i++) {
+                                if (spaceTemplate.player.commandCardsInRegisters.get(i) != null)
+                                    player.getProgramField(i).setCard(new CommandCard(spaceTemplate.player.commandCardsInRegisters.get(i)));
+                                else
+                                    player.getProgramField(i).setCard(null);
+                            }
+                        }
+                        result.addPlayer(player);
                     }
                 }
             }
@@ -101,6 +116,21 @@ public class LoadBoard {
                         spaceTemplate.player.name = space.getPlayer().getName();
                         spaceTemplate.player.color = space.getPlayer().getColor();
                         spaceTemplate.player.heading = space.getPlayer().getHeading();
+
+                        for (int k = 0; k < 8; k++) {
+                            CommandCard card = space.getPlayer().getCardField(k).getCard();
+                            if (card != null)
+                                spaceTemplate.player.commandCards.add(card.command);
+                            else
+                                spaceTemplate.player.commandCards.add(null);
+                        }
+                        for (int l = 0; l < 5; l++) {
+                            CommandCard card = space.getPlayer().getProgramField(l).getCard();
+                            if (card != null)
+                                spaceTemplate.player.commandCardsInRegisters.add(card.command);
+                            else
+                                spaceTemplate.player.commandCardsInRegisters.add(null);
+                        }
                     }
                     template.spaces.add(spaceTemplate);
                 }

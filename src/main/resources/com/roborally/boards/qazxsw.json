@@ -75,18 +75,18 @@
         "commandCards": [
           "OPTION_LEFT_RIGHT",
           "RIGHT",
-          null,
+          "U_TURN",
           "LEFT",
-          null,
+          "MOVE3",
           "MOVE2",
           "MOVE3",
           null
         ],
         "commandCardsInRegisters": [
           null,
-          "U_TURN",
           null,
-          "MOVE3",
+          null,
+          null,
           "U_TURN"
         ]
       }

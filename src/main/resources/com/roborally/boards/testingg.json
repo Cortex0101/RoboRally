@@ -25,7 +25,9 @@
       "player": {
         "name": "Player 1",
         "color": "red",
-        "heading": "WEST"
+        "heading": "WEST",
+        "commandCards": "",
+        "commandCardsInRegisters": ""
       }
     },
     {

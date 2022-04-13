@@ -1,0 +1,62 @@
+{
+  "width": 8,
+  "height": 8,
+  "spaces": [
+    {
+      "walls": [],
+      "actions": [],
+      "x": 0,
+      "y": 0,
+      "player": {
+        "name": "Player 1",
+        "color": "red",
+        "heading": "SOUTH",
+        "commandCards": [
+          "OPTION_LEFT_RIGHT",
+          null,
+          null,
+          "U_TURN",
+          "U_TURN",
+          "MOVE3",
+          "MOVE1",
+          "MOVE2"
+        ],
+        "commandCardsInRegisters": [
+          "OPTION_LEFT_RIGHT",
+          null,
+          null,
+          "U_TURN",
+          "U_TURN"
+        ]
+      }
+    },
+    {
+      "walls": [],
+      "actions": [],
+      "x": 1,
+      "y": 1,
+      "player": {
+        "name": "Player 2",
+        "color": "green",
+        "heading": "SOUTH",
+        "commandCards": [
+          "MOVE1",
+          "U_TURN",
+          "RIGHT",
+          "U_TURN",
+          "MOVE2",
+          "U_TURN",
+          null,
+          "MOVE3"
+        ],
+        "commandCardsInRegisters": [
+          "MOVE1",
+          "U_TURN",
+          "RIGHT",
+          "U_TURN",
+          "MOVE2"
+        ]
+      }
+    }
+  ]
+}

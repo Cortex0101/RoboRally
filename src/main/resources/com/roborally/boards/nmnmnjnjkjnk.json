@@ -21,21 +21,21 @@
         "color": "red",
         "heading": "SOUTH",
         "commandCards": [
-          "MOVE3",
-          "MOVE3",
           null,
+          "RIGHT",
           "OPTION_LEFT_RIGHT",
-          "MOVE1",
-          "U_TURN",
           "MOVE3",
-          "MOVE2"
+          "LEFT",
+          "OPTION_LEFT_RIGHT",
+          "LEFT",
+          "OPTION_LEFT_RIGHT"
         ],
         "commandCardsInRegisters": [
+          null,
+          "RIGHT",
           "OPTION_LEFT_RIGHT",
-          null,
-          null,
-          null,
-          null
+          "MOVE3",
+          "LEFT"
         ]
       }
     },
@@ -74,20 +74,20 @@
         "heading": "SOUTH",
         "commandCards": [
           "OPTION_LEFT_RIGHT",
-          "RIGHT",
-          null,
+          "MOVE1",
+          "OPTION_LEFT_RIGHT",
           "LEFT",
-          null,
+          "OPTION_LEFT_RIGHT",
+          "U_TURN",
           "MOVE2",
-          "MOVE3",
           null
         ],
         "commandCardsInRegisters": [
-          null,
-          "U_TURN",
-          null,
-          "MOVE3",
-          "U_TURN"
+          "OPTION_LEFT_RIGHT",
+          "MOVE1",
+          "OPTION_LEFT_RIGHT",
+          "LEFT",
+          "OPTION_LEFT_RIGHT"
         ]
       }
     },
@@ -244,7 +244,29 @@
         }
       ],
       "x": 7,
-      "y": 7
+      "y": 7,
+      "player": {
+        "name": "test",
+        "color": "red",
+        "heading": "WEST",
+        "commandCards": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "commandCardsInRegisters": [
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      }
     }
   ]
 }
