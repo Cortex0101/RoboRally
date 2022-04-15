@@ -91,7 +91,7 @@ public class AppController implements Observer {
 
             // XXX: V2
             // board.setCurrentPlayer(board.getPlayer(0));
-            gameController.startProgrammingPhase(true);
+            gameController.startProgrammingPhase(board.resetRegisters);
 
             roboRally.createBoardView(gameController);
         }
@@ -112,7 +112,7 @@ public class AppController implements Observer {
         }
 
         gameController = new GameController(board);
-        gameController.startProgrammingPhase(true);
+        gameController.startProgrammingPhase(board.resetRegisters);
     }
 
     private boolean validateSaveName(String name) {
@@ -153,7 +153,7 @@ public class AppController implements Observer {
         System.out.println("Loaded board: " + boardLoaded);
         Board board = LoadBoard.loadBoard(boardLoaded);
         gameController = new GameController(board);
-        gameController.startProgrammingPhase(false);
+        gameController.startProgrammingPhase(board.resetRegisters);
         roboRally.createBoardView(gameController);
     }
 

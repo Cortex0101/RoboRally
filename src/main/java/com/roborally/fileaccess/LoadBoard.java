@@ -60,9 +60,10 @@ public class LoadBoard {
                         space.setPlayer(player);
                         if (spaceTemplate.player.commandCards != null) {
                             for (int i = 0; i < spaceTemplate.player.commandCards.size(); i++) {
-                                if (spaceTemplate.player.commandCards.get(i) != null)
+                                if (spaceTemplate.player.commandCards.get(i) != null) {
                                     player.getCardField(i).setCard(new CommandCard(spaceTemplate.player.commandCards.get(i)));
-                                else
+                                    result.resetRegisters = false;
+                                } else
                                     player.getCardField(i).setCard(null);
                             }
                         }

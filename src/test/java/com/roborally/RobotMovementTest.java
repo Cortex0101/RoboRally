@@ -26,7 +26,7 @@ public class RobotMovementTest {
     @BeforeEach
     void setup() {
         app = new AppController(null);
-        app.newGameWithoutUI("testBoard");
+        app.newGameWithoutUI("defaultboard");
         game = app.getGameController();
         board = game.board;
 

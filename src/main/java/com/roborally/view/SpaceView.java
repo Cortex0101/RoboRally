@@ -21,7 +21,8 @@
  */
 package com.roborally.view;
 
-import com.roborally.controller.ConveyorBelt;
+import com.roborally.controller.BlueConveyorBelt;
+import com.roborally.controller.GreenConveyorBelt;
 import com.roborally.controller.FieldAction;
 import designpatterns.observer.Subject;
 import com.roborally.model.Player;
@@ -51,7 +52,8 @@ public class SpaceView extends StackPane implements ViewObserver {
     final public static Paint WALL_COLOR = Color.RED;
     final public static int WALL_THICKNESS = 5;
 
-    final public static Paint CONVEYOR_BELT_COLOR = Color.LIGHTSEAGREEN;
+    final public static Paint GREEN_CONVEYOR_BELT_COLOR = Color.LIGHTGREEN;
+    final public static Paint BLUE_CONVEYOR_BELT_COLOR = Color.LIGHTBLUE;
 
 
     public SpaceView(@NotNull Space space) {
@@ -121,10 +123,10 @@ public class SpaceView extends StackPane implements ViewObserver {
     }
 
 
-    private void updateConveyorBelt() {
+    private void updateGreenConveyorBelt() {
         for (FieldAction fieldAction : space.getActions()) {
-            if (fieldAction.getClass().getName().equals("com.roborally.controller.ConveyorBelt")) {
-                ConveyorBelt conveyorBelt = (ConveyorBelt) fieldAction;
+            if (fieldAction.getClass().getName().equals("com.roborally.controller.GreenConveyorBelt")) {
+                GreenConveyorBelt conveyorBelt = (GreenConveyorBelt) fieldAction;
 
                 Pane pane = new Pane();
 
@@ -136,11 +138,47 @@ public class SpaceView extends StackPane implements ViewObserver {
                         20, 20,
                         10, 20);
 
-                arrow.setFill(CONVEYOR_BELT_COLOR);
+                arrow.setFill(GREEN_CONVEYOR_BELT_COLOR);
 
                 arrow.setRotate(((90 * conveyorBelt.getHeading().ordinal()) % 360) - 180);
 
                 pane.getChildren().add(arrow);
+                this.getChildren().add(pane);
+            }
+        }
+    }
+
+    private void updateBlueConveyorBelt() {
+        for (FieldAction fieldAction : space.getActions()) {
+            if (fieldAction.getClass().getName().equals("com.roborally.controller.BlueConveyorBelt")) {
+                BlueConveyorBelt conveyorBelt = (BlueConveyorBelt) fieldAction;
+
+                Pane pane = new Pane();
+
+                Polygon arrow1 = new Polygon(SPACE_WIDTH / 2.0, 10,
+                        SPACE_WIDTH - 10, 20,
+                        SPACE_WIDTH - 20, 20,
+                        SPACE_WIDTH - 20, SPACE_HEIGHT / 2.0,
+                        20, SPACE_HEIGHT / 2.0,
+                        20, 20,
+                        10, 20);
+
+                Polygon arrow2 = new Polygon(SPACE_WIDTH / 2.0, SPACE_HEIGHT / 2.0,
+                        SPACE_WIDTH - 10, (SPACE_HEIGHT / 2.0) + 20,
+                        SPACE_WIDTH - 20, (SPACE_HEIGHT / 2.0) + 20,
+                        SPACE_WIDTH - 20, SPACE_HEIGHT - 10,
+                        20, SPACE_HEIGHT - 10,
+                        20, (SPACE_HEIGHT / 2.0) + 20,
+                        10, (SPACE_HEIGHT / 2.0) + 20);
+
+                arrow1.setFill(BLUE_CONVEYOR_BELT_COLOR);
+                arrow2.setFill(BLUE_CONVEYOR_BELT_COLOR);
+
+                //arrow1.setRotate(((90 * conveyorBelt.getHeading().ordinal()) % 360) - 180);
+                //arrow2.setRotate(((90 * conveyorBelt.getHeading().ordinal()) % 360) - 180);
+
+                pane.setRotate(((90 * conveyorBelt.getHeading().ordinal()) % 360) - 180);
+                pane.getChildren().addAll(arrow1, arrow2);
                 this.getChildren().add(pane);
             }
         }
@@ -151,7 +189,8 @@ public class SpaceView extends StackPane implements ViewObserver {
         if (subject == this.space) {
             this.getChildren().clear();
             updateWall();
-            updateConveyorBelt();
+            updateGreenConveyorBelt();
+            updateBlueConveyorBelt();
             updatePlayer();
         }
     }

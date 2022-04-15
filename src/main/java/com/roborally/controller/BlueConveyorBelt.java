@@ -1,13 +1,11 @@
 package com.roborally.controller;
 
-import com.roborally.model.Board;
 import com.roborally.model.Heading;
 import com.roborally.model.Player;
 import com.roborally.model.Space;
 import org.jetbrains.annotations.NotNull;
 
-
-public class ConveyorBelt extends FieldAction {
+public class BlueConveyorBelt extends FieldAction {
     private Heading heading;
 
     public Heading getHeading() {
@@ -27,11 +25,10 @@ public class ConveyorBelt extends FieldAction {
         Heading playerHeading = player.getHeading();
 
         player.setHeading(heading);
-        gameController.move1Forward(player);
+        gameController.move2Forward(player);
         player.setHeading(playerHeading);
 
         return true;
     }
 
 }
-
