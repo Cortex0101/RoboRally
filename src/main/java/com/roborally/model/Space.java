@@ -86,4 +86,14 @@ public class Space extends Subject {
         notifyChange();
     }
 
+    @Override
+    public String toString() {
+        return "Space{" +
+                "walls=" + walls +
+                ", actions=" + actions +
+                ", board=" + board +
+                ", x=" + x +
+                ", y=" + y +
+                '}';
+    }
 }

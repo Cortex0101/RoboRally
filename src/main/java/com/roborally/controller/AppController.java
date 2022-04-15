@@ -59,7 +59,7 @@ public class AppController implements Observer {
 
     private GameController gameController;
 
-    public AppController(@NotNull RoboRally roboRally) {
+    public AppController(RoboRally roboRally) {
         this.roboRally = roboRally;
     }
 
@@ -91,10 +91,28 @@ public class AppController implements Observer {
 
             // XXX: V2
             // board.setCurrentPlayer(board.getPlayer(0));
-            gameController.startProgrammingPhase(false);
+            gameController.startProgrammingPhase(true);
 
             roboRally.createBoardView(gameController);
         }
+    }
+
+    public GameController getGameController() {
+        return gameController;
+    }
+
+    public void newGameWithoutUI(String boardName) {
+        Board board = new Board(8,8);
+        gameController = new GameController(board);
+        final int no = 2;
+        for (int i = 0; i < no; i++) {
+            Player player = new Player(board, PLAYER_COLORS.get(i), "Player " + (i + 1));
+            board.addPlayer(player);
+            player.setSpace(board.getSpace(i % board.width, i));
+        }
+
+        gameController = new GameController(board);
+        gameController.startProgrammingPhase(true);
     }
 
     private boolean validateSaveName(String name) {
@@ -135,15 +153,6 @@ public class AppController implements Observer {
         System.out.println("Loaded board: " + boardLoaded);
         Board board = LoadBoard.loadBoard(boardLoaded);
         gameController = new GameController(board);
-        /*
-        int no = 2; // 2 players
-        for (int i = 0; i < no; i++) {
-            Player player = new Player(board, PLAYER_COLORS.get(i), "Player " + (i + 1));
-            board.addPlayer(player);
-            player.setSpace(board.getSpace(i % board.width, i));
-        }
-         */
-
         gameController.startProgrammingPhase(false);
         roboRally.createBoardView(gameController);
     }

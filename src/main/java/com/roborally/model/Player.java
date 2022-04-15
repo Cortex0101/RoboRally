@@ -24,6 +24,8 @@ package com.roborally.model;
 import designpatterns.observer.Subject;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Arrays;
+
 import static com.roborally.model.Heading.SOUTH;
 
 /**
@@ -133,4 +135,16 @@ public class Player extends Subject {
         return cards[i];
     }
 
+    @Override
+    public String toString() {
+        return "Player{" +
+                "board=" + board +
+                ", name='" + name + '\'' +
+                ", color='" + color + '\'' +
+                ", space=" + space +
+                ", heading=" + heading +
+                ", program=" + Arrays.toString(program) +
+                ", cards=" + Arrays.toString(cards) +
+                '}';
+    }
 }

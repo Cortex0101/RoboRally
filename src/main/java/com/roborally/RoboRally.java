@@ -76,6 +76,7 @@ public class RoboRally extends Application {
         stage.setResizable(false);
         stage.sizeToScene();
         stage.show();
+        appController.newGameWithoutUI("defaultboard");
     }
 
     public void createBoardView(GameController gameController) {

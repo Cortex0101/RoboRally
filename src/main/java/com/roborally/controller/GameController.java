@@ -284,6 +284,7 @@ public class GameController {
                     // (which would be very bad style).
                 }
             }
+            System.out.println(player); // Just for debugging, remove later
         }
 
     }
