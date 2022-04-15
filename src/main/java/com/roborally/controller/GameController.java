@@ -237,8 +237,15 @@ public class GameController {
         private Space space;
         private Heading heading;
 
+        public ImpossibleMoveException(Player player, Space space, Heading heading, String message) {
+            super(message);
+            this.player = player;
+            this.space = space;
+            this.heading = heading;
+        }
+
         public ImpossibleMoveException(Player player, Space space, Heading heading) {
-            super("Move impossible");
+            super("Impossible move!");
             this.player = player;
             this.space = space;
             this.heading = heading;
@@ -248,6 +255,12 @@ public class GameController {
 
     void moveToSpace(@NotNull Player player, @NotNull Space space, @NotNull Heading heading) throws ImpossibleMoveException {
         assert board.getNeighbour(player.getSpace(), heading) == space; // make sure the move to here is possible in principle
+        if (player.getSpace().getWalls().contains(player.getHeading()) ||
+                space.getWalls().contains(player.getHeading().next().next())) {
+            throw new ImpossibleMoveException(player, space, heading, "Player: " + player.getName() + " going in direction: " +
+                    player.getHeading() + " at: " + "(" + player.getSpace().x + ", " + player.getSpace().y + ")" +
+                    " hit wall at " + "(" + space.x + ", " + space.y + ")");
+        }
         Player other = space.getPlayer();
         if (other != null){
             Space target = board.getNeighbour(space, heading);
@@ -279,9 +292,7 @@ public class GameController {
                 try {
                     moveToSpace(player, target, heading);
                 } catch (ImpossibleMoveException e) {
-                    // we don't do anything here  for now; we just catch the
-                    // exception so that we do no pass it on to the caller
-                    // (which would be very bad style).
+                    e.printStackTrace();
                 }
             }
             System.out.println(player); // Just for debugging, remove later
