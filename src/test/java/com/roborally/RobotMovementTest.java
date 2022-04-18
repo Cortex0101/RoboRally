@@ -6,9 +6,13 @@ import com.roborally.model.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class RobotMovementTest {
     private AppController app;
@@ -23,10 +27,12 @@ public class RobotMovementTest {
     private int turnU = 5;
     private int turnLR = 6;
 
+
+
     @BeforeEach
     void setup() {
         app = new AppController(null);
-        app.newGameWithoutUI("defaultboard");
+        app.newGameWithoutUI("defaultboard"); // TODO: MAKE A CUSTOM, MAYBE EMPTY TEST BOARD?
         game = app.getGameController();
         board = game.board;
 
