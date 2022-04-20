@@ -22,6 +22,7 @@
 package com.roborally.view;
 
 import com.roborally.controller.BlueConveyorBelt;
+import com.roborally.controller.Gear;
 import com.roborally.controller.GreenConveyorBelt;
 import com.roborally.controller.FieldAction;
 import designpatterns.observer.Subject;
@@ -31,9 +32,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
-import javafx.scene.shape.Line;
-import javafx.scene.shape.Polygon;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.*;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -184,6 +183,70 @@ public class SpaceView extends StackPane implements ViewObserver {
         }
     }
 
+    /**
+     * From stack overflow:
+     */
+    private Path drawSemiRing(double centerX, double centerY, double radius, double innerRadius, Color bgColor, Color strkColor) {
+        Path path = new Path();
+        path.setFill(bgColor);
+        path.setStroke(strkColor);
+        path.setFillRule(FillRule.EVEN_ODD);
+
+        MoveTo moveTo = new MoveTo();
+        moveTo.setX(centerX + innerRadius);
+        moveTo.setY(centerY);
+
+        ArcTo arcToInner = new ArcTo();
+        arcToInner.setX(centerX - innerRadius);
+        arcToInner.setY(centerY);
+        arcToInner.setRadiusX(innerRadius);
+        arcToInner.setRadiusY(innerRadius);
+
+        MoveTo moveTo2 = new MoveTo();
+        moveTo2.setX(centerX + innerRadius);
+        moveTo2.setY(centerY);
+
+        HLineTo hLineToRightLeg = new HLineTo();
+        hLineToRightLeg.setX(centerX + radius);
+
+        ArcTo arcTo = new ArcTo();
+        arcTo.setX(centerX - radius);
+        arcTo.setY(centerY);
+        arcTo.setRadiusX(radius);
+        arcTo.setRadiusY(radius);
+
+        HLineTo hLineToLeftLeg = new HLineTo();
+        hLineToLeftLeg.setX(centerX - innerRadius);
+
+        path.getElements().add(moveTo);
+        path.getElements().add(arcToInner);
+        path.getElements().add(moveTo2);
+        path.getElements().add(hLineToRightLeg);
+        path.getElements().add(arcTo);
+        path.getElements().add(hLineToLeftLeg);
+
+        return path;
+    }
+
+    private void updateGears() {
+        for (FieldAction fieldAction : space.getActions()) {
+            if (fieldAction.getClass().getName().equals("com.roborally.controller.Gear")) {
+                Gear gear = (Gear) fieldAction;
+
+                Pane pane = new Pane();
+                pane.getChildren().add(drawSemiRing(SPACE_WIDTH / 2.0, SPACE_HEIGHT / 2.0, SPACE_WIDTH / 2.0, SPACE_WIDTH / 4.0, Color.ORANGERED, Color.DARKRED));
+                Polygon triangle = new Polygon(0.0, SPACE_HEIGHT / 2.0,
+                            SPACE_WIDTH / 4.0 /* inner radius */, SPACE_HEIGHT / 2.0,
+                        ((SPACE_WIDTH / 2.0) - (SPACE_WIDTH / 4.0)) / 2.0, (SPACE_HEIGHT / 2.0) + 20);
+                triangle.setFill(Color.ORANGERED);
+                pane.getChildren().add(triangle);
+                if (gear.getDirection().equals(Gear.Direction.RIGHT))
+                    pane.setScaleY(-1);
+                this.getChildren().add(pane);
+            }
+        }
+    }
+
     @Override
     public void updateView(Subject subject) {
         if (subject == this.space) {
@@ -191,6 +254,7 @@ public class SpaceView extends StackPane implements ViewObserver {
             updateWall();
             updateGreenConveyorBelt();
             updateBlueConveyorBelt();
+            updateGears();
             updatePlayer();
         }
     }

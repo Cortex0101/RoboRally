@@ -6,9 +6,9 @@
       "walls": [],
       "actions": [
         {
-          "CLASSNAME": "com.roborally.controller.BlueConveyorBelt",
+          "CLASSNAME": "com.roborally.controller.Gear",
           "INSTANCE": {
-            "heading": "EAST"
+            "direction": "LEFT"
           }
         }
       ],
@@ -110,9 +110,9 @@
       "walls": [],
       "actions": [
         {
-          "CLASSNAME": "com.roborally.controller.BlueConveyorBelt",
+          "CLASSNAME": "com.roborally.controller.Gear",
           "INSTANCE": {
-            "heading": "SOUTH"
+            "direction": "RIGHT"
           }
         }
       ],
@@ -214,9 +214,9 @@
       "walls": [],
       "actions": [
         {
-          "CLASSNAME": "com.roborally.controller.BlueConveyorBelt",
+          "CLASSNAME": "com.roborally.controller.Gear",
           "INSTANCE": {
-            "heading": "WEST"
+            "direction": "LEFT"
           }
         }
       ],
@@ -318,9 +318,9 @@
       "walls": [],
       "actions": [
         {
-          "CLASSNAME": "com.roborally.controller.BlueConveyorBelt",
+          "CLASSNAME": "com.roborally.controller.Gear",
           "INSTANCE": {
-            "heading": "NORTH"
+            "direction": "RIGHT"
           }
         }
       ],

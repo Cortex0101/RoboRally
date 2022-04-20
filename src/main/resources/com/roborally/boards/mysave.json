@@ -4,11 +4,39 @@
   "spaces": [
     {
       "walls": [],
+      "actions": [],
+      "x": 1,
+      "y": 0,
+      "player": {
+        "name": "Player1",
+        "color": "blue",
+        "heading": "SOUTH",
+        "commandCards": [
+          "U_TURN",
+          "RIGHT",
+          "MOVE2",
+          "RIGHT",
+          "MOVE1",
+          "RIGHT",
+          "LEFT",
+          "U_TURN"
+        ],
+        "commandCardsInRegisters": [
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      }
+    },
+    {
+      "walls": [],
       "actions": [
         {
-          "CLASSNAME": "com.roborally.controller.BlueConveyorBelt",
+          "CLASSNAME": "com.roborally.controller.Gear",
           "INSTANCE": {
-            "heading": "EAST"
+            "direction": "LEFT"
           }
         }
       ],
@@ -110,36 +138,14 @@
       "walls": [],
       "actions": [
         {
-          "CLASSNAME": "com.roborally.controller.BlueConveyorBelt",
+          "CLASSNAME": "com.roborally.controller.Gear",
           "INSTANCE": {
-            "heading": "NORTH"
+            "direction": "RIGHT"
           }
         }
       ],
       "x": 1,
-      "y": 9,
-      "player": {
-        "name": "Player1",
-        "color": "blue",
-        "heading": "NORTH",
-        "commandCards": [
-          "MOVE1",
-          "MOVE2",
-          "LEFT",
-          "LEFT",
-          "OPTION_LEFT_RIGHT",
-          "U_TURN",
-          "LEFT",
-          "OPTION_LEFT_RIGHT"
-        ],
-        "commandCardsInRegisters": [
-          null,
-          null,
-          null,
-          null,
-          null
-        ]
-      }
+      "y": 9
     },
     {
       "walls": [],
@@ -506,15 +512,15 @@
       "player": {
         "name": "Player2",
         "color": "red",
-        "heading": "WEST",
+        "heading": "NORTH",
         "commandCards": [
-          "RIGHT",
-          "RIGHT",
           "OPTION_LEFT_RIGHT",
+          "MOVE3",
           "MOVE1",
           "U_TURN",
+          "MOVE1",
+          "MOVE2",
           "MOVE3",
-          "RIGHT",
           "MOVE1"
         ],
         "commandCardsInRegisters": [
@@ -660,9 +666,9 @@
       "walls": [],
       "actions": [
         {
-          "CLASSNAME": "com.roborally.controller.BlueConveyorBelt",
+          "CLASSNAME": "com.roborally.controller.Gear",
           "INSTANCE": {
-            "heading": "SOUTH"
+            "direction": "RIGHT"
           }
         }
       ],
@@ -764,9 +770,9 @@
       "walls": [],
       "actions": [
         {
-          "CLASSNAME": "com.roborally.controller.BlueConveyorBelt",
+          "CLASSNAME": "com.roborally.controller.Gear",
           "INSTANCE": {
-            "heading": "WEST"
+            "direction": "LEFT"
           }
         }
       ],
