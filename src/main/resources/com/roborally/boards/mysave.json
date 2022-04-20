@@ -4,31 +4,14 @@
   "spaces": [
     {
       "walls": [],
-      "actions": [],
-      "x": 1,
-      "y": 0,
-      "player": {
-        "name": "Player1",
-        "color": "blue",
-        "heading": "SOUTH",
-        "commandCards": [
-          "U_TURN",
-          "RIGHT",
-          "MOVE2",
-          "RIGHT",
-          "MOVE1",
-          "RIGHT",
-          "LEFT",
-          "U_TURN"
-        ],
-        "commandCardsInRegisters": [
-          null,
-          null,
-          null,
-          null,
-          null
-        ]
-      }
+      "actions": [
+        {
+          "CLASSNAME": "com.roborally.controller.PriorityAntenna",
+          "INSTANCE": {}
+        }
+      ],
+      "x": 0,
+      "y": 0
     },
     {
       "walls": [],
@@ -422,7 +405,29 @@
       ],
       "actions": [],
       "x": 5,
-      "y": 10
+      "y": 10,
+      "player": {
+        "name": "Player2",
+        "color": "red",
+        "heading": "NORTH",
+        "commandCards": [
+          "MOVE1",
+          "U_TURN",
+          "OPTION_LEFT_RIGHT",
+          "U_TURN",
+          null,
+          "U_TURN",
+          null,
+          "MOVE2"
+        ],
+        "commandCardsInRegisters": [
+          "U_TURN",
+          "U_TURN",
+          null,
+          null,
+          null
+        ]
+      }
     },
     {
       "walls": [],
@@ -462,6 +467,34 @@
       ],
       "x": 6,
       "y": 4
+    },
+    {
+      "walls": [],
+      "actions": [],
+      "x": 6,
+      "y": 5,
+      "player": {
+        "name": "Player1",
+        "color": "blue",
+        "heading": "SOUTH",
+        "commandCards": [
+          "OPTION_LEFT_RIGHT",
+          null,
+          "MOVE3",
+          "MOVE3",
+          "MOVE1",
+          "MOVE2",
+          "LEFT",
+          null
+        ],
+        "commandCardsInRegisters": [
+          "MOVE2",
+          "LEFT",
+          null,
+          null,
+          null
+        ]
+      }
     },
     {
       "walls": [],
@@ -508,29 +541,7 @@
       ],
       "actions": [],
       "x": 6,
-      "y": 10,
-      "player": {
-        "name": "Player2",
-        "color": "red",
-        "heading": "NORTH",
-        "commandCards": [
-          "OPTION_LEFT_RIGHT",
-          "MOVE3",
-          "MOVE1",
-          "U_TURN",
-          "MOVE1",
-          "MOVE2",
-          "MOVE3",
-          "MOVE1"
-        ],
-        "commandCardsInRegisters": [
-          null,
-          null,
-          null,
-          null,
-          null
-        ]
-      }
+      "y": 10
     },
     {
       "walls": [],

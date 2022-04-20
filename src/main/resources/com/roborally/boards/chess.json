@@ -740,6 +740,17 @@
       "actions": [],
       "x": 4,
       "y": 10
+    },
+    {
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "com.roborally.controller.PriorityAntenna",
+          "INSTANCE": {}
+        }
+      ],
+      "x": 0,
+      "y": 0
     }
   ]
 }
