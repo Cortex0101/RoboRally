@@ -18,7 +18,7 @@ import java.io.*;
  * @author Ekkart Kindler, ekki@dtu.dk
  */
 public class LoadBoard {
-    private static final String BOARDSFOLDER = "D:\\Development\\RoboRally\\src\\main\\resources\\com\\roborally\\boards"; // TODO: Needs to be updated to not just work on my PC
+    private static final String BOARDSFOLDER = System.getProperty("user.dir") + "\\src\\main\\resources\\com\\roborally\\boards";
     private static final String DEFAULTBOARD = "defaultboard";
     private static final String JSON_EXT = "json";
 
