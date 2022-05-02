@@ -157,14 +157,16 @@ public class GameController {
         if (board.getPhase() == Phase.ACTIVATION && currentPlayer != null) {
             int step = board.getStep();
             if (step >= 0 && step < Player.NO_REGISTERS) {
-                CommandCard card = currentPlayer.getProgramField(step).getCard();
-                if (card != null) {
-                    Command command = card.command;
-                    if (command.isInteractive()) {
-                        board.setPhase(Phase.PLAYER_INTERACTION);
-                        return;
+                if (!currentPlayer.isRebooting()) {
+                    CommandCard card = currentPlayer.getProgramField(step).getCard();
+                    if (card != null) {
+                        Command command = card.command;
+                        if (command.isInteractive()) {
+                            board.setPhase(Phase.PLAYER_INTERACTION);
+                            return;
+                        }
+                        executeCommand(currentPlayer, command);
                     }
-                    executeCommand(currentPlayer, command);
                 }
                 int nextPlayerNumber = board.getPlayerNumber(currentPlayer) + 1;
                 if (nextPlayerNumber < board.getPlayersNumber()) {
@@ -181,6 +183,11 @@ public class GameController {
                     } else {
                         startProgrammingPhase(true);
                         activateBoardElements();
+                        for (int i = 0; i < board.getPlayersNumber(); i++) {
+                            if (board.getPlayer(i).isRebooting()) {
+                                board.getPlayer(i).reboot(this);
+                            }
+                        }
                     }
                 }
             } else {

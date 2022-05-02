@@ -21,6 +21,7 @@
  */
 package com.roborally.model;
 
+import com.roborally.controller.GameController;
 import designpatterns.observer.Subject;
 import org.jetbrains.annotations.NotNull;
 
@@ -35,6 +36,8 @@ import static com.roborally.model.Heading.SOUTH;
  *
  */
 public class Player extends Subject {
+    private final Space startingSpace;
+    private boolean rebooting = false;
 
     final public static int NO_REGISTERS = 5;
     final public static int NO_CARDS = 8;
@@ -50,7 +53,8 @@ public class Player extends Subject {
     private CommandCardField[] program;
     private CommandCardField[] cards;
 
-    public Player(@NotNull Board board, String color, @NotNull String name) {
+    public Player(@NotNull Board board, String color, @NotNull String name, Space startingSpace) {
+        this.startingSpace = startingSpace;
         this.board = board;
         this.name = name;
         this.color = color;
@@ -146,5 +150,24 @@ public class Player extends Subject {
                 ", program=" + Arrays.toString(program) +
                 ", cards=" + Arrays.toString(cards) +
                 '}';
+    }
+
+    public boolean isRebooting() {
+        return rebooting;
+    }
+
+    public void setRebooting(boolean rebooting) {
+        this.rebooting = rebooting;
+        this.setSpace(null);
+    }
+
+    public void reboot(GameController gameController) {
+        setRebooting(false);
+        setSpace(getStartingSpace());
+        // TODO: Implement recieving damage cards, and handle caes where other robot is on starting sapace.
+    }
+
+    public Space getStartingSpace() {
+        return startingSpace;
     }
 }

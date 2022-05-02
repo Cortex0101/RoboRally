@@ -751,6 +751,50 @@
       ],
       "x": 0,
       "y": 0
+    },
+    {
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "com.roborally.controller.Pit",
+          "INSTANCE": {}
+        }
+      ],
+      "x": 2,
+      "y": 5
+    },
+    {
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "com.roborally.controller.Pit",
+          "INSTANCE": {}
+        }
+      ],
+      "x": 4,
+      "y": 5
+    },
+    {
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "com.roborally.controller.Pit",
+          "INSTANCE": {}
+        }
+      ],
+      "x": 6,
+      "y": 5
+    },
+    {
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "com.roborally.controller.Pit",
+          "INSTANCE": {}
+        }
+      ],
+      "x": 8,
+      "y": 5
     }
   ]
 }

@@ -21,10 +21,7 @@
  */
 package com.roborally.view;
 
-import com.roborally.controller.BlueConveyorBelt;
-import com.roborally.controller.Gear;
-import com.roborally.controller.GreenConveyorBelt;
-import com.roborally.controller.FieldAction;
+import com.roborally.controller.*;
 import designpatterns.observer.Subject;
 import com.roborally.model.Player;
 import com.roborally.model.Space;
@@ -247,6 +244,26 @@ public class SpaceView extends StackPane implements ViewObserver {
         }
     }
 
+    private void updatePits() {
+        for (FieldAction fieldAction : space.getActions()) {
+            if (fieldAction.getClass().getName().equals("com.roborally.controller.Pit")) {
+                Pit pit = (Pit) fieldAction;
+
+                Pane pane = new Pane();
+
+                final double spacing = 4.0;
+                Polygon square = new Polygon(
+                        spacing, spacing,
+                        SPACE_WIDTH - spacing, spacing,
+                        SPACE_WIDTH - spacing, SPACE_HEIGHT - spacing,
+                        spacing, SPACE_HEIGHT - spacing);
+                square.setFill(Color.LIGHTGRAY);
+                pane.getChildren().add(square);
+                this.getChildren().add(pane);
+            }
+        }
+    }
+
     @Override
     public void updateView(Subject subject) {
         if (subject == this.space) {
@@ -255,6 +272,7 @@ public class SpaceView extends StackPane implements ViewObserver {
             updateGreenConveyorBelt();
             updateBlueConveyorBelt();
             updateGears();
+            updatePits();
             updatePlayer();
         }
     }

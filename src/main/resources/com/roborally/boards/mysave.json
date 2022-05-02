@@ -173,6 +173,17 @@
       "walls": [],
       "actions": [
         {
+          "CLASSNAME": "com.roborally.controller.Pit",
+          "INSTANCE": {}
+        }
+      ],
+      "x": 2,
+      "y": 5
+    },
+    {
+      "walls": [],
+      "actions": [
+        {
           "CLASSNAME": "com.roborally.controller.GreenConveyorBelt",
           "INSTANCE": {
             "heading": "NORTH"
@@ -298,6 +309,17 @@
       ],
       "x": 4,
       "y": 4
+    },
+    {
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "com.roborally.controller.Pit",
+          "INSTANCE": {}
+        }
+      ],
+      "x": 4,
+      "y": 5
     },
     {
       "walls": [],
@@ -405,29 +427,7 @@
       ],
       "actions": [],
       "x": 5,
-      "y": 10,
-      "player": {
-        "name": "Player1",
-        "color": "blue",
-        "heading": "NORTH",
-        "commandCards": [
-          "LEFT",
-          "MOVE3",
-          "MOVE1",
-          "MOVE1",
-          "LEFT",
-          "MOVE2",
-          "MOVE2",
-          "RIGHT"
-        ],
-        "commandCardsInRegisters": [
-          null,
-          null,
-          null,
-          null,
-          null
-        ]
-      }
+      "y": 10
     },
     {
       "walls": [],
@@ -467,6 +467,17 @@
       ],
       "x": 6,
       "y": 4
+    },
+    {
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "com.roborally.controller.Pit",
+          "INSTANCE": {}
+        }
+      ],
+      "x": 6,
+      "y": 5
     },
     {
       "walls": [],
@@ -519,14 +530,14 @@
         "color": "red",
         "heading": "NORTH",
         "commandCards": [
+          "RIGHT",
           "LEFT",
+          "MOVE3",
+          "LEFT",
+          "U_TURN",
           "MOVE1",
-          "OPTION_LEFT_RIGHT",
-          "MOVE1",
-          "MOVE1",
-          "MOVE1",
-          "MOVE1",
-          "OPTION_LEFT_RIGHT"
+          "U_TURN",
+          "RIGHT"
         ],
         "commandCardsInRegisters": [
           null,
@@ -562,6 +573,34 @@
       ],
       "x": 7,
       "y": 3
+    },
+    {
+      "walls": [],
+      "actions": [],
+      "x": 7,
+      "y": 6,
+      "player": {
+        "name": "Player1",
+        "color": "blue",
+        "heading": "NORTH",
+        "commandCards": [
+          "MOVE1",
+          "U_TURN",
+          "OPTION_LEFT_RIGHT",
+          "MOVE2",
+          "MOVE1",
+          "MOVE2",
+          "MOVE1",
+          "MOVE2"
+        ],
+        "commandCardsInRegisters": [
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      }
     },
     {
       "walls": [],
@@ -627,6 +666,17 @@
       ],
       "x": 8,
       "y": 4
+    },
+    {
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "com.roborally.controller.Pit",
+          "INSTANCE": {}
+        }
+      ],
+      "x": 8,
+      "y": 5
     },
     {
       "walls": [],
