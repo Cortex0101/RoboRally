@@ -39,6 +39,8 @@ public class Player extends Subject {
     private final Space startingSpace;
     private boolean rebooting = false;
 
+    private int lastCheckpoint;
+
     final public static int NO_REGISTERS = 5;
     final public static int NO_CARDS = 8;
 
@@ -169,5 +171,13 @@ public class Player extends Subject {
 
     public Space getStartingSpace() {
         return startingSpace;
+    }
+
+    public int getLastCheckpoint() {
+        return lastCheckpoint;
+    }
+
+    public void setLastCheckpoint(int lastCheckpoint) {
+        this.lastCheckpoint = lastCheckpoint;
     }
 }
