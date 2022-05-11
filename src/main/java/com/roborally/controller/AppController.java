@@ -102,15 +102,7 @@ public class AppController implements Observer {
     }
 
     public void newGameWithoutUI(String boardName) {
-        Board board = new Board(8,8);
-        gameController = new GameController(board);
-        final int no = 2;
-        for (int i = 0; i < no; i++) {
-            Player player = new Player(board, PLAYER_COLORS.get(i), "Player " + (i + 1), board.getSpace(i % board.width, i));
-            board.addPlayer(player);
-            player.setSpace(board.getSpace(i % board.width, i));
-        }
-
+        Board board = LoadBoard.loadBoard(boardName);
         gameController = new GameController(board);
         gameController.startProgrammingPhase(board.resetRegisters);
     }

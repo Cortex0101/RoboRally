@@ -409,6 +409,34 @@
     },
     {
       "walls": [],
+      "actions": [],
+      "x": 5,
+      "y": 8,
+      "player": {
+        "name": "Player1",
+        "color": "blue",
+        "heading": "NORTH",
+        "commandCards": [
+          "LEFT",
+          "OPTION_LEFT_RIGHT",
+          "RIGHT",
+          "MOVE3",
+          "LEFT",
+          "MOVE3",
+          "MOVE2",
+          "MOVE3"
+        ],
+        "commandCardsInRegisters": [
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      }
+    },
+    {
+      "walls": [],
       "actions": [
         {
           "CLASSNAME": "com.roborally.controller.BlueConveyorBelt",
@@ -494,6 +522,34 @@
     },
     {
       "walls": [],
+      "actions": [],
+      "x": 6,
+      "y": 7,
+      "player": {
+        "name": "Player2",
+        "color": "red",
+        "heading": "NORTH",
+        "commandCards": [
+          "MOVE3",
+          "RIGHT",
+          "LEFT",
+          "MOVE3",
+          "MOVE2",
+          "MOVE2",
+          "RIGHT",
+          "OPTION_LEFT_RIGHT"
+        ],
+        "commandCardsInRegisters": [
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      }
+    },
+    {
+      "walls": [],
       "actions": [
         {
           "CLASSNAME": "com.roborally.controller.GreenConveyorBelt",
@@ -524,29 +580,7 @@
       ],
       "actions": [],
       "x": 6,
-      "y": 10,
-      "player": {
-        "name": "Player2",
-        "color": "red",
-        "heading": "NORTH",
-        "commandCards": [
-          "RIGHT",
-          "LEFT",
-          "MOVE3",
-          "LEFT",
-          "U_TURN",
-          "MOVE1",
-          "U_TURN",
-          "RIGHT"
-        ],
-        "commandCardsInRegisters": [
-          null,
-          null,
-          null,
-          null,
-          null
-        ]
-      }
+      "y": 10
     },
     {
       "walls": [],
@@ -573,34 +607,6 @@
       ],
       "x": 7,
       "y": 3
-    },
-    {
-      "walls": [],
-      "actions": [],
-      "x": 7,
-      "y": 6,
-      "player": {
-        "name": "Player1",
-        "color": "blue",
-        "heading": "NORTH",
-        "commandCards": [
-          "MOVE1",
-          "U_TURN",
-          "OPTION_LEFT_RIGHT",
-          "MOVE2",
-          "MOVE1",
-          "MOVE2",
-          "MOVE1",
-          "MOVE2"
-        ],
-        "commandCardsInRegisters": [
-          null,
-          null,
-          null,
-          null,
-          null
-        ]
-      }
     },
     {
       "walls": [],
