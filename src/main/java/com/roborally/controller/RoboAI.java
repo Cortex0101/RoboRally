@@ -1,6 +1,8 @@
 package com.roborally.controller;
 
 import com.roborally.model.Board;
+import com.roborally.model.CommandCard;
+import com.roborally.model.CommandCardField;
 import com.roborally.model.Player;
 
 import java.util.Arrays;
@@ -13,29 +15,45 @@ public class RoboAI {
     private AppController appCopy;
     private GameController gameCopy;
     private Board boardCopy;
+    private Player aiPlayer;
 
     /**
      *
      * @param boardName name of the board in which the original game is being played.
+     * @param AIplayer the player this class should generate moves for
      */
-    public RoboAI(String boardName) {
+    public RoboAI(String boardName, Player AIplayer) {
         appCopy = new AppController(null); // RoboRally is only used for GUI so we just pass null
         appCopy.newGameWithoutUI("testboard");
         gameCopy = appCopy.getGameController();
         boardCopy = gameCopy.board;
+        boardCopy.addSinglePlayer(AIplayer);
+        aiPlayer = AIplayer;
     }
 
     /**
-     * Since the originals and the copies arent linked, changes to the player positions in the original dont update
-     * in the copy. Therefor call this method before doing any calculations to make sure the players proper positions
+     * Since the originals and the copies arent linked, changes to the AI's positions in the original dont update
+     * in the copy. Therefor call this method before doing any calculations to make sure the AI's proper positions
      * are set.
      * @param originalBoard the actual board being played on
      */
-    public void updatePlayerPositions(Board originalBoard) {
+    public void updateAIPosition(Board originalBoard) {
         for (int i = 0; i < originalBoard.getPlayersNumber(); i++) {
             final Player player = originalBoard.getPlayer(i);
-            boardCopy.setCurrentPlayer(player);
-            gameCopy.moveCurrentPlayerToSpace(player.getSpace());
+            if (player == aiPlayer) {
+                boardCopy.setCurrentPlayer(player);
+                gameCopy.moveCurrentPlayerToSpace(player.getSpace());
+            }
         }
+    }
+
+    // TODO: Make this method execute the program of the AI robot.
+    private void performMoves(List<CommandCard> commandCards) {
+        for (int i = 0; i < Player.NO_REGISTERS; i++) {
+            CommandCardField field = aiPlayer.getProgramField(i);
+            field.setCard(commandCards.get(i));
+        }
+        gameCopy.finishProgrammingPhase();
+        gameCopy.executePrograms();
     }
 }

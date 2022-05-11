@@ -111,6 +111,18 @@ public class Board extends Subject {
         }
     }
 
+    /**
+     * This method is used for the AI to generate a copy of the board with itself only
+     * @param player the only player that should be on the board
+     */
+    public void addSinglePlayer(@NotNull Player player) {
+        if (player.board == this) {
+            players.clear();
+            players.add(player);
+            notifyChange();
+        }
+    }
+
     public Player getPlayer(int i) {
         if (i >= 0 && i < players.size()) {
             return players.get(i);
