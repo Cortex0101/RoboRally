@@ -1,19 +1,45 @@
+/*
+ *  This file is part of the initial project provided for the
+ *  course "Project in Software Development (02362)" held at
+ *  DTU Compute at the Technical University of Denmark.
+ *
+ *  Copyright (C) 2019, 2020: Ekkart Kindler, ekki@dtu.dk
+ *
+ *  This software is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; version 2 of the License.
+ *
+ *  This project is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this project; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ */
 package com.roborally.model;
 
+import com.roborally.controller.GameController;
 import designpatterns.observer.Subject;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Arrays;
 
 import static com.roborally.model.Heading.SOUTH;
 
 /**
- * A player is associated with a name, and a color. It has program cards, and i located on a space.
- *
- * It has a heading and can be placed on a {@link Space}
+ * ...
  *
  * @author Ekkart Kindler, ekki@dtu.dk
  *
  */
 public class Player extends Subject {
+    private final Space startingSpace;
+    private boolean rebooting = false;
+
+    private int lastCheckpoint;
 
     final public static int NO_REGISTERS = 5;
     final public static int NO_CARDS = 8;
@@ -29,7 +55,8 @@ public class Player extends Subject {
     private CommandCardField[] program;
     private CommandCardField[] cards;
 
-    public Player(@NotNull Board board, String color, @NotNull String name) {
+    public Player(@NotNull Board board, String color, @NotNull String name, Space startingSpace) {
+        this.startingSpace = startingSpace;
         this.board = board;
         this.name = name;
         this.color = color;
@@ -114,4 +141,43 @@ public class Player extends Subject {
         return cards[i];
     }
 
+    @Override
+    public String toString() {
+        return "Player{" +
+                "board=" + board +
+                ", name='" + name + '\'' +
+                ", color='" + color + '\'' +
+                ", space=" + space +
+                ", heading=" + heading +
+                ", program=" + Arrays.toString(program) +
+                ", cards=" + Arrays.toString(cards) +
+                '}';
+    }
+
+    public boolean isRebooting() {
+        return rebooting;
+    }
+
+    public void setRebooting(boolean rebooting) {
+        this.rebooting = rebooting;
+        this.setSpace(null);
+    }
+
+    public void reboot(GameController gameController) {
+        setRebooting(false);
+        setSpace(getStartingSpace());
+        // TODO: Implement recieving damage cards, and handle caes where other robot is on starting sapace.
+    }
+
+    public Space getStartingSpace() {
+        return startingSpace;
+    }
+
+    public int getLastCheckpoint() {
+        return lastCheckpoint;
+    }
+
+    public void setLastCheckpoint(int lastCheckpoint) {
+        this.lastCheckpoint = lastCheckpoint;
+    }
 }

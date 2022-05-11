@@ -1,16 +1,41 @@
+/*
+ *  This file is part of the initial project provided for the
+ *  course "Project in Software Development (02362)" held at
+ *  DTU Compute at the Technical University of Denmark.
+ *
+ *  Copyright (C) 2019, 2020: Ekkart Kindler, ekki@dtu.dk
+ *
+ *  This software is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; version 2 of the License.
+ *
+ *  This project is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this project; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ */
 package com.roborally.model;
 
+import com.roborally.controller.FieldAction;
 import designpatterns.observer.Subject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
- * A space on a {@link Board}.
- *
- * A space is identified by an (x, y) coordinate. At any time, a space may or may not contain a player.
+ * ...
  *
  * @author Ekkart Kindler, ekki@dtu.dk
  *
  */
 public class Space extends Subject {
+    private List<Heading> walls = new ArrayList<>();
+    private List<FieldAction> actions = new ArrayList<>();
 
     public final Board board;
 
@@ -46,6 +71,14 @@ public class Space extends Subject {
         }
     }
 
+    public List<Heading> getWalls() {
+        return walls;
+    }
+
+    public List<FieldAction> getActions() {
+        return actions;
+    }
+
     void playerChanged() {
         // This is a minor hack; since some views that are registered with the space
         // also need to update when some player attributes change, the player can
@@ -53,4 +86,14 @@ public class Space extends Subject {
         notifyChange();
     }
 
+    @Override
+    public String toString() {
+        return "Space{" +
+                "walls=" + walls +
+                ", actions=" + actions +
+                ", board=" + board +
+                ", x=" + x +
+                ", y=" + y +
+                '}';
+    }
 }

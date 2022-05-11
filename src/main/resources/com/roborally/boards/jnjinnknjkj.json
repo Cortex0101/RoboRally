@@ -1,0 +1,272 @@
+{
+  "width": 8,
+  "height": 8,
+  "spaces": [
+    {
+      "walls": [
+        "SOUTH"
+      ],
+      "actions": [
+        {
+          "CLASSNAME": "com.roborally.controller.ConveyorBelt",
+          "INSTANCE": {
+            "heading": "WEST"
+          }
+        }
+      ],
+      "x": 0,
+      "y": 0,
+      "player": {
+        "name": "Player 1",
+        "color": "red",
+        "heading": "SOUTH",
+        "commandCards": [
+          null,
+          null,
+          "MOVE2",
+          "MOVE3",
+          "RIGHT",
+          "U_TURN",
+          "LEFT",
+          "MOVE2"
+        ],
+        "commandCardsInRegisters": [
+          null,
+          null,
+          "MOVE2",
+          "MOVE3",
+          "RIGHT"
+        ]
+      }
+    },
+    {
+      "walls": [
+        "NORTH"
+      ],
+      "actions": [
+        {
+          "CLASSNAME": "com.roborally.controller.ConveyorBelt",
+          "INSTANCE": {
+            "heading": "WEST"
+          }
+        }
+      ],
+      "x": 1,
+      "y": 0
+    },
+    {
+      "walls": [
+        "WEST"
+      ],
+      "actions": [
+        {
+          "CLASSNAME": "com.roborally.controller.ConveyorBelt",
+          "INSTANCE": {
+            "heading": "NORTH"
+          }
+        }
+      ],
+      "x": 1,
+      "y": 1,
+      "player": {
+        "name": "Player 2",
+        "color": "green",
+        "heading": "SOUTH",
+        "commandCards": [
+          "MOVE1",
+          "RIGHT",
+          "MOVE1",
+          null,
+          "RIGHT",
+          "MOVE3",
+          "MOVE3",
+          "MOVE3"
+        ],
+        "commandCardsInRegisters": [
+          "MOVE1",
+          "RIGHT",
+          "MOVE1",
+          null,
+          "RIGHT"
+        ]
+      }
+    },
+    {
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "com.roborally.controller.ConveyorBelt",
+          "INSTANCE": {
+            "heading": "NORTH"
+          }
+        }
+      ],
+      "x": 1,
+      "y": 2
+    },
+    {
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "com.roborally.controller.ConveyorBelt",
+          "INSTANCE": {
+            "heading": "NORTH"
+          }
+        }
+      ],
+      "x": 1,
+      "y": 3
+    },
+    {
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "com.roborally.controller.ConveyorBelt",
+          "INSTANCE": {
+            "heading": "NORTH"
+          }
+        }
+      ],
+      "x": 1,
+      "y": 4
+    },
+    {
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "com.roborally.controller.ConveyorBelt",
+          "INSTANCE": {
+            "heading": "NORTH"
+          }
+        }
+      ],
+      "x": 1,
+      "y": 5
+    },
+    {
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "com.roborally.controller.ConveyorBelt",
+          "INSTANCE": {
+            "heading": "NORTH"
+          }
+        }
+      ],
+      "x": 1,
+      "y": 6
+    },
+    {
+      "walls": [
+        "NORTH"
+      ],
+      "actions": [
+        {
+          "CLASSNAME": "com.roborally.controller.ConveyorBelt",
+          "INSTANCE": {
+            "heading": "EAST"
+          }
+        }
+      ],
+      "x": 2,
+      "y": 2
+    },
+    {
+      "walls": [
+        "EAST"
+      ],
+      "actions": [
+        {
+          "CLASSNAME": "com.roborally.controller.ConveyorBelt",
+          "INSTANCE": {
+            "heading": "SOUTH"
+          }
+        }
+      ],
+      "x": 3,
+      "y": 3
+    },
+    {
+      "walls": [
+        "SOUTH"
+      ],
+      "actions": [
+        {
+          "CLASSNAME": "com.roborally.controller.ConveyorBelt",
+          "INSTANCE": {
+            "heading": "WEST"
+          }
+        }
+      ],
+      "x": 4,
+      "y": 4
+    },
+    {
+      "walls": [
+        "WEST"
+      ],
+      "actions": [
+        {
+          "CLASSNAME": "com.roborally.controller.ConveyorBelt",
+          "INSTANCE": {
+            "heading": "NORTH"
+          }
+        }
+      ],
+      "x": 5,
+      "y": 5
+    },
+    {
+      "walls": [
+        "NORTH"
+      ],
+      "actions": [
+        {
+          "CLASSNAME": "com.roborally.controller.ConveyorBelt",
+          "INSTANCE": {
+            "heading": "EAST"
+          }
+        }
+      ],
+      "x": 6,
+      "y": 6
+    },
+    {
+      "walls": [
+        "EAST"
+      ],
+      "actions": [
+        {
+          "CLASSNAME": "com.roborally.controller.ConveyorBelt",
+          "INSTANCE": {
+            "heading": "SOUTH"
+          }
+        }
+      ],
+      "x": 7,
+      "y": 7,
+      "player": {
+        "name": "test",
+        "color": "red",
+        "heading": "WEST",
+        "commandCards": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "commandCardsInRegisters": [
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      }
+    }
+  ]
+}
