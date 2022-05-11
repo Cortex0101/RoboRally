@@ -39,8 +39,8 @@ public class GameController {
     }
 
     /**
-     * This is just some dummy controller operation to make a simple move to see something
-     * happening on the board. This method should eventually be deleted!
+     * This method should be used for debugging only. To move players accounting for pushing and other game features
+     * use moveToSpace()
      *
      * @param space the space to which the current player should move
      */
