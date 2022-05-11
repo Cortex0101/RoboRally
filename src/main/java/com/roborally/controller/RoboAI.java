@@ -3,6 +3,10 @@ package com.roborally.controller;
 import com.roborally.model.Board;
 import com.roborally.model.Player;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 public class RoboAI {
     // Below fields are used to store a copy of the actual app and game, so we can move the robots around a copy of the board,
     // without affecting the board visible to the player
