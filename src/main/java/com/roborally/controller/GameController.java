@@ -24,6 +24,9 @@ package com.roborally.controller;
 import com.roborally.model.*;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
+import java.util.Scanner;
+
 /**
  * ...
  *
@@ -33,9 +36,14 @@ import org.jetbrains.annotations.NotNull;
 public class GameController {
 
     final public Board board;
+    private RoboAI ai;
 
     public GameController(@NotNull Board board) {
         this.board = board;
+    }
+
+    public void setAI(RoboAI roboAI) {
+        this.ai = roboAI;
     }
 
     /**
@@ -64,6 +72,14 @@ public class GameController {
 
         // Increment counter
         board.setStep(board.getStep() + 1);
+    }
+
+    private void setPlayerProgram(Player player, List<CommandCard> cards) {
+        for (int i = 0; i < Player.NO_REGISTERS; i++) {
+            CommandCardField field = player.getProgramField(i);
+            field.setCard(cards.get(i));
+            field.setVisible(true);
+        }
     }
 
     // XXX: V2
@@ -105,6 +121,15 @@ public class GameController {
     public void finishProgrammingPhase() {
         makeProgramFieldsInvisible();
         makeProgramFieldsVisible(0);
+        if (ai != null) {
+            Scanner scanner = new Scanner(System.in);
+            String line = scanner.nextLine();  // reads the single input line from the console
+            String[] strings = line.split(" ");  // splits the string wherever a space character is encountered, returns the result as a String[]
+            int first = Integer.parseInt(strings[0]);
+            int second = Integer.parseInt(strings[1]);
+            System.out.println("First number = " + first + ", second number = " + second + ".");
+            setPlayerProgram(board.getPlayer(1), ai.findBestProgramToGetTo(board.getSpace(first, second)));
+        }
         board.setPhase(Phase.ACTIVATION);
         board.setCurrentPlayer(board.getPlayer(0));
         board.setStep(0);
@@ -304,7 +329,6 @@ public class GameController {
                     e.printStackTrace();
                 }
             }
-            System.out.println(player); // Just for debugging, remove later
         }
 
     }

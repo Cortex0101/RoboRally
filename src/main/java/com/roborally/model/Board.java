@@ -214,6 +214,18 @@ public class Board extends Subject {
         return getSpace(x, y);
     }
 
+    /**
+     * Caclulates the distance between two spaces on the board.
+     * The distance is calculated not as a diagonal, but the horizontal + vertical distance.
+     *
+     * @param space1 the first space
+     * @param space2 the second space
+     * @return the sum of the vertical and horizontal difference between the spaces
+     */
+    public int getDistanceBetweenSpaces(@NotNull Space space1, @NotNull Space space2) {
+        return Math.abs(space1.x - space2.x) + Math.abs(space1.y - space2.y);
+    }
+
     public String getStatusMessage() {
         return "Phase: " + getPhase().name() +
                 ", Player = " + getCurrentPlayer().getName() +

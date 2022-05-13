@@ -37,6 +37,5 @@ class RoboAITest {
             i++;
             System.out.println(i);
         }
-
     }
 }

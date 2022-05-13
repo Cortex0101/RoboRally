@@ -22,6 +22,7 @@
 package com.roborally.controller;
 
 import com.roborally.fileaccess.LoadBoard;
+import com.roborally.model.CommandCard;
 import designpatterns.observer.Observer;
 import designpatterns.observer.Subject;
 
@@ -145,6 +146,8 @@ public class AppController implements Observer {
         System.out.println("Loaded board: " + boardLoaded);
         Board board = LoadBoard.loadBoard(boardLoaded);
         gameController = new GameController(board);
+        // TODO: Dont set here
+        gameController.setAI(new RoboAI(this, board.getPlayer(1)));
         gameController.startProgrammingPhase(board.resetRegisters);
         roboRally.createBoardView(gameController);
     }
