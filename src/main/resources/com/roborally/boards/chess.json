@@ -717,7 +717,8 @@
       "player": {
         "name": "Player1",
         "color": "blue",
-        "heading": "NORTH"
+        "heading": "NORTH",
+        "AI": true
       }
     },
     {
@@ -730,7 +731,8 @@
       "player": {
         "name": "Player2",
         "color": "red",
-        "heading": "NORTH"
+        "heading": "NORTH",
+        "AI": true
       }
     },
     {

@@ -36,14 +36,15 @@ import java.util.Scanner;
 public class GameController {
 
     final public Board board;
-    private RoboAI ai;
+    private RoboAI[] ai;
 
     public GameController(@NotNull Board board) {
         this.board = board;
+        this.ai = new RoboAI[board.getPlayersNumber()];
     }
 
-    public void setAI(RoboAI roboAI) {
-        this.ai = roboAI;
+    public void setAI(RoboAI roboAI, int i) {
+        this.ai[i] = roboAI;
     }
 
     /**
@@ -117,19 +118,34 @@ public class GameController {
         return new CommandCard(commands[random]);
     }
 
+    private void setAIPrograms() {
+        for (int i = 0; i < board.getPlayersNumber(); i++) {
+            if (board.getPlayer(i).getIsAI()) {
+                Scanner scanner = new Scanner(System.in);
+                String line = scanner.nextLine();  // reads the single input line from the console
+                String[] strings = line.split(" ");  // splits the string wherever a space character is encountered, returns the result as a String[]
+                int first = Integer.parseInt(strings[0]);
+                int second = Integer.parseInt(strings[1]);
+                System.out.println("First number = " + first + ", second number = " + second + ".");
+                setPlayerProgram(board.getPlayer(i), ai[i].findBestProgramToGetTo(board.getSpace(first, second)));
+            }
+        }
+    }
+
+    private boolean hasAnyAI() {
+        for (RoboAI i : ai) {
+            if (i != null)
+                return true;
+        }
+        return false;
+    }
+
     // XXX: V2
     public void finishProgrammingPhase() {
         makeProgramFieldsInvisible();
         makeProgramFieldsVisible(0);
-        if (ai != null) {
-            Scanner scanner = new Scanner(System.in);
-            String line = scanner.nextLine();  // reads the single input line from the console
-            String[] strings = line.split(" ");  // splits the string wherever a space character is encountered, returns the result as a String[]
-            int first = Integer.parseInt(strings[0]);
-            int second = Integer.parseInt(strings[1]);
-            System.out.println("First number = " + first + ", second number = " + second + ".");
-            setPlayerProgram(board.getPlayer(1), ai.findBestProgramToGetTo(board.getSpace(first, second)));
-        }
+        if (hasAnyAI())
+            setAIPrograms();
         board.setPhase(Phase.ACTIVATION);
         board.setCurrentPlayer(board.getPlayer(0));
         board.setStep(0);
@@ -326,7 +342,8 @@ public class GameController {
                 try {
                     moveToSpace(player, target, heading);
                 } catch (ImpossibleMoveException e) {
-                    e.printStackTrace();
+                    if (!player.getIsAI()) // disable printing for AI players to avoid bloat
+                        e.printStackTrace();
                 }
             }
         }

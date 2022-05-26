@@ -135,6 +135,15 @@ public class AppController implements Observer {
         return fileNames;
     }
 
+    private void setAIPlayers() {
+        Board board = gameController.board;
+        for (int i = 0; i < board.getPlayersNumber(); i++) {
+            if (board.getPlayer(i).getIsAI()) {
+                gameController.setAI(new RoboAI(this, board.getPlayer(i)), i);
+            }
+        }
+    }
+
     public void loadGame() {
         final List<String> savedGames = getFileNames("D:\\Development\\RoboRally\\src\\main\\resources\\com\\roborally\\boards\\");
         ChoiceDialog<String> dialog = new ChoiceDialog<>(savedGames.get(0), savedGames);
@@ -147,7 +156,7 @@ public class AppController implements Observer {
         Board board = LoadBoard.loadBoard(boardLoaded);
         gameController = new GameController(board);
         // TODO: Dont set here
-        gameController.setAI(new RoboAI(this, board.getPlayer(1)));
+        setAIPlayers();
         gameController.startProgrammingPhase(board.resetRegisters);
         roboRally.createBoardView(gameController);
     }

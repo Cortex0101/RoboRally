@@ -33,7 +33,7 @@ public class RoboAI {
         gameCopy = appCopy.getGameController();
         boardCopy = gameCopy.board;
         //aiPlayerCopy = new Player(boardCopy, "red", "AIPlayer", boardCopy.getSpace(AIplayerOrig.getStartingSpace().x, AIplayerOrig.getSpace().y)); // Create a new player, no copy - as this would make changes to the actual visible AI player
-        boardCopy.addSinglePlayer(boardCopy.getPlayer(1));
+        boardCopy.addSinglePlayer(boardCopy.getPlayer(boardOrig.getPlayerNumber(AIplayerOrig)));
         aiPlayerCopy = gameCopy.board.getPlayer(0);
         boardCopy.setCurrentPlayer(aiPlayerCopy);
         gameCopy.moveCurrentPlayerToSpace(aiPlayerCopy.getStartingSpace());
