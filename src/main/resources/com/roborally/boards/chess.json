@@ -716,6 +716,32 @@
       "y": 10,
       "player": {
         "name": "Player1",
+        "color": "green",
+        "heading": "NORTH",
+        "AI": false
+      }
+    },
+    {
+      "walls": [],
+      "actions": [],
+      "x": 3,
+      "y": 10,
+      "player": {
+        "name": "AI1",
+        "color": "purple",
+        "heading": "NORTH",
+        "AI": true
+      }
+    },
+    {
+      "walls": [
+        "WEST"
+      ],
+      "actions": [],
+      "x": 4,
+      "y": 10,
+      "player": {
+        "name": "AI2",
         "color": "blue",
         "heading": "NORTH",
         "AI": true
@@ -729,19 +755,25 @@
       "x": 6,
       "y": 10,
       "player": {
-        "name": "Player2",
-        "color": "red",
+        "name": "AI3",
+        "color": "yellow",
         "heading": "NORTH",
         "AI": true
       }
     },
     {
       "walls": [
-        "WEST"
+        "EAST"
       ],
       "actions": [],
-      "x": 4,
-      "y": 10
+      "x": 7,
+      "y": 10,
+      "player": {
+        "name": "AI4",
+        "color": "red",
+        "heading": "NORTH",
+        "AI": true
+      }
     },
     {
       "walls": [],
