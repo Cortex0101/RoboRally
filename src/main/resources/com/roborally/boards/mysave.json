@@ -160,6 +160,19 @@
       "walls": [],
       "actions": [
         {
+          "CLASSNAME": "com.roborally.controller.CheckPoint",
+          "INSTANCE": {
+            "heading": "NORTH"
+          }
+        }
+      ],
+      "x": 2,
+      "y": 3
+    },
+    {
+      "walls": [],
+      "actions": [
+        {
           "CLASSNAME": "com.roborally.controller.GreenConveyorBelt",
           "INSTANCE": {
             "heading": "SOUTH"
@@ -192,6 +205,19 @@
       ],
       "x": 2,
       "y": 6
+    },
+    {
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "com.roborally.controller.CheckPoint",
+          "INSTANCE": {
+            "heading": "WEST"
+          }
+        }
+      ],
+      "x": 2,
+      "y": 7
     },
     {
       "walls": [],
@@ -282,14 +308,14 @@
         "heading": "NORTH",
         "AI": true,
         "commandCards": [
-          "MOVE2",
-          "MOVE2",
-          "OPTION_LEFT_RIGHT",
-          "MOVE1",
-          "RIGHT",
+          "LEFT",
+          "U_TURN",
+          "LEFT",
           "MOVE1",
           "MOVE1",
-          "LEFT"
+          "U_TURN",
+          "MOVE3",
+          "MOVE3"
         ],
         "commandCardsInRegisters": [
           null,
@@ -402,14 +428,14 @@
         "heading": "NORTH",
         "AI": true,
         "commandCards": [
+          "LEFT",
+          "MOVE1",
           "MOVE1",
           "RIGHT",
-          "MOVE3",
-          "RIGHT",
-          "MOVE3",
-          "MOVE1",
           "OPTION_LEFT_RIGHT",
-          "OPTION_LEFT_RIGHT"
+          "LEFT",
+          "LEFT",
+          "LEFT"
         ],
         "commandCardsInRegisters": [
           null,
@@ -445,6 +471,17 @@
       ],
       "x": 5,
       "y": 3
+    },
+    {
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "com.roborally.controller.CheckPoint",
+          "INSTANCE": {}
+        }
+      ],
+      "x": 5,
+      "y": 5
     },
     {
       "walls": [],
@@ -486,13 +523,13 @@
         "heading": "NORTH",
         "AI": false,
         "commandCards": [
-          "RIGHT",
+          "MOVE3",
+          "MOVE2",
+          "MOVE2",
           "MOVE1",
-          "U_TURN",
-          "RIGHT",
-          "OPTION_LEFT_RIGHT",
-          "U_TURN",
-          "RIGHT",
+          "MOVE3",
+          "LEFT",
+          "LEFT",
           "U_TURN"
         ],
         "commandCardsInRegisters": [
@@ -606,14 +643,14 @@
         "heading": "NORTH",
         "AI": true,
         "commandCards": [
-          "MOVE3",
           "LEFT",
+          "OPTION_LEFT_RIGHT",
+          "MOVE3",
+          "MOVE2",
           "RIGHT",
           "U_TURN",
-          "MOVE1",
-          "MOVE1",
           "MOVE3",
-          "U_TURN"
+          "OPTION_LEFT_RIGHT"
         ],
         "commandCardsInRegisters": [
           null,
@@ -689,14 +726,14 @@
         "heading": "NORTH",
         "AI": true,
         "commandCards": [
+          "MOVE2",
+          "MOVE2",
           "MOVE3",
-          "LEFT",
+          "MOVE2",
           "LEFT",
           "OPTION_LEFT_RIGHT",
-          "LEFT",
-          "RIGHT",
-          "LEFT",
-          "OPTION_LEFT_RIGHT"
+          "MOVE1",
+          "MOVE3"
         ],
         "commandCardsInRegisters": [
           null,
@@ -737,6 +774,19 @@
       "walls": [],
       "actions": [
         {
+          "CLASSNAME": "com.roborally.controller.CheckPoint",
+          "INSTANCE": {
+            "heading": "EAST"
+          }
+        }
+      ],
+      "x": 8,
+      "y": 3
+    },
+    {
+      "walls": [],
+      "actions": [
+        {
           "CLASSNAME": "com.roborally.controller.GreenConveyorBelt",
           "INSTANCE": {
             "heading": "SOUTH"
@@ -769,6 +819,19 @@
       ],
       "x": 8,
       "y": 6
+    },
+    {
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "com.roborally.controller.CheckPoint",
+          "INSTANCE": {
+            "heading": "SOUTH"
+          }
+        }
+      ],
+      "x": 8,
+      "y": 7
     },
     {
       "walls": [],

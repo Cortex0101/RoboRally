@@ -22,14 +22,21 @@
 package com.roborally.view;
 
 import com.roborally.controller.*;
+import com.roborally.model.Heading;
 import designpatterns.observer.Subject;
 import com.roborally.model.Player;
 import com.roborally.model.Space;
+import javafx.scene.SnapshotParameters;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.WritableImage;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.*;
+import javafx.scene.text.Text;
+import net.synedra.validatorfx.Check;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -264,6 +271,60 @@ public class SpaceView extends StackPane implements ViewObserver {
         }
     }
 
+    /**
+     * Taken from https://stackoverflow.com/questions/41746511/how-to-put-some-text-right-center-of-a-circle-that-have-been-drawn-on-javafx-can
+     */
+    private WritableImage createCircledNumber(int number) {
+        //createCircledNumber() method always returns 26px X 26px sized image
+        StackPane sPane = new StackPane();
+        sPane.setPrefSize(26, 26);
+
+        Circle c = new Circle(26/2.0);
+        c.setStroke(Color.BLACK);
+        c.setFill(Color.WHITE);
+        c.setStrokeWidth(3);
+        sPane.getChildren().add(c);
+
+        Text txtNum = new Text(number+"");
+        sPane.getChildren().add(txtNum);
+        SnapshotParameters parameters = new SnapshotParameters();
+        parameters.setFill(Color.TRANSPARENT);
+        return sPane.snapshot(parameters, null);
+    }
+
+    private void updateCheckPoints() {
+        for (FieldAction fieldAction : space.getActions()) {
+            if (fieldAction.getClass().getName().equals("com.roborally.controller.CheckPoint")) {
+                CheckPoint checkPoint = (CheckPoint) fieldAction;
+
+                Pane pane = new Pane();
+
+                final double spacing = 4.0;
+                Polygon square = new Polygon(
+                        spacing, spacing,
+                        SPACE_WIDTH - spacing, spacing,
+                        SPACE_WIDTH - spacing, SPACE_HEIGHT - spacing,
+                        spacing, SPACE_HEIGHT - spacing);
+                square.setFill(Color.LIGHTGREEN);
+                pane.getChildren().add(square);
+
+                Canvas cvs = new Canvas();
+                cvs.setWidth(SPACE_WIDTH);
+                cvs.setHeight(SPACE_HEIGHT);
+                cvs.setLayoutX(0);
+                cvs.setLayoutY(0);
+                pane.getChildren().add(cvs);
+
+                GraphicsContext gc = cvs.getGraphicsContext2D();
+                double x = (cvs.getWidth() - 26)/2;
+                double y = (cvs.getHeight() - 26)/2;
+                gc.drawImage(createCircledNumber(checkPoint.getCheckpointNum()), x, y);
+
+                this.getChildren().add(pane);
+            }
+        }
+    }
+
     @Override
     public void updateView(Subject subject) {
         if (subject == this.space) {
@@ -273,6 +334,7 @@ public class SpaceView extends StackPane implements ViewObserver {
             updateBlueConveyorBelt();
             updateGears();
             updatePits();
+            updateCheckPoints();
             updatePlayer();
         }
     }
