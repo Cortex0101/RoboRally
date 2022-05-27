@@ -32,7 +32,7 @@ public class RobotMovementTest {
     @BeforeEach
     void setup() {
         app = new AppController(null);
-        app.newGameWithoutUI("defaultboard"); // TODO: MAKE A CUSTOM, MAYBE EMPTY TEST BOARD?
+        app.newGameWithoutUI("testboard");
         game = app.getGameController();
         board = game.board;
 

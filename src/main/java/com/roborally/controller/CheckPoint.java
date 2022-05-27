@@ -17,7 +17,7 @@ public class CheckPoint extends FieldAction {
         // Save it to the game controller and check here if the palyers current checkpoint is the last
         // If so, we should call something like gameController.setWinner(player);
         if (player.getLastCheckpoint() + 1 == getCheckpoint())
-        player.setLastCheckpoint(getCheckpoint());
+            player.setLastCheckpoint(getCheckpoint());
 
         return false;
     }

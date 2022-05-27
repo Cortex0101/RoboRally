@@ -111,6 +111,18 @@ public class Board extends Subject {
         }
     }
 
+    /**
+     * This method is used for the AI to generate a copy of the board with itself only
+     * @param player the only player that should be on the board
+     */
+    public void addSinglePlayer(@NotNull Player player) {
+        if (player.board == this) {
+            players.clear();
+            players.add(player);
+            notifyChange();
+        }
+    }
+
     public Player getPlayer(int i) {
         if (i >= 0 && i < players.size()) {
             return players.get(i);
@@ -202,12 +214,19 @@ public class Board extends Subject {
         return getSpace(x, y);
     }
 
-    public String getStatusMessage() {
-        // this is actually a view aspect, but for making assignment V1 easy for
-        // the students, this method gives a string representation of the current
-        // status of the game
+    /**
+     * Caclulates the distance between two spaces on the board.
+     * The distance is calculated not as a diagonal, but the horizontal + vertical distance.
+     *
+     * @param space1 the first space
+     * @param space2 the second space
+     * @return the sum of the vertical and horizontal difference between the spaces
+     */
+    public int getDistanceBetweenSpaces(@NotNull Space space1, @NotNull Space space2) {
+        return Math.abs(space1.x - space2.x) + Math.abs(space1.y - space2.y);
+    }
 
-        // XXX: V2 changed the status so that it shows the phase, the player and the step
+    public String getStatusMessage() {
         return "Phase: " + getPhase().name() +
                 ", Player = " + getCurrentPlayer().getName() +
                 ", Step: " + getStep();

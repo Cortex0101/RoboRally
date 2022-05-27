@@ -39,6 +39,8 @@ public class Player extends Subject {
     private final Space startingSpace;
     private boolean rebooting = false;
 
+    private boolean isAI;
+
     private int lastCheckpoint;
 
     final public static int NO_REGISTERS = 5;
@@ -179,5 +181,13 @@ public class Player extends Subject {
 
     public void setLastCheckpoint(int lastCheckpoint) {
         this.lastCheckpoint = lastCheckpoint;
+    }
+
+    public boolean getIsAI() {
+        return isAI;
+    }
+
+    public void setIsAI(boolean AI) {
+        isAI = AI;
     }
 }

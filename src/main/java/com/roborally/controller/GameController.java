@@ -24,6 +24,9 @@ package com.roborally.controller;
 import com.roborally.model.*;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
+import java.util.Scanner;
+
 /**
  * ...
  *
@@ -33,14 +36,20 @@ import org.jetbrains.annotations.NotNull;
 public class GameController {
 
     final public Board board;
+    private RoboAI[] ai;
 
     public GameController(@NotNull Board board) {
         this.board = board;
+        this.ai = new RoboAI[board.getPlayersNumber()];
+    }
+
+    public void setAI(RoboAI roboAI, int i) {
+        this.ai[i] = roboAI;
     }
 
     /**
-     * This is just some dummy controller operation to make a simple move to see something
-     * happening on the board. This method should eventually be deleted!
+     * This method should be used for debugging only. To move players accounting for pushing and other game features
+     * use moveToSpace()
      *
      * @param space the space to which the current player should move
      */
@@ -64,6 +73,14 @@ public class GameController {
 
         // Increment counter
         board.setStep(board.getStep() + 1);
+    }
+
+    private void setPlayerProgram(Player player, List<CommandCard> cards) {
+        for (int i = 0; i < Player.NO_REGISTERS; i++) {
+            CommandCardField field = player.getProgramField(i);
+            field.setCard(cards.get(i));
+            field.setVisible(true);
+        }
     }
 
     // XXX: V2
@@ -101,10 +118,34 @@ public class GameController {
         return new CommandCard(commands[random]);
     }
 
+    private void setAIPrograms() {
+        for (int i = 0; i < board.getPlayersNumber(); i++) {
+            if (board.getPlayer(i).getIsAI()) {
+                Scanner scanner = new Scanner(System.in);
+                String line = scanner.nextLine();  // reads the single input line from the console
+                String[] strings = line.split(" ");  // splits the string wherever a space character is encountered, returns the result as a String[]
+                int first = Integer.parseInt(strings[0]);
+                int second = Integer.parseInt(strings[1]);
+                System.out.println("First number = " + first + ", second number = " + second + ".");
+                setPlayerProgram(board.getPlayer(i), ai[i].findBestProgramToGetTo(board.getSpace(first, second)));
+            }
+        }
+    }
+
+    private boolean hasAnyAI() {
+        for (RoboAI i : ai) {
+            if (i != null)
+                return true;
+        }
+        return false;
+    }
+
     // XXX: V2
     public void finishProgrammingPhase() {
         makeProgramFieldsInvisible();
         makeProgramFieldsVisible(0);
+        if (hasAnyAI())
+            setAIPrograms();
         board.setPhase(Phase.ACTIVATION);
         board.setCurrentPlayer(board.getPlayer(0));
         board.setStep(0);
@@ -301,10 +342,10 @@ public class GameController {
                 try {
                     moveToSpace(player, target, heading);
                 } catch (ImpossibleMoveException e) {
-                    e.printStackTrace();
+                    if (!player.getIsAI()) // disable printing for AI players to avoid bloat
+                        e.printStackTrace();
                 }
             }
-            System.out.println(player); // Just for debugging, remove later
         }
 
     }

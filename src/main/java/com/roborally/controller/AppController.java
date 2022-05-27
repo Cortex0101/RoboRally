@@ -22,6 +22,7 @@
 package com.roborally.controller;
 
 import com.roborally.fileaccess.LoadBoard;
+import com.roborally.model.CommandCard;
 import designpatterns.observer.Observer;
 import designpatterns.observer.Subject;
 
@@ -102,15 +103,7 @@ public class AppController implements Observer {
     }
 
     public void newGameWithoutUI(String boardName) {
-        Board board = new Board(8,8);
-        gameController = new GameController(board);
-        final int no = 2;
-        for (int i = 0; i < no; i++) {
-            Player player = new Player(board, PLAYER_COLORS.get(i), "Player " + (i + 1), board.getSpace(i % board.width, i));
-            board.addPlayer(player);
-            player.setSpace(board.getSpace(i % board.width, i));
-        }
-
+        Board board = LoadBoard.loadBoard(boardName);
         gameController = new GameController(board);
         gameController.startProgrammingPhase(board.resetRegisters);
     }
@@ -142,6 +135,15 @@ public class AppController implements Observer {
         return fileNames;
     }
 
+    private void setAIPlayers() {
+        Board board = gameController.board;
+        for (int i = 0; i < board.getPlayersNumber(); i++) {
+            if (board.getPlayer(i).getIsAI()) {
+                gameController.setAI(new RoboAI(this, board.getPlayer(i)), i);
+            }
+        }
+    }
+
     public void loadGame() {
         final List<String> savedGames = getFileNames("D:\\Development\\RoboRally\\src\\main\\resources\\com\\roborally\\boards\\");
         ChoiceDialog<String> dialog = new ChoiceDialog<>(savedGames.get(0), savedGames);
@@ -153,6 +155,8 @@ public class AppController implements Observer {
         System.out.println("Loaded board: " + boardLoaded);
         Board board = LoadBoard.loadBoard(boardLoaded);
         gameController = new GameController(board);
+        // TODO: Dont set here
+        setAIPlayers();
         gameController.startProgrammingPhase(board.resetRegisters);
         roboRally.createBoardView(gameController);
     }

@@ -163,6 +163,7 @@ public class CardFieldView extends GridPane implements ViewObserver {
                 if (cardField != null &&
                         cardField.getCard() != null &&
                         cardField.player != null &&
+                        !cardField.player.getIsAI() && // dont allow dragging on AI cards!
                         cardField.player.board != null &&
                         cardField.player.board.getPhase().equals(Phase.PROGRAMMING)) {
                     Dragboard db = source.startDragAndDrop(TransferMode.MOVE);

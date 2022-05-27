@@ -273,6 +273,35 @@
     },
     {
       "walls": [],
+      "actions": [],
+      "x": 3,
+      "y": 10,
+      "player": {
+        "name": "AI1",
+        "color": "purple",
+        "heading": "NORTH",
+        "AI": true,
+        "commandCards": [
+          "MOVE2",
+          "MOVE2",
+          "OPTION_LEFT_RIGHT",
+          "MOVE1",
+          "RIGHT",
+          "MOVE1",
+          "MOVE1",
+          "LEFT"
+        ],
+        "commandCardsInRegisters": [
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      }
+    },
+    {
+      "walls": [],
       "actions": [
         {
           "CLASSNAME": "com.roborally.controller.BlueConveyorBelt",
@@ -366,7 +395,30 @@
       ],
       "actions": [],
       "x": 4,
-      "y": 10
+      "y": 10,
+      "player": {
+        "name": "AI2",
+        "color": "blue",
+        "heading": "NORTH",
+        "AI": true,
+        "commandCards": [
+          "MOVE1",
+          "RIGHT",
+          "MOVE3",
+          "RIGHT",
+          "MOVE3",
+          "MOVE1",
+          "OPTION_LEFT_RIGHT",
+          "OPTION_LEFT_RIGHT"
+        ],
+        "commandCardsInRegisters": [
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      }
     },
     {
       "walls": [],
@@ -427,7 +479,30 @@
       ],
       "actions": [],
       "x": 5,
-      "y": 10
+      "y": 10,
+      "player": {
+        "name": "Player1",
+        "color": "green",
+        "heading": "NORTH",
+        "AI": false,
+        "commandCards": [
+          "RIGHT",
+          "MOVE1",
+          "U_TURN",
+          "RIGHT",
+          "OPTION_LEFT_RIGHT",
+          "U_TURN",
+          "RIGHT",
+          "U_TURN"
+        ],
+        "commandCardsInRegisters": [
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      }
     },
     {
       "walls": [],
@@ -526,18 +601,19 @@
       "x": 6,
       "y": 10,
       "player": {
-        "name": "Player2",
-        "color": "red",
+        "name": "AI3",
+        "color": "yellow",
         "heading": "NORTH",
+        "AI": true,
         "commandCards": [
-          "RIGHT",
-          "LEFT",
           "MOVE3",
           "LEFT",
+          "RIGHT",
           "U_TURN",
           "MOVE1",
-          "U_TURN",
-          "RIGHT"
+          "MOVE1",
+          "MOVE3",
+          "U_TURN"
         ],
         "commandCardsInRegisters": [
           null,
@@ -576,34 +652,6 @@
     },
     {
       "walls": [],
-      "actions": [],
-      "x": 7,
-      "y": 6,
-      "player": {
-        "name": "Player1",
-        "color": "blue",
-        "heading": "NORTH",
-        "commandCards": [
-          "MOVE1",
-          "U_TURN",
-          "OPTION_LEFT_RIGHT",
-          "MOVE2",
-          "MOVE1",
-          "MOVE2",
-          "MOVE1",
-          "MOVE2"
-        ],
-        "commandCardsInRegisters": [
-          null,
-          null,
-          null,
-          null,
-          null
-        ]
-      }
-    },
-    {
-      "walls": [],
       "actions": [
         {
           "CLASSNAME": "com.roborally.controller.GreenConveyorBelt",
@@ -627,6 +675,37 @@
       ],
       "x": 7,
       "y": 9
+    },
+    {
+      "walls": [
+        "EAST"
+      ],
+      "actions": [],
+      "x": 7,
+      "y": 10,
+      "player": {
+        "name": "AI4",
+        "color": "red",
+        "heading": "NORTH",
+        "AI": true,
+        "commandCards": [
+          "MOVE3",
+          "LEFT",
+          "LEFT",
+          "OPTION_LEFT_RIGHT",
+          "LEFT",
+          "RIGHT",
+          "LEFT",
+          "OPTION_LEFT_RIGHT"
+        ],
+        "commandCardsInRegisters": [
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      }
     },
     {
       "walls": [],

@@ -48,7 +48,7 @@ public class LoadBoard {
             reader = gson.newJsonReader(new InputStreamReader(inputStream));
             BoardTemplate template = gson.fromJson(reader, BoardTemplate.class);
 
-            result = new Board(template.width, template.height);
+            result = new Board(template.width, template.height, boardname);
             for (SpaceTemplate spaceTemplate: template.spaces) {
                 Space space = result.getSpace(spaceTemplate.x, spaceTemplate.y);
                 if (space != null) {
@@ -57,6 +57,7 @@ public class LoadBoard {
                     if (spaceTemplate.player != null) {
                         Player player = new Player(result, spaceTemplate.player.color, spaceTemplate.player.name, space);
                         player.setHeading(spaceTemplate.player.heading);
+                        player.setIsAI(spaceTemplate.player.AI);
                         space.setPlayer(player);
                         if (spaceTemplate.player.commandCards != null) {
                             for (int i = 0; i < spaceTemplate.player.commandCards.size(); i++) {
@@ -117,6 +118,7 @@ public class LoadBoard {
                         spaceTemplate.player.name = space.getPlayer().getName();
                         spaceTemplate.player.color = space.getPlayer().getColor();
                         spaceTemplate.player.heading = space.getPlayer().getHeading();
+                        spaceTemplate.player.AI = space.getPlayer().getIsAI();
 
                         for (int k = 0; k < 8; k++) {
                             CommandCard card = space.getPlayer().getCardField(k).getCard();
