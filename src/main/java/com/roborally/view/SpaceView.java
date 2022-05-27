@@ -98,6 +98,25 @@ public class SpaceView extends StackPane implements ViewObserver {
 
             arrow.setRotate((90*player.getHeading().ordinal())%360);
             this.getChildren().add(arrow);
+
+            Canvas cvs = new Canvas();
+            cvs.setWidth(SPACE_WIDTH);
+            cvs.setHeight(SPACE_HEIGHT);
+            cvs.setLayoutX(0);
+            cvs.setLayoutY(0);
+            this.getChildren().add(cvs);
+
+            GraphicsContext gc = cvs.getGraphicsContext2D();
+            double x = ((cvs.getWidth() - 20)/2) + 7;
+            double y = ((cvs.getHeight() - 20)/2);
+            StackPane sPane = new StackPane();
+            sPane.setPrefSize(20, 20);
+
+            Text txtNum = new Text(player.getLastCheckpoint()+"");
+            sPane.getChildren().add(txtNum);
+            SnapshotParameters parameters = new SnapshotParameters();
+            parameters.setFill(Color.TRANSPARENT);
+            gc.drawImage(sPane.snapshot(parameters, null), x, y);
         }
     }
 
