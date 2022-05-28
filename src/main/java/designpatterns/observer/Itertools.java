@@ -233,7 +233,7 @@ public class Itertools {
      * @return
      */
     public static Iterable<Integer> count(int start, int step) {
-        return () -> new Iterator<Integer>() {
+        return () -> new Iterator<>() {
             int count = start - step;
 
             @Override
@@ -254,7 +254,7 @@ public class Itertools {
     }
 
     public static <T> Iterable<T> cycle(List<T> list) {
-        return () -> new Iterator<T>() {
+        return () -> new Iterator<>() {
             int count = -1;
 
             @Override
@@ -278,7 +278,7 @@ public class Itertools {
      * @return
      */
     public static <T> Iterable<T> repeat(T t, int n) {
-        return () -> new Iterator<T>() {
+        return () -> new Iterator<>() {
             int count = -1;
 
             @Override
@@ -300,7 +300,7 @@ public class Itertools {
      * @return
      */
     public static <T> Iterable<T> repeat(T t) {
-        return () -> new Iterator<T>() {
+        return () -> new Iterator<>() {
             @Override
             public boolean hasNext() {
                 return true;
@@ -325,7 +325,7 @@ public class Itertools {
             size += list.size();
         }
         int finalSize = size;
-        return () -> new Iterator<T>() {
+        return () -> new Iterator<>() {
             int counter = -1;
             int iterableNo = 0;
             int sizeTillNow = 0;
@@ -356,7 +356,7 @@ public class Itertools {
      * @return
      */
     public static <T> Iterable<T> compress(List<T> data, List<Boolean> selectors) {
-        return () -> new Iterator<T>() {
+        return () -> new Iterator<>() {
             int index = -1;
 
             @Override
@@ -381,7 +381,7 @@ public class Itertools {
      * @return
      */
     public static <T> Iterable<T> dropWhile(Predicate<T> pred, List<T> seq) {
-        return () -> new Iterator<T>() {
+        return () -> new Iterator<>() {
             boolean next = false;
             int index = -1;
 
@@ -409,7 +409,7 @@ public class Itertools {
      * @return
      */
     public static <T> Iterable<T> ifilter(Predicate<T> predicate, List<T> list) {
-        return () -> new Iterator<T>() {
+        return () -> new Iterator<>() {
             int index = -1;
 
             @Override
@@ -429,7 +429,7 @@ public class Itertools {
 
 
     public static <T> Iterable<T> ifilterfalse(Predicate<T> predicate, List<T> list) {
-        return () -> new Iterator<T>() {
+        return () -> new Iterator<>() {
             int index = -1;
 
             @Override
@@ -448,7 +448,7 @@ public class Itertools {
     }
 
     public static <T> Iterable<T> islice(List<T> seq, int start, int stop, int step) {
-        return () -> new Iterator<T>() {
+        return () -> new Iterator<>() {
             int index = start - step;
 
             @Override
@@ -474,7 +474,7 @@ public class Itertools {
 
 
     public static <T, U> Iterable<U> imap(Function<T, U> function, List<T>... lists) {
-        return () -> new Iterator<U>() {
+        return () -> new Iterator<>() {
             int index = -1;
 
             @Override
@@ -486,8 +486,8 @@ public class Itertools {
             @Override
             public U next() {
                 List<T> list = new ArrayList<>();
-                for (int i = 0; i < lists.length; i++) {
-                    list.add(lists[i].get(index));
+                for (List<T> ts : lists) {
+                    list.add(ts.get(index));
                 }
                 return function.apply(list);
             }
@@ -495,7 +495,7 @@ public class Itertools {
     }
 
     public static <T> Iterable<T> takeWhile(Predicate<T> pred, List<T> seq) {
-        return () -> new Iterator<T>() {
+        return () -> new Iterator<>() {
             boolean next = false;
             int index = -1;
 
@@ -524,7 +524,7 @@ public class Itertools {
                 smallest = list.size();
         }
         int finalSmallest = smallest;
-        return () -> new Iterator<List<T>>() {
+        return () -> new Iterator<>() {
             int index = -1;
 
             @Override
@@ -554,7 +554,7 @@ public class Itertools {
                 largest = list.size();
         }
         int finalLargest = largest;
-        return () -> new Iterator<List<T>>() {
+        return () -> new Iterator<>() {
             int index = -1;
 
             @Override
@@ -591,7 +591,7 @@ public class Itertools {
             total *= list.size();
         }
         int finalTotal = total;
-        return () -> new Iterator<List<T>>() {
+        return () -> new Iterator<>() {
             int index = -1;
             int[] presentProduct;
 
@@ -617,35 +617,30 @@ public class Itertools {
     }
 
     public static <T> Iterable<List<T>> combinations(List<T> list, int r) {
-        return new Iterable<List<T>>() {
+        return () -> new Iterator<>() {
+            int index = -1;
+            final int total = (int) CombinationGenerator.nCr(list.size(), r);
+            int[] currCombination = new int[r];
+
             @Override
-            public Iterator<List<T>> iterator() {
-                return new Iterator<List<T>>() {
-                    int index = -1;
-                    final int total = (int) CombinationGenerator.nCr(list.size(), r);
-                    int[] currCombination = new int[r];
+            public boolean hasNext() {
+                index++;
+                return index < total;
+            }
 
-                    @Override
-                    public boolean hasNext() {
-                        index++;
-                        return index < total;
+            @Override
+            public List<T> next() {
+                if (index == 0) {
+                    for (int i = 0; i < currCombination.length; i++) {
+                        currCombination[i] = i + 1;
                     }
-
-                    @Override
-                    public List<T> next() {
-                        if (index == 0) {
-                            for (int i = 0; i < currCombination.length; i++) {
-                                currCombination[i] = i + 1;
-                            }
-                        } else
-                            currCombination = CombinationGenerator.generateNextCombination(currCombination, list.size(), r);
-                        List<T> result = new ArrayList<>();
-                        for (int aCurrCombination : currCombination) {
-                            result.add(list.get(aCurrCombination - 1));
-                        }
-                        return result;
-                    }
-                };
+                } else
+                    currCombination = CombinationGenerator.generateNextCombination(currCombination, list.size(), r);
+                List<T> result = new ArrayList<>();
+                for (int aCurrCombination : currCombination) {
+                    result.add(list.get(aCurrCombination - 1));
+                }
+                return result;
             }
         };
     }
@@ -653,47 +648,42 @@ public class Itertools {
     public static <T> Iterable<List<T>> permutations(List<T> list, int r) {
         long rfact = (long) PermutationGenerator.factorial(r);
         long total = (long) CombinationGenerator.nCr(list.size(), r) * rfact;
-        return new Iterable<List<T>>() {
+        return () -> new Iterator<>() {
+            int index = -1;
+            int permNo = 0;
+            int[] currPermutation = new int[r];
+            int[] currCombination = new int[r];
+
             @Override
-            public Iterator<List<T>> iterator() {
-                return new Iterator<List<T>>() {
-                    int index = -1;
-                    int permNo = 0;
-                    int[] currPermutation = new int[r];
-                    int[] currCombination = new int[r];
+            public boolean hasNext() {
+                index++;
+                return index < total;
+            }
 
-                    @Override
-                    public boolean hasNext() {
-                        index++;
-                        return index < total;
+            @Override
+            public List<T> next() {
+                if (index == 0) {
+                    permNo = 0;
+                    for (int i = 0; i < currCombination.length; i++) {
+                        currCombination[i] = i + 1;
+                        currPermutation[i] = i + 1;
                     }
 
-                    @Override
-                    public List<T> next() {
-                        if (index == 0) {
-                            permNo = 0;
-                            for (int i = 0; i < currCombination.length; i++) {
-                                currCombination[i] = i + 1;
-                                currPermutation[i] = i + 1;
-                            }
-
-                        } else if (((permNo + 1) % rfact) == 0) {
-                            permNo++;
-                            currCombination = CombinationGenerator.generateNextCombination(currCombination, list.size(), r);
-                            for (int i = 0; i < currCombination.length; i++) {
-                                currPermutation[i] = i + 1;
-                            }
-                        } else {
-                            permNo++;
-                            currPermutation = PermutationGenerator.generateNextPermutation(currPermutation, r);
-                        }
-                        List<T> result = new ArrayList<>();
-                        for (int i = 0; i < r; i++) {
-                            result.add(list.get(currCombination[currPermutation[i] - 1] - 1));
-                        }
-                        return result;
+                } else if (((permNo + 1) % rfact) == 0) {
+                    permNo++;
+                    currCombination = CombinationGenerator.generateNextCombination(currCombination, list.size(), r);
+                    for (int i = 0; i < currCombination.length; i++) {
+                        currPermutation[i] = i + 1;
                     }
-                };
+                } else {
+                    permNo++;
+                    currPermutation = PermutationGenerator.generateNextPermutation(currPermutation, r);
+                }
+                List<T> result = new ArrayList<>();
+                for (int i = 0; i < r; i++) {
+                    result.add(list.get(currCombination[currPermutation[i] - 1] - 1));
+                }
+                return result;
             }
         };
     }
