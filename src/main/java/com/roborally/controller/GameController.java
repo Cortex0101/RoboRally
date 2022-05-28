@@ -25,7 +25,6 @@ import com.roborally.model.*;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
-import java.util.Scanner;
 
 /**
  * ...
@@ -252,26 +251,15 @@ public class GameController {
     private void executeCommand(@NotNull Player player, Command command) {
         if (player != null && player.board == board && command != null) {
             switch (command) {
-                case MOVE1:
-                    this.move1Forward(player);
-                    break;
-                case MOVE2:
-                    this.move2Forward(player);
-                    break;
-                case MOVE3:
-                    this.move3Forward(player);
-                    break;
-                case RIGHT:
-                    this.turnRight(player);
-                    break;
-                case LEFT:
-                    this.turnLeft(player);
-                    break;
-                case U_TURN:
-                    this.uTurn(player);
-                    break;
-                default:
-                    // DO NOTHING (for now)
+                case MOVE1 -> this.move1Forward(player);
+                case MOVE2 -> this.move2Forward(player);
+                case MOVE3 -> this.move3Forward(player);
+                case RIGHT -> this.turnRight(player);
+                case LEFT -> this.turnLeft(player);
+                case U_TURN -> this.uTurn(player);
+                default -> {
+                }
+                // DO NOTHING (for now)
             }
         }
     }

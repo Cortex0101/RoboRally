@@ -2,7 +2,6 @@ package com.roborally.fileaccess.model;
 
 import com.roborally.controller.FieldAction;
 import com.roborally.model.Heading;
-import com.roborally.model.Player;
 
 import java.util.ArrayList;
 import java.util.List;

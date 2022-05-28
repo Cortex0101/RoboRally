@@ -22,7 +22,6 @@
 package com.roborally.view;
 
 import com.roborally.controller.*;
-import com.roborally.model.Heading;
 import designpatterns.observer.Subject;
 import com.roborally.model.Player;
 import com.roborally.model.Space;
@@ -36,7 +35,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.*;
 import javafx.scene.text.Text;
-import net.synedra.validatorfx.Check;
 import org.jetbrains.annotations.NotNull;
 
 /**

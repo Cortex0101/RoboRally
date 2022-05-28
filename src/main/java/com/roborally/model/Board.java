@@ -24,12 +24,9 @@ package com.roborally.model;
 import com.roborally.controller.CheckPoint;
 import com.roborally.controller.FieldAction;
 import designpatterns.observer.Subject;
-import net.synedra.validatorfx.Check;
 import org.jetbrains.annotations.NotNull;
 
-import java.nio.file.StandardWatchEventKinds;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import static com.roborally.model.Phase.INITIALISATION;
@@ -228,18 +225,10 @@ public class Board extends Subject {
         int x = space.x;
         int y = space.y;
         switch (heading) {
-            case SOUTH:
-                y = (y + 1) % height;
-                break;
-            case WEST:
-                x = (x + width - 1) % width;
-                break;
-            case NORTH:
-                y = (y + height - 1) % height;
-                break;
-            case EAST:
-                x = (x + 1) % width;
-                break;
+            case SOUTH -> y = (y + 1) % height;
+            case WEST -> x = (x + width - 1) % width;
+            case NORTH -> y = (y + height - 1) % height;
+            case EAST -> x = (x + 1) % width;
         }
 
         return getSpace(x, y);

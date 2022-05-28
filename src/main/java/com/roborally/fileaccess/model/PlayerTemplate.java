@@ -1,7 +1,6 @@
 package com.roborally.fileaccess.model;
 
 import com.roborally.model.Command;
-import com.roborally.model.CommandCard;
 import com.roborally.model.Heading;
 
 import java.util.ArrayList;

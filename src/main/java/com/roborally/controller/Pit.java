@@ -1,6 +1,5 @@
 package com.roborally.controller;
 
-import com.roborally.model.Heading;
 import com.roborally.model.Player;
 import com.roborally.model.Space;
 import org.jetbrains.annotations.NotNull;

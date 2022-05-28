@@ -1,17 +1,10 @@
 package com.roborally.controller;
 
-import com.google.common.collect.Collections2;
 import designpatterns.observer.Itertools;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-
-import static com.google.common.collect.Collections2.orderedPermutations;
-import static org.junit.jupiter.api.Assertions.*;
 
 class RoboAITest {
     RoboAI roboAI;
