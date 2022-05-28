@@ -21,7 +21,7 @@ public class Itertools {
         U apply(List<T> list);
     }
 
-    public class PermutationGenerator {
+    public static class PermutationGenerator {
         public static <T> List<List<T>> generatePermutations(List<T> list, int r) {
             List<List<T>> result = new ArrayList<>();
             List<T> tempList;
@@ -610,8 +610,9 @@ public class Itertools {
             public List<T> next() {
                 if (index == 0)
                     presentProduct = initProduct;
-                else
-                    presentProduct = PermutationGenerator.generateNextProduct(presentProduct, max);
+                else {
+                    PermutationGenerator.generateNextProduct(presentProduct, max);
+                }
                 List<T> result = new ArrayList<>();
                 for (int i = 0; i < presentProduct.length; i++) {
                     result.add(lists[i].get(presentProduct[i] - 1));
@@ -625,7 +626,7 @@ public class Itertools {
         return () -> new Iterator<>() {
             int index = -1;
             final int total = (int) CombinationGenerator.nCr(list.size(), r);
-            int[] currCombination = new int[r];
+            final int[] currCombination = new int[r];
 
             @Override
             public boolean hasNext() {
@@ -639,8 +640,9 @@ public class Itertools {
                     for (int i = 0; i < currCombination.length; i++) {
                         currCombination[i] = i + 1;
                     }
-                } else
-                    currCombination = CombinationGenerator.generateNextCombination(currCombination, list.size(), r);
+                } else {
+                    CombinationGenerator.generateNextCombination(currCombination, list.size(), r);
+                }
                 List<T> result = new ArrayList<>();
                 for (int aCurrCombination : currCombination) {
                     result.add(list.get(aCurrCombination - 1));
@@ -656,8 +658,8 @@ public class Itertools {
         return () -> new Iterator<>() {
             int index = -1;
             int permNo = 0;
-            int[] currPermutation = new int[r];
-            int[] currCombination = new int[r];
+            final int[] currPermutation = new int[r];
+            final int[] currCombination = new int[r];
 
             @Override
             public boolean hasNext() {
@@ -676,13 +678,13 @@ public class Itertools {
 
                 } else if (((permNo + 1) % rfact) == 0) {
                     permNo++;
-                    currCombination = CombinationGenerator.generateNextCombination(currCombination, list.size(), r);
+                    CombinationGenerator.generateNextCombination(currCombination, list.size(), r);
                     for (int i = 0; i < currCombination.length; i++) {
                         currPermutation[i] = i + 1;
                     }
                 } else {
                     permNo++;
-                    currPermutation = PermutationGenerator.generateNextPermutation(currPermutation, r);
+                    PermutationGenerator.generateNextPermutation(currPermutation, r);
                 }
                 List<T> result = new ArrayList<>();
                 for (int i = 0; i < r; i++) {

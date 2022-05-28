@@ -66,22 +66,18 @@ public class LoadBoard {
                         player.setHeading(spaceTemplate.player.heading);
                         player.setIsAI(spaceTemplate.player.AI);
                         space.setPlayer(player);
-                        if (spaceTemplate.player.commandCards != null) {
-                            for (int i = 0; i < spaceTemplate.player.commandCards.size(); i++) {
-                                if (spaceTemplate.player.commandCards.get(i) != null) {
-                                    player.getCardField(i).setCard(new CommandCard(spaceTemplate.player.commandCards.get(i)));
-                                    result.resetRegisters = false;
-                                } else
-                                    player.getCardField(i).setCard(null);
-                            }
+                        for (int i = 0; i < spaceTemplate.player.commandCards.size(); i++) {
+                            if (spaceTemplate.player.commandCards.get(i) != null) {
+                                player.getCardField(i).setCard(new CommandCard(spaceTemplate.player.commandCards.get(i)));
+                                result.resetRegisters = false;
+                            } else
+                                player.getCardField(i).setCard(null);
                         }
-                        if (spaceTemplate.player.commandCardsInRegisters != null) {
-                            for (int i = 0; i < spaceTemplate.player.commandCardsInRegisters.size(); i++) {
-                                if (spaceTemplate.player.commandCardsInRegisters.get(i) != null)
-                                    player.getProgramField(i).setCard(new CommandCard(spaceTemplate.player.commandCardsInRegisters.get(i)));
-                                else
-                                    player.getProgramField(i).setCard(null);
-                            }
+                        for (int i = 0; i < spaceTemplate.player.commandCardsInRegisters.size(); i++) {
+                            if (spaceTemplate.player.commandCardsInRegisters.get(i) != null)
+                                player.getProgramField(i).setCard(new CommandCard(spaceTemplate.player.commandCardsInRegisters.get(i)));
+                            else
+                                player.getProgramField(i).setCard(null);
                         }
                         result.addPlayer(player);
                     }

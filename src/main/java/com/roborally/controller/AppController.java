@@ -22,7 +22,6 @@
 package com.roborally.controller;
 
 import com.roborally.fileaccess.LoadBoard;
-import com.roborally.model.CommandCard;
 import designpatterns.observer.Observer;
 import designpatterns.observer.Subject;
 
@@ -37,7 +36,6 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.TextInputDialog;
-import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.util.*;
@@ -125,7 +123,7 @@ public class AppController implements Observer {
         List<String> fileNames = new ArrayList<>();
         File folder = new File(directory);
         File[] listOfFiles = folder.listFiles();
-        for (File file : listOfFiles) {
+        for (File file : Objects.requireNonNull(listOfFiles)) {
             if (file.isFile())
                 fileNames.add(file.getName().substring(0, file.getName().length() - 5));
         }
@@ -151,7 +149,7 @@ public class AppController implements Observer {
         String boardLoaded = boardToLoad.orElse("defaultboard");
         System.out.println("Loaded board: " + boardLoaded);
         Board board = LoadBoard.loadBoard(boardLoaded);
-        gameController = new GameController(board);
+        gameController = new GameController(Objects.requireNonNull(board));
         // TODO: Dont set here
         setAIPlayers();
         gameController.startProgrammingPhase(board.resetRegisters);
@@ -187,7 +185,7 @@ public class AppController implements Observer {
             alert.setContentText("Are you sure you want to exit RoboRally?");
             Optional<ButtonType> result = alert.showAndWait();
 
-            if (!result.isPresent() || result.get() != ButtonType.OK) {
+            if (result.isEmpty() || result.get() != ButtonType.OK) {
                 return; // return without exiting the application
             }
         }
