@@ -318,6 +318,7 @@ public class Itertools {
      * @param <T>
      * @return
      */
+    @SafeVarargs
     public static <T> Iterable<T> chain(List<T>... iterables) {
         int size = 0;
         for (List<T> list :
@@ -473,6 +474,7 @@ public class Itertools {
     }
 
 
+    @SafeVarargs
     public static <T, U> Iterable<U> imap(Function<T, U> function, List<T>... lists) {
         return () -> new Iterator<>() {
             int index = -1;
@@ -516,6 +518,7 @@ public class Itertools {
         };
     }
 
+    @SafeVarargs
     public static <T> Iterable<List<T>> izip(List<T>... lists) {
         int smallest = lists[0].size();
         for (List<T> list :
@@ -546,6 +549,7 @@ public class Itertools {
     }
 
 
+    @SafeVarargs
     public static <T> Iterable<List<T>> izipLongest(T fillValue, List<T>... lists) {
         int largest = lists[0].size();
         for (List<T> list :
@@ -578,6 +582,7 @@ public class Itertools {
         };
     }
 
+    @SafeVarargs
     public static <T> Iterable<List<T>> product(List<T>... lists) {
         int total = 1;
         int[] max = new int[lists.length];

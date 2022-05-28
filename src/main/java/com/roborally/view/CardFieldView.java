@@ -157,8 +157,7 @@ public class CardFieldView extends GridPane implements ViewObserver {
         @Override
         public void handle(MouseEvent event) {
             Object t = event.getTarget();
-            if (t instanceof CardFieldView) {
-                CardFieldView source = (CardFieldView) t;
+            if (t instanceof CardFieldView source) {
                 CommandCardField cardField = source.field;
                 // dont allow dragging on AI cards!
                 if (cardField != null && cardField.getCard() != null && cardField.player != null && !cardField.player.getIsAI() && cardField.player.board.getPhase().equals(Phase.PROGRAMMING)) {
@@ -239,8 +238,7 @@ public class CardFieldView extends GridPane implements ViewObserver {
         @Override
         public void handle(DragEvent event) {
             Object t = event.getTarget();
-            if (t instanceof CardFieldView) {
-                CardFieldView target = (CardFieldView) t;
+            if (t instanceof CardFieldView target) {
                 CommandCardField cardField = target.field;
 
                 Dragboard db = event.getDragboard();
@@ -275,8 +273,7 @@ public class CardFieldView extends GridPane implements ViewObserver {
         @Override
         public void handle(DragEvent event) {
             Object t = event.getTarget();
-            if (t instanceof CardFieldView) {
-                CardFieldView source = (CardFieldView) t;
+            if (t instanceof CardFieldView source) {
                 source.setBackground(BG_DEFAULT);
             }
             event.consume();
