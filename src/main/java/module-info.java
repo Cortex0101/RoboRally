@@ -3,7 +3,7 @@ module com.roborally {
     requires javafx.base;
     requires javafx.graphics;
 
-    requires annotations;
+    requires org.jetbrains.annotations;
     requires com.google.gson;
     requires com.google.common;
 
