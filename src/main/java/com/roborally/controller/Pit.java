@@ -14,7 +14,6 @@ public class Pit extends FieldAction {
     }
 
     player.setRebooting(true);
-
     return true;
   }
 
