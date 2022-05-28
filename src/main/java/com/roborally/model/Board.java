@@ -52,7 +52,7 @@ public class Board extends Subject {
 
     private final Space[][] spaces;
 
-    private List<Space> checkPointSpaces = new ArrayList<>();
+    private final List<Space> checkPointSpaces = new ArrayList<>();
 
     private final List<Player> players = new ArrayList<>();
 

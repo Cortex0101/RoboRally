@@ -622,7 +622,7 @@ public class Itertools {
             public Iterator<List<T>> iterator() {
                 return new Iterator<List<T>>() {
                     int index = -1;
-                    int total = (int) CombinationGenerator.nCr(list.size(), r);
+                    final int total = (int) CombinationGenerator.nCr(list.size(), r);
                     int[] currCombination = new int[r];
 
                     @Override

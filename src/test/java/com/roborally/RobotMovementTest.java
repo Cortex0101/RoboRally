@@ -19,13 +19,13 @@ public class RobotMovementTest {
     private GameController game;
     private Board board;
 
-    private int move1 = 0;
-    private int move2 = 1;
-    private int move3 = 2;
-    private int turnR = 3;
-    private int turnL = 4;
-    private int turnU = 5;
-    private int turnLR = 6;
+    private final int move1 = 0;
+    private final int move2 = 1;
+    private final int move3 = 2;
+    private final int turnR = 3;
+    private final int turnL = 4;
+    private final int turnU = 5;
+    private final int turnLR = 6;
 
 
 

@@ -36,7 +36,7 @@ import java.util.Scanner;
 public class GameController {
 
     final public Board board;
-    private RoboAI[] ai;
+    private final RoboAI[] ai;
 
     public GameController(@NotNull Board board) {
         this.board = board;
@@ -278,9 +278,9 @@ public class GameController {
 
     static class ImpossibleMoveException extends Exception {
 
-        private Player player;
-        private Space space;
-        private Heading heading;
+        private final Player player;
+        private final Space space;
+        private final Heading heading;
 
         public ImpossibleMoveException(Player player, Space space, Heading heading, String message) {
             super(message);
