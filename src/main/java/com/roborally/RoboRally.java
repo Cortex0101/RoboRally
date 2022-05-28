@@ -45,11 +45,6 @@ public class RoboRally extends Application {
     private BorderPane boardRoot;
 
     @Override
-    public void init() throws Exception {
-        super.init();
-    }
-
-    @Override
     public void start(Stage primaryStage) {
         stage = primaryStage;
 
@@ -86,16 +81,6 @@ public class RoboRally extends Application {
         }
 
         stage.sizeToScene();
-    }
-
-    @Override
-    public void stop() throws Exception {
-        super.stop();
-
-        // XXX just in case we need to do something here eventually;
-        //     but right now the only way for the user to exit the app
-        //     is delegated to the exit() method in the AppController,
-        //     so that the AppController can take care of that.
     }
 
     public static void main(String[] args) {
