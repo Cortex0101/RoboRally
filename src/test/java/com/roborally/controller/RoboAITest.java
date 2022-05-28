@@ -16,14 +16,6 @@ import static org.junit.jupiter.api.Assertions.*;
 class RoboAITest {
     RoboAI roboAI;
 
-    /*
-    @BeforeEach
-    void setup() {
-        roboAI = new RoboAI("testboard");
-    }
-
-     */
-
     @Test
     void testPermutation() {
         String[] str1 = {"1","2","3","4","5","6", "7", "8"};

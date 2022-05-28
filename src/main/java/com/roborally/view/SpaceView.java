@@ -196,9 +196,6 @@ public class SpaceView extends StackPane implements ViewObserver {
                 arrow1.setFill(BLUE_CONVEYOR_BELT_COLOR);
                 arrow2.setFill(BLUE_CONVEYOR_BELT_COLOR);
 
-                //arrow1.setRotate(((90 * conveyorBelt.getHeading().ordinal()) % 360) - 180);
-                //arrow2.setRotate(((90 * conveyorBelt.getHeading().ordinal()) % 360) - 180);
-
                 pane.setRotate(((90 * conveyorBelt.getHeading().ordinal()) % 360) - 180);
                 pane.getChildren().addAll(arrow1, arrow2);
                 this.getChildren().add(pane);
