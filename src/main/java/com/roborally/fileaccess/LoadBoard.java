@@ -54,6 +54,13 @@ public class LoadBoard {
                 if (space != null) {
                     space.getActions().addAll(spaceTemplate.actions);
                     space.getWalls().addAll(spaceTemplate.walls);
+
+                    for (FieldAction fieldAction : space.getActions()) {
+                        if (fieldAction.getClass().getName().equals("com.roborally.controller.CheckPoint")) {
+                            result.addCheckPoint(space);
+                        }
+                    }
+
                     if (spaceTemplate.player != null) {
                         Player player = new Player(result, spaceTemplate.player.color, spaceTemplate.player.name, space);
                         player.setHeading(spaceTemplate.player.heading);

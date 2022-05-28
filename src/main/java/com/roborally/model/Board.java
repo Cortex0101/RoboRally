@@ -21,10 +21,15 @@
  */
 package com.roborally.model;
 
+import com.roborally.controller.CheckPoint;
+import com.roborally.controller.FieldAction;
 import designpatterns.observer.Subject;
+import net.synedra.validatorfx.Check;
 import org.jetbrains.annotations.NotNull;
 
+import java.nio.file.StandardWatchEventKinds;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static com.roborally.model.Phase.INITIALISATION;
@@ -46,6 +51,8 @@ public class Board extends Subject {
     private Integer gameId;
 
     private final Space[][] spaces;
+
+    private List<Space> checkPointSpaces = new ArrayList<>();
 
     private final List<Player> players = new ArrayList<>();
 
@@ -71,6 +78,30 @@ public class Board extends Subject {
             }
         }
         this.stepMode = false;
+    }
+
+    public void addCheckPoint(Space space) {
+        this.checkPointSpaces.add(space);
+    }
+
+    public int getNumCheckpoints() {
+        return this.checkPointSpaces.size();
+    }
+
+    public Space getCheckPoint(int num) {
+        if (num <= getNumCheckpoints()) {
+            for (Space space : checkPointSpaces) {
+                for (FieldAction fieldAction : space.getActions()) {
+                    if (fieldAction.getClass().getName().equals("com.roborally.controller.CheckPoint")) {
+                        CheckPoint checkPoint = (CheckPoint) fieldAction;
+                        if (checkPoint.getCheckpointNum() == num) {
+                            return space;
+                        }
+                    }
+                }
+            }
+        }
+        return null;
     }
 
     public Board(int width, int height) {
