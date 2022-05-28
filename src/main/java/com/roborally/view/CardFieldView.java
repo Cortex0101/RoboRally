@@ -182,7 +182,7 @@ public class CardFieldView extends GridPane implements ViewObserver {
 
     }
 
-    private class OnDragOverHandler implements EventHandler<DragEvent> {
+    private static class OnDragOverHandler implements EventHandler<DragEvent> {
 
         @Override
         public void handle(DragEvent event) {
@@ -203,7 +203,7 @@ public class CardFieldView extends GridPane implements ViewObserver {
 
     }
 
-    private class OnDragEnteredHandler implements EventHandler<DragEvent> {
+    private static class OnDragEnteredHandler implements EventHandler<DragEvent> {
 
         @Override
         public void handle(DragEvent event) {
@@ -225,7 +225,7 @@ public class CardFieldView extends GridPane implements ViewObserver {
 
     }
 
-    private class OnDragExitedHandler implements EventHandler<DragEvent> {
+    private static class OnDragExitedHandler implements EventHandler<DragEvent> {
 
         @Override
         public void handle(DragEvent event) {
@@ -286,7 +286,7 @@ public class CardFieldView extends GridPane implements ViewObserver {
 
     }
 
-    private class OnDragDoneHandler implements EventHandler<DragEvent> {
+    private static class OnDragDoneHandler implements EventHandler<DragEvent> {
 
         @Override
         public void handle(DragEvent event) {

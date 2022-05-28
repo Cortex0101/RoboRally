@@ -139,7 +139,7 @@ public class Itertools {
 
     }
 
-    public class CombinationGenerator {
+    public static class CombinationGenerator {
         public static <T> List<List<T>> generateCombinations(List<T> list, int r) {
             List<List<T>> result = new ArrayList<>();
             List<List<Integer>> mappings = combination(r, list.size());
