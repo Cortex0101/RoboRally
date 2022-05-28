@@ -93,11 +93,11 @@ public class LoadBoard {
             try {
                 reader.close();
                 inputStream = null;
-            } catch (IOException e2) {}
+            } catch (IOException ignored) {}
             if (inputStream != null) {
                 try {
                     inputStream.close();
-                } catch (IOException e2) {}
+                } catch (IOException ignored) {}
             }
         }
         return null;
@@ -164,12 +164,12 @@ public class LoadBoard {
                 try {
                     writer.close();
                     fileWriter = null;
-                } catch (IOException e2) {}
+                } catch (IOException ignored) {}
             }
             if (fileWriter != null) {
                 try {
                     fileWriter.close();
-                } catch (IOException e2) {}
+                } catch (IOException ignored) {}
             }
         }
     }
