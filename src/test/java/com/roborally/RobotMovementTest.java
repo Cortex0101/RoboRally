@@ -71,7 +71,6 @@ public class RobotMovementTest {
         game.executeStep();
         expectedSpace = new int[]{0, 2};
         actualSpace = new int[]{player.getSpace().x, player.getSpace().y};
-        expectedHeading = Heading.SOUTH;
         actualHeading = player.getHeading();
         Assertions.assertArrayEquals(expectedSpace, actualSpace);
         Assertions.assertEquals(expectedHeading, actualHeading);
@@ -89,7 +88,6 @@ public class RobotMovementTest {
         game.executeStep();
         expectedSpace = new int[]{1, 2};
         actualSpace = new int[]{player.getSpace().x, player.getSpace().y};
-        expectedHeading = Heading.EAST;
         actualHeading = player.getHeading();
         Assertions.assertArrayEquals(expectedSpace, actualSpace);
         Assertions.assertEquals(expectedHeading, actualHeading);

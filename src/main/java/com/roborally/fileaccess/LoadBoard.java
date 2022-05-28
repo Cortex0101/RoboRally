@@ -27,7 +27,7 @@ public class LoadBoard {
             boardname = DEFAULTBOARD;
         }
 
-        InputStream inputStream = null;
+        InputStream inputStream;
         try {
             inputStream = new FileInputStream(BOARDSFOLDER + "\\" + boardname + "." + JSON_EXT);
         } catch (FileNotFoundException fileNotFoundException) {
@@ -90,12 +90,10 @@ public class LoadBoard {
             reader.close();
             return result;
         } catch (IOException e1) {
-            if (reader != null) {
-                try {
-                    reader.close();
-                    inputStream = null;
-                } catch (IOException e2) {}
-            }
+            try {
+                reader.close();
+                inputStream = null;
+            } catch (IOException e2) {}
             if (inputStream != null) {
                 try {
                     inputStream.close();
