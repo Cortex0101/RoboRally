@@ -42,15 +42,9 @@ public class PlayerView extends Tab implements ViewObserver {
 
     private final Player player;
 
-    private final VBox top;
-
-    private final Label programLabel;
     private final GridPane programPane;
-    private final Label cardsLabel;
-    private final GridPane cardsPane;
 
     private final CardFieldView[] programCardViews;
-    private final CardFieldView[] cardViews;
 
     private final VBox buttonPanel;
 
@@ -66,13 +60,13 @@ public class PlayerView extends Tab implements ViewObserver {
         super(player.getName());
         this.setStyle("-fx-text-base-color: " + player.getColor() + ";");
 
-        top = new VBox();
+        VBox top = new VBox();
         this.setContent(top);
 
         this.gameController = gameController;
         this.player = player;
 
-        programLabel = new Label("Program");
+        Label programLabel = new Label("Program");
 
         programPane = new GridPane();
         programPane.setVgap(2.0);
@@ -108,11 +102,11 @@ public class PlayerView extends Tab implements ViewObserver {
         playerInteractionPanel.setAlignment(Pos.CENTER_LEFT);
         playerInteractionPanel.setSpacing(3.0);
 
-        cardsLabel = new Label("Command Cards");
-        cardsPane = new GridPane();
+        Label cardsLabel = new Label("Command Cards");
+        GridPane cardsPane = new GridPane();
         cardsPane.setVgap(2.0);
         cardsPane.setHgap(2.0);
-        cardViews = new CardFieldView[Player.NO_CARDS];
+        CardFieldView[] cardViews = new CardFieldView[Player.NO_CARDS];
         for (int i = 0; i < Player.NO_CARDS; i++) {
             CommandCardField cardField = player.getCardField(i);
             if (cardField != null) {

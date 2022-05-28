@@ -41,25 +41,20 @@ public class BoardView extends VBox implements ViewObserver {
 
     private final Board board;
 
-    private final GridPane mainBoardPane;
-    private final SpaceView[][] spaces;
-
-    private final PlayersView playersView;
-
     private final Label statusLabel;
 
     public BoardView(@NotNull GameController gameController) {
         board = gameController.board;
 
-        mainBoardPane = new GridPane();
-        playersView = new PlayersView(gameController);
+        GridPane mainBoardPane = new GridPane();
+        PlayersView playersView = new PlayersView(gameController);
         statusLabel = new Label("<no status>");
 
         this.getChildren().add(mainBoardPane);
         this.getChildren().add(playersView);
         this.getChildren().add(statusLabel);
 
-        spaces = new SpaceView[board.width][board.height];
+        SpaceView[][] spaces = new SpaceView[board.width][board.height];
 
         for (int x = 0; x < board.width; x++) {
             for (int y = 0; y < board.height; y++) {

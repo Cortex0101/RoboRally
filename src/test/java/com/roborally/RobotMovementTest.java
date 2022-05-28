@@ -10,23 +10,17 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 public class RobotMovementTest {
-    private AppController app;
     private GameController game;
     private Board board;
 
-    private final int move1 = 0;
-    private final int move2 = 1;
     private final int move3 = 2;
-    private final int turnR = 3;
-    private final int turnL = 4;
-    private final int turnU = 5;
     private final int turnLR = 6;
 
 
 
     @BeforeEach
     void setup() {
-        app = new AppController(null);
+        AppController app = new AppController(null);
         app.newGameWithoutUI("testboard");
         game = app.getGameController();
         board = game.board;
@@ -50,6 +44,11 @@ public class RobotMovementTest {
         Player player = board.getPlayer(0);
 
         Command[] commands = Command.values();
+        int move1 = 0;
+        int move2 = 1;
+        int turnR = 3;
+        int turnL = 4;
+        int turnU = 5;
         setPlayerProgram(player, List.of(
                 new CommandCard(commands[move2]),
                 new CommandCard(commands[turnL]),

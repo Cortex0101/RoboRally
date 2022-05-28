@@ -6,13 +6,8 @@ import designpatterns.observer.Itertools;
 import java.util.*;
 
 public class RoboAI {
-    private final AppController appOrig;
     private final GameController gameOrig;
-    private final Board boardOrig;
     private final Player aiPlayerOrig;
-    // Below fields are used to store a copy of the actual app and game, so we can move the robots around a copy of the board,
-    // without affecting the board visible to the player
-    private final AppController appCopy;
     private final GameController gameCopy;
     private final Board boardCopy;
     private final Player aiPlayerCopy;
@@ -23,12 +18,13 @@ public class RoboAI {
      * @param AIplayerOrig the player this class should generate moves for
      */
     public RoboAI(AppController originalAppController, Player AIplayerOrig) {
-        appOrig = originalAppController;
-        gameOrig = appOrig.getGameController();
-        boardOrig = gameOrig.board;
+        gameOrig = originalAppController.getGameController();
+        Board boardOrig = gameOrig.board;
         aiPlayerOrig = AIplayerOrig;
 
-        appCopy = new AppController(null); // RoboRally is only used for GUI so we just pass null
+        // Below fields are used to store a copy of the actual app and game, so we can move the robots around a copy of the board,
+        // without affecting the board visible to the player
+        AppController appCopy = new AppController(null); // RoboRally is only used for GUI so we just pass null
         appCopy.newGameWithoutUI(boardOrig.boardName);
         gameCopy = appCopy.getGameController();
         boardCopy = gameCopy.board;
