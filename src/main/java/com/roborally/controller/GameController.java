@@ -41,6 +41,11 @@ public class GameController {
     this.ai = new RoboAI[board.getPlayersNumber()];
   }
 
+  public void setWinner(Player player) {
+    System.out.println("Player '" + player.getName() + "' wins!" );
+    notImplemented(); // TODO: do something when player wins!
+  }
+
   public void setAI(RoboAI roboAI, int i) {
     this.ai[i] = roboAI;
   }

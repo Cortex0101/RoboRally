@@ -18,12 +18,14 @@ public class CheckPoint extends FieldAction {
       return false;
     }
 
-    // TODO: Load the nubmer of checkpoint from the json file.
+    // TODO: Load the numbmer of checkpoint from the json file.
     // Save it to the game controller and check here if the palyers current checkpoint is the last
     // If so, we should call something like gameController.setWinner(player);
-      if (player.getLastCheckpoint() + 1 == getCheckpointNum()) {
-          player.setLastCheckpoint(getCheckpointNum());
-      }
+    if (player.getLastCheckpoint() + 1 == gameController.board.getNumCheckpoints()) {
+      gameController.setWinner(player);
+    } else if (player.getLastCheckpoint() + 1 == getCheckpointNum()) {
+      player.setLastCheckpoint(getCheckpointNum());
+    }
 
     return false;
   }
