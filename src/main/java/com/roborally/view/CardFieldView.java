@@ -160,12 +160,8 @@ public class CardFieldView extends GridPane implements ViewObserver {
             if (t instanceof CardFieldView) {
                 CardFieldView source = (CardFieldView) t;
                 CommandCardField cardField = source.field;
-                if (cardField != null &&
-                        cardField.getCard() != null &&
-                        cardField.player != null &&
-                        !cardField.player.getIsAI() && // dont allow dragging on AI cards!
-                        cardField.player.board != null &&
-                        cardField.player.board.getPhase().equals(Phase.PROGRAMMING)) {
+                // dont allow dragging on AI cards!
+                if (cardField != null && cardField.getCard() != null && cardField.player != null && !cardField.player.getIsAI() && cardField.player.board.getPhase().equals(Phase.PROGRAMMING)) {
                     Dragboard db = source.startDragAndDrop(TransferMode.MOVE);
                     Image image = source.snapshot(null, null);
                     db.setDragView(image);
@@ -189,10 +185,7 @@ public class CardFieldView extends GridPane implements ViewObserver {
             Object t = event.getTarget();
             if (t instanceof CardFieldView target) {
                 CommandCardField cardField = target.field;
-                if (cardField != null &&
-                        (cardField.getCard() == null || event.getGestureSource() == target) &&
-                        cardField.player != null &&
-                        cardField.player.board != null) {
+                if (cardField != null && (cardField.getCard() == null || event.getGestureSource() == target) && cardField.player != null) {
                     if (event.getDragboard().hasContent(ROBO_RALLY_CARD)) {
                         event.acceptTransferModes(TransferMode.MOVE);
                     }
@@ -210,10 +203,7 @@ public class CardFieldView extends GridPane implements ViewObserver {
             Object t = event.getTarget();
             if (t instanceof CardFieldView target) {
                 CommandCardField cardField = target.field;
-                if (cardField != null &&
-                        cardField.getCard() == null &&
-                        cardField.player != null &&
-                        cardField.player.board != null) {
+                if (cardField != null && cardField.getCard() == null && cardField.player != null) {
                     if (event.getGestureSource() != target &&
                             event.getDragboard().hasContent(ROBO_RALLY_CARD)) {
                         target.setBackground(BG_DROP);
@@ -232,10 +222,7 @@ public class CardFieldView extends GridPane implements ViewObserver {
             Object t = event.getTarget();
             if (t instanceof CardFieldView target) {
                 CommandCardField cardField = target.field;
-                if (cardField != null &&
-                        cardField.getCard() == null &&
-                        cardField.player != null &&
-                        cardField.player.board != null) {
+                if (cardField != null && cardField.getCard() == null && cardField.player != null) {
                     if (event.getGestureSource() != target &&
                             event.getDragboard().hasContent(ROBO_RALLY_CARD)) {
                         target.setBackground(BG_DEFAULT);
@@ -258,10 +245,7 @@ public class CardFieldView extends GridPane implements ViewObserver {
 
                 Dragboard db = event.getDragboard();
                 boolean success = false;
-                if (cardField != null &&
-                        cardField.getCard() == null &&
-                        cardField.player != null &&
-                        cardField.player.board != null) {
+                if (cardField != null && cardField.getCard() == null && cardField.player != null) {
                     if (event.getGestureSource() != target &&
                             db.hasContent(ROBO_RALLY_CARD)) {
                         Object object = db.getContent(ROBO_RALLY_CARD);

@@ -249,7 +249,7 @@ public class GameController {
 
     // XXX: V2
     private void executeCommand(@NotNull Player player, Command command) {
-        if (player != null && player.board == board && command != null) {
+        if (player.board == board && command != null) {
             switch (command) {
                 case MOVE1 -> this.move1Forward(player);
                 case MOVE2 -> this.move2Forward(player);

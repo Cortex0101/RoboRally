@@ -40,10 +40,7 @@ import javafx.scene.control.TextInputDialog;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * ...
@@ -104,7 +101,7 @@ public class AppController implements Observer {
 
     public void newGameWithoutUI(String boardName) {
         Board board = LoadBoard.loadBoard(boardName);
-        gameController = new GameController(board);
+        gameController = new GameController(Objects.requireNonNull(board));
         gameController.startProgrammingPhase(board.resetRegisters);
     }
 
