@@ -36,173 +36,173 @@ import org.jetbrains.annotations.NotNull;
  * ...
  *
  * @author Ekkart Kindler, ekki@dtu.dk
- *
  */
 public class PlayerView extends Tab implements ViewObserver {
 
-    private final Player player;
+  private final Player player;
 
-    private final GridPane programPane;
+  private final GridPane programPane;
 
-    private final CardFieldView[] programCardViews;
+  private final CardFieldView[] programCardViews;
 
-    private final VBox buttonPanel;
+  private final VBox buttonPanel;
 
-    private final Button finishButton;
-    private final Button executeButton;
-    private final Button stepButton;
+  private final Button finishButton;
+  private final Button executeButton;
+  private final Button stepButton;
 
-    private final VBox playerInteractionPanel;
+  private final VBox playerInteractionPanel;
 
-    private final GameController gameController;
+  private final GameController gameController;
 
-    public PlayerView(@NotNull GameController gameController, @NotNull Player player) {
-        super(player.getName());
-        this.setStyle("-fx-text-base-color: " + player.getColor() + ";");
+  public PlayerView(@NotNull GameController gameController, @NotNull Player player) {
+    super(player.getName());
+    this.setStyle("-fx-text-base-color: " + player.getColor() + ";");
 
-        VBox top = new VBox();
-        this.setContent(top);
+    VBox top = new VBox();
+    this.setContent(top);
 
-        this.gameController = gameController;
-        this.player = player;
+    this.gameController = gameController;
+    this.player = player;
 
-        Label programLabel = new Label("Program");
+    Label programLabel = new Label("Program");
 
-        programPane = new GridPane();
-        programPane.setVgap(2.0);
-        programPane.setHgap(2.0);
-        programCardViews = new CardFieldView[Player.NO_REGISTERS];
-        for (int i = 0; i < Player.NO_REGISTERS; i++) {
-            CommandCardField cardField = player.getProgramField(i);
-            if (cardField != null) {
-                programCardViews[i] = new CardFieldView(gameController, cardField);
-                programPane.add(programCardViews[i], i, 0);
-            }
-        }
-
-        // XXX  the following buttons should actually not be on the tabs of the individual
-        //      players, but on the PlayersView (view for all players). This should be
-        //      refactored.
-
-        finishButton = new Button("Finish Programming");
-        finishButton.setOnAction( e -> gameController.finishProgrammingPhase());
-
-        executeButton = new Button("Execute Program");
-        executeButton.setOnAction( e-> gameController.executePrograms());
-
-        stepButton = new Button("Execute Current Register");
-        stepButton.setOnAction( e-> gameController.executeStep());
-
-        buttonPanel = new VBox(finishButton, executeButton, stepButton);
-        buttonPanel.setAlignment(Pos.CENTER_LEFT);
-        buttonPanel.setSpacing(3.0);
-        // programPane.add(buttonPanel, Player.NO_REGISTERS, 0); done in update now
-
-        playerInteractionPanel = new VBox();
-        playerInteractionPanel.setAlignment(Pos.CENTER_LEFT);
-        playerInteractionPanel.setSpacing(3.0);
-
-        Label cardsLabel = new Label("Command Cards");
-        GridPane cardsPane = new GridPane();
-        cardsPane.setVgap(2.0);
-        cardsPane.setHgap(2.0);
-        CardFieldView[] cardViews = new CardFieldView[Player.NO_CARDS];
-        for (int i = 0; i < Player.NO_CARDS; i++) {
-            CommandCardField cardField = player.getCardField(i);
-            if (cardField != null) {
-                cardViews[i] = new CardFieldView(gameController, cardField);
-                cardsPane.add(cardViews[i], i, 0);
-            }
-        }
-
-        top.getChildren().add(programLabel);
-        top.getChildren().add(programPane);
-        top.getChildren().add(cardsLabel);
-        top.getChildren().add(cardsPane);
-
-        if (player.board != null) {
-            player.board.attach(this);
-            update(player.board);
-        }
+    programPane = new GridPane();
+    programPane.setVgap(2.0);
+    programPane.setHgap(2.0);
+    programCardViews = new CardFieldView[Player.NO_REGISTERS];
+    for (int i = 0; i < Player.NO_REGISTERS; i++) {
+      CommandCardField cardField = player.getProgramField(i);
+      if (cardField != null) {
+        programCardViews[i] = new CardFieldView(gameController, cardField);
+        programPane.add(programCardViews[i], i, 0);
+      }
     }
 
-    @Override
-    public void updateView(Subject subject) {
-        if (subject == player.board) {
-            for (int i = 0; i < Player.NO_REGISTERS; i++) {
-                CardFieldView cardFieldView = programCardViews[i];
-                if (cardFieldView != null) {
-                    if (player.board.getPhase() == Phase.PROGRAMMING ) {
-                        cardFieldView.setBackground(CardFieldView.BG_DEFAULT);
-                    } else {
-                        if (i < player.board.getStep()) {
-                            cardFieldView.setBackground(CardFieldView.BG_DONE);
-                        } else if (i == player.board.getStep()) {
-                            if (player.board.getCurrentPlayer() == player) {
-                                cardFieldView.setBackground(CardFieldView.BG_ACTIVE);
-                            } else if (player.board.getPlayerNumber(player.board.getCurrentPlayer()) > player.board.getPlayerNumber(player)) {
-                                cardFieldView.setBackground(CardFieldView.BG_DONE);
-                            } else {
-                                cardFieldView.setBackground(CardFieldView.BG_DEFAULT);
-                            }
-                        } else {
-                            cardFieldView.setBackground(CardFieldView.BG_DEFAULT);
-                        }
-                    }
-                }
-            }
+    // XXX  the following buttons should actually not be on the tabs of the individual
+    //      players, but on the PlayersView (view for all players). This should be
+    //      refactored.
 
-            if (player.board.getPhase() != Phase.PLAYER_INTERACTION) {
-                if (!programPane.getChildren().contains(buttonPanel)) {
-                    programPane.getChildren().remove(playerInteractionPanel);
-                    programPane.add(buttonPanel, Player.NO_REGISTERS, 0);
-                }
-                switch (player.board.getPhase()) {
-                    case INITIALISATION -> {
-                        finishButton.setDisable(true);
-                        // XXX just to make sure that there is a way for the player to get
-                        //     from the initialization phase to the programming phase somehow!
-                        executeButton.setDisable(false);
-                        stepButton.setDisable(true);
-                    }
-                    case PROGRAMMING -> {
-                        finishButton.setDisable(false);
-                        executeButton.setDisable(true);
-                        stepButton.setDisable(true);
-                    }
-                    case ACTIVATION -> {
-                        finishButton.setDisable(true);
-                        executeButton.setDisable(false);
-                        stepButton.setDisable(false);
-                    }
-                    default -> {
-                        finishButton.setDisable(true);
-                        executeButton.setDisable(true);
-                        stepButton.setDisable(true);
-                    }
-                }
+    finishButton = new Button("Finish Programming");
+    finishButton.setOnAction(e -> gameController.finishProgrammingPhase());
 
+    executeButton = new Button("Execute Program");
+    executeButton.setOnAction(e -> gameController.executePrograms());
 
+    stepButton = new Button("Execute Current Register");
+    stepButton.setOnAction(e -> gameController.executeStep());
+
+    buttonPanel = new VBox(finishButton, executeButton, stepButton);
+    buttonPanel.setAlignment(Pos.CENTER_LEFT);
+    buttonPanel.setSpacing(3.0);
+    // programPane.add(buttonPanel, Player.NO_REGISTERS, 0); done in update now
+
+    playerInteractionPanel = new VBox();
+    playerInteractionPanel.setAlignment(Pos.CENTER_LEFT);
+    playerInteractionPanel.setSpacing(3.0);
+
+    Label cardsLabel = new Label("Command Cards");
+    GridPane cardsPane = new GridPane();
+    cardsPane.setVgap(2.0);
+    cardsPane.setHgap(2.0);
+    CardFieldView[] cardViews = new CardFieldView[Player.NO_CARDS];
+    for (int i = 0; i < Player.NO_CARDS; i++) {
+      CommandCardField cardField = player.getCardField(i);
+      if (cardField != null) {
+        cardViews[i] = new CardFieldView(gameController, cardField);
+        cardsPane.add(cardViews[i], i, 0);
+      }
+    }
+
+    top.getChildren().add(programLabel);
+    top.getChildren().add(programPane);
+    top.getChildren().add(cardsLabel);
+    top.getChildren().add(cardsPane);
+
+    if (player.board != null) {
+      player.board.attach(this);
+      update(player.board);
+    }
+  }
+
+  @Override
+  public void updateView(Subject subject) {
+    if (subject == player.board) {
+      for (int i = 0; i < Player.NO_REGISTERS; i++) {
+        CardFieldView cardFieldView = programCardViews[i];
+        if (cardFieldView != null) {
+          if (player.board.getPhase() == Phase.PROGRAMMING) {
+            cardFieldView.setBackground(CardFieldView.BG_DEFAULT);
+          } else {
+            if (i < player.board.getStep()) {
+              cardFieldView.setBackground(CardFieldView.BG_DONE);
+            } else if (i == player.board.getStep()) {
+              if (player.board.getCurrentPlayer() == player) {
+                cardFieldView.setBackground(CardFieldView.BG_ACTIVE);
+              } else if (player.board.getPlayerNumber(player.board.getCurrentPlayer())
+                  > player.board.getPlayerNumber(player)) {
+                cardFieldView.setBackground(CardFieldView.BG_DONE);
+              } else {
+                cardFieldView.setBackground(CardFieldView.BG_DEFAULT);
+              }
             } else {
-                if (!programPane.getChildren().contains(playerInteractionPanel)) {
-                    programPane.getChildren().remove(buttonPanel);
-                    programPane.add(playerInteractionPanel, Player.NO_REGISTERS, 0);
-                }
-                playerInteractionPanel.getChildren().clear();
-
-                if (player.board.getCurrentPlayer() == player) {
-                    Command command = player.getProgramField(player.board.getStep()).getCard().command;
-                    if (command.isInteractive()) {
-                        for (Command option : command.getOptions()) {
-                            Button button = new Button(option.displayName);
-                            button.setOnAction(e -> gameController.executeCommandOptionAndContinue(option));
-                            button.setDisable(false);
-                            playerInteractionPanel.getChildren().add(button);
-                        }
-                    }
-                }
+              cardFieldView.setBackground(CardFieldView.BG_DEFAULT);
             }
+          }
         }
+      }
+
+      if (player.board.getPhase() != Phase.PLAYER_INTERACTION) {
+        if (!programPane.getChildren().contains(buttonPanel)) {
+          programPane.getChildren().remove(playerInteractionPanel);
+          programPane.add(buttonPanel, Player.NO_REGISTERS, 0);
+        }
+        switch (player.board.getPhase()) {
+          case INITIALISATION -> {
+            finishButton.setDisable(true);
+            // XXX just to make sure that there is a way for the player to get
+            //     from the initialization phase to the programming phase somehow!
+            executeButton.setDisable(false);
+            stepButton.setDisable(true);
+          }
+          case PROGRAMMING -> {
+            finishButton.setDisable(false);
+            executeButton.setDisable(true);
+            stepButton.setDisable(true);
+          }
+          case ACTIVATION -> {
+            finishButton.setDisable(true);
+            executeButton.setDisable(false);
+            stepButton.setDisable(false);
+          }
+          default -> {
+            finishButton.setDisable(true);
+            executeButton.setDisable(true);
+            stepButton.setDisable(true);
+          }
+        }
+
+
+      } else {
+        if (!programPane.getChildren().contains(playerInteractionPanel)) {
+          programPane.getChildren().remove(buttonPanel);
+          programPane.add(playerInteractionPanel, Player.NO_REGISTERS, 0);
+        }
+        playerInteractionPanel.getChildren().clear();
+
+        if (player.board.getCurrentPlayer() == player) {
+          Command command = player.getProgramField(player.board.getStep()).getCard().command;
+          if (command.isInteractive()) {
+            for (Command option : command.getOptions()) {
+              Button button = new Button(option.displayName);
+              button.setOnAction(e -> gameController.executeCommandOptionAndContinue(option));
+              button.setDisable(false);
+              playerInteractionPanel.getChildren().add(button);
+            }
+          }
+        }
+      }
     }
+  }
 
 }

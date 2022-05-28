@@ -27,32 +27,31 @@ import java.util.List;
  * ...
  *
  * @author Ekkart Kindler, ekki@dtu.dk
- *
  */
 public enum Command {
-    MOVE1("Move 1"),
-    MOVE2("Move 2"),
-    MOVE3("Move 3"),
-    RIGHT("Turn Right"),
-    LEFT("Turn Left"),
-    U_TURN("U-turn"),
-    OPTION_LEFT_RIGHT("Left OR Right", LEFT, RIGHT);
+  MOVE1("Move 1"),
+  MOVE2("Move 2"),
+  MOVE3("Move 3"),
+  RIGHT("Turn Right"),
+  LEFT("Turn Left"),
+  U_TURN("U-turn"),
+  OPTION_LEFT_RIGHT("Left OR Right", LEFT, RIGHT);
 
-    final public String displayName;
+  final public String displayName;
 
-    Command(String displayName, Command... options) {
-        this.displayName = displayName;
-        this.options = List.of(options);
-    }
+  Command(String displayName, Command... options) {
+    this.displayName = displayName;
+    this.options = List.of(options);
+  }
 
-    final private List<Command> options;
+  final private List<Command> options;
 
-    public boolean isInteractive() {
-        return !options.isEmpty();
-    }
+  public boolean isInteractive() {
+    return !options.isEmpty();
+  }
 
-    public List<Command> getOptions() {
-        return options;
-    }
+  public List<Command> getOptions() {
+    return options;
+  }
 
 }

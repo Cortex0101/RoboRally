@@ -7,30 +7,31 @@ import org.jetbrains.annotations.NotNull;
 
 
 public class GreenConveyorBelt extends FieldAction {
-    private Heading heading;
 
-    public Heading getHeading() {
-        return heading;
+  private Heading heading;
+
+  public Heading getHeading() {
+    return heading;
+  }
+
+  public void setHeading(Heading heading) {
+    this.heading = heading;
+  }
+
+  @Override
+  public boolean doAction(@NotNull GameController gameController, @NotNull Space space) {
+    Player player = space.getPlayer();
+    if (player == null) {
+      return false;
     }
+    Heading playerHeading = player.getHeading();
 
-    public void setHeading(Heading heading) {
-        this.heading = heading;
-    }
+    player.setHeading(heading);
+    gameController.move1Forward(player);
+    player.setHeading(playerHeading);
 
-    @Override
-    public boolean doAction(@NotNull GameController gameController, @NotNull Space space) {
-        Player player = space.getPlayer();
-        if (player == null) {
-            return false;
-        }
-        Heading playerHeading = player.getHeading();
-
-        player.setHeading(heading);
-        gameController.move1Forward(player);
-        player.setHeading(playerHeading);
-
-        return true;
-    }
+    return true;
+  }
 
 }
 

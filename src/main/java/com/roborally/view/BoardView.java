@@ -35,45 +35,44 @@ import org.jetbrains.annotations.NotNull;
  * ...
  *
  * @author Ekkart Kindler, ekki@dtu.dk
- *
  */
 public class BoardView extends VBox implements ViewObserver {
 
-    private final Board board;
+  private final Board board;
 
-    private final Label statusLabel;
+  private final Label statusLabel;
 
-    public BoardView(@NotNull GameController gameController) {
-        board = gameController.board;
+  public BoardView(@NotNull GameController gameController) {
+    board = gameController.board;
 
-        GridPane mainBoardPane = new GridPane();
-        PlayersView playersView = new PlayersView(gameController);
-        statusLabel = new Label("<no status>");
+    GridPane mainBoardPane = new GridPane();
+    PlayersView playersView = new PlayersView(gameController);
+    statusLabel = new Label("<no status>");
 
-        this.getChildren().add(mainBoardPane);
-        this.getChildren().add(playersView);
-        this.getChildren().add(statusLabel);
+    this.getChildren().add(mainBoardPane);
+    this.getChildren().add(playersView);
+    this.getChildren().add(statusLabel);
 
-        SpaceView[][] spaces = new SpaceView[board.width][board.height];
+    SpaceView[][] spaces = new SpaceView[board.width][board.height];
 
-        for (int x = 0; x < board.width; x++) {
-            for (int y = 0; y < board.height; y++) {
-                Space space = board.getSpace(x, y);
-                SpaceView spaceView = new SpaceView(space);
-                spaces[x][y] = spaceView;
-                mainBoardPane.add(spaceView, x, y);
-            }
-        }
-
-        board.attach(this);
-        update(board);
+    for (int x = 0; x < board.width; x++) {
+      for (int y = 0; y < board.height; y++) {
+        Space space = board.getSpace(x, y);
+        SpaceView spaceView = new SpaceView(space);
+        spaces[x][y] = spaceView;
+        mainBoardPane.add(spaceView, x, y);
+      }
     }
 
-    @Override
-    public void updateView(Subject subject) {
-        if (subject == board) {
-            Phase phase = board.getPhase();
-            statusLabel.setText(board.getStatusMessage());
-        }
+    board.attach(this);
+    update(board);
+  }
+
+  @Override
+  public void updateView(Subject subject) {
+    if (subject == board) {
+      Phase phase = board.getPhase();
+      statusLabel.setText(board.getStatusMessage());
     }
+  }
 }

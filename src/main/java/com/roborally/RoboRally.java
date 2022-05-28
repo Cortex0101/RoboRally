@@ -35,56 +35,56 @@ import javafx.stage.Stage;
  * ...
  *
  * @author Ekkart Kindler, ekki@dtu.dk
- *
  */
 public class RoboRally extends Application {
 
-    private static final int MIN_APP_WIDTH = 600;
+  private static final int MIN_APP_WIDTH = 600;
 
-    private Stage stage;
-    private BorderPane boardRoot;
+  private Stage stage;
+  private BorderPane boardRoot;
 
-    @Override
-    public void start(Stage primaryStage) {
-        stage = primaryStage;
+  @Override
+  public void start(Stage primaryStage) {
+    stage = primaryStage;
 
-        AppController appController = new AppController(this);
+    AppController appController = new AppController(this);
 
-        // create the primary scene with the a menu bar and a pane for
-        // the board view (which initially is empty); it will be filled
-        // when the user creates a new game or loads a game
-        RoboRallyMenuBar menuBar = new RoboRallyMenuBar(appController);
-        boardRoot = new BorderPane();
-        VBox vbox = new VBox(menuBar, boardRoot);
-        vbox.setMinWidth(MIN_APP_WIDTH);
-        Scene primaryScene = new Scene(vbox);
+    // create the primary scene with the a menu bar and a pane for
+    // the board view (which initially is empty); it will be filled
+    // when the user creates a new game or loads a game
+    RoboRallyMenuBar menuBar = new RoboRallyMenuBar(appController);
+    boardRoot = new BorderPane();
+    VBox vbox = new VBox(menuBar, boardRoot);
+    vbox.setMinWidth(MIN_APP_WIDTH);
+    Scene primaryScene = new Scene(vbox);
 
-        stage.setScene(primaryScene);
-        stage.setTitle("RoboRally");
-        stage.setOnCloseRequest(
-                e -> {
-                    e.consume();
-                    appController.exit();} );
-        stage.setResizable(false);
-        stage.sizeToScene();
-        stage.show();
+    stage.setScene(primaryScene);
+    stage.setTitle("RoboRally");
+    stage.setOnCloseRequest(
+        e -> {
+          e.consume();
+          appController.exit();
+        });
+    stage.setResizable(false);
+    stage.sizeToScene();
+    stage.show();
+  }
+
+  public void createBoardView(GameController gameController) {
+    // if present, remove old BoardView
+    boardRoot.getChildren().clear();
+
+    if (gameController != null) {
+      // create and add view for new board
+      BoardView boardView = new BoardView(gameController);
+      boardRoot.setCenter(boardView);
     }
 
-    public void createBoardView(GameController gameController) {
-        // if present, remove old BoardView
-        boardRoot.getChildren().clear();
+    stage.sizeToScene();
+  }
 
-        if (gameController != null) {
-            // create and add view for new board
-            BoardView boardView = new BoardView(gameController);
-            boardRoot.setCenter(boardView);
-        }
-
-        stage.sizeToScene();
-    }
-
-    public static void main(String[] args) {
-        launch(args);
-    }
+  public static void main(String[] args) {
+    launch(args);
+  }
 
 }

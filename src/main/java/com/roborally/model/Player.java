@@ -33,161 +33,161 @@ import static com.roborally.model.Heading.SOUTH;
  * ...
  *
  * @author Ekkart Kindler, ekki@dtu.dk
- *
  */
 public class Player extends Subject {
-    private final Space startingSpace;
-    private boolean rebooting = false;
 
-    private boolean isAI;
+  private final Space startingSpace;
+  private boolean rebooting = false;
 
-    private int lastCheckpoint;
+  private boolean isAI;
 
-    final public static int NO_REGISTERS = 5;
-    final public static int NO_CARDS = 8;
+  private int lastCheckpoint;
 
-    final public Board board;
+  final public static int NO_REGISTERS = 5;
+  final public static int NO_CARDS = 8;
 
-    private String name;
-    private String color;
+  final public Board board;
 
-    private Space space;
-    private Heading heading = SOUTH;
+  private String name;
+  private String color;
 
-    private final CommandCardField[] program;
-    private final CommandCardField[] cards;
+  private Space space;
+  private Heading heading = SOUTH;
 
-    public Player(@NotNull Board board, String color, @NotNull String name, Space startingSpace) {
-        this.startingSpace = startingSpace;
-        this.board = board;
-        this.name = name;
-        this.color = color;
-        this.space = null;
-        this.lastCheckpoint = 0;
+  private final CommandCardField[] program;
+  private final CommandCardField[] cards;
 
-        program = new CommandCardField[NO_REGISTERS];
-        for (int i = 0; i < program.length; i++) {
-            program[i] = new CommandCardField(this);
-        }
+  public Player(@NotNull Board board, String color, @NotNull String name, Space startingSpace) {
+    this.startingSpace = startingSpace;
+    this.board = board;
+    this.name = name;
+    this.color = color;
+    this.space = null;
+    this.lastCheckpoint = 0;
 
-        cards = new CommandCardField[NO_CARDS];
-        for (int i = 0; i < cards.length; i++) {
-            cards[i] = new CommandCardField(this);
-        }
+    program = new CommandCardField[NO_REGISTERS];
+    for (int i = 0; i < program.length; i++) {
+      program[i] = new CommandCardField(this);
     }
 
-    public String getName() {
-        return name;
+    cards = new CommandCardField[NO_CARDS];
+    for (int i = 0; i < cards.length; i++) {
+      cards[i] = new CommandCardField(this);
     }
+  }
 
-    public void setName(String name) {
-        if (name != null && !name.equals(this.name)) {
-            this.name = name;
-            notifyChange();
-            if (space != null) {
-                space.playerChanged();
-            }
-        }
-    }
+  public String getName() {
+    return name;
+  }
 
-    public String getColor() {
-        return color;
+  public void setName(String name) {
+    if (name != null && !name.equals(this.name)) {
+      this.name = name;
+      notifyChange();
+      if (space != null) {
+        space.playerChanged();
+      }
     }
+  }
 
-    public void setColor(String color) {
-        this.color = color;
-        notifyChange();
-        if (space != null) {
-            space.playerChanged();
-        }
-    }
+  public String getColor() {
+    return color;
+  }
 
-    public Space getSpace() {
-        return space;
+  public void setColor(String color) {
+    this.color = color;
+    notifyChange();
+    if (space != null) {
+      space.playerChanged();
     }
+  }
 
-    public void setSpace(Space space) {
-        Space oldSpace = this.space;
-        if (space != oldSpace &&
-                (space == null || space.board == this.board)) {
-            this.space = space;
-            if (oldSpace != null) {
-                oldSpace.setPlayer(null);
-            }
-            if (space != null) {
-                space.setPlayer(this);
-            }
-            notifyChange();
-        }
-    }
+  public Space getSpace() {
+    return space;
+  }
 
-    public Heading getHeading() {
-        return heading;
+  public void setSpace(Space space) {
+    Space oldSpace = this.space;
+    if (space != oldSpace &&
+        (space == null || space.board == this.board)) {
+      this.space = space;
+      if (oldSpace != null) {
+        oldSpace.setPlayer(null);
+      }
+      if (space != null) {
+        space.setPlayer(this);
+      }
+      notifyChange();
     }
+  }
 
-    public void setHeading(@NotNull Heading heading) {
-        if (heading != this.heading) {
-            this.heading = heading;
-            notifyChange();
-            if (space != null) {
-                space.playerChanged();
-            }
-        }
-    }
+  public Heading getHeading() {
+    return heading;
+  }
 
-    public CommandCardField getProgramField(int i) {
-        return program[i];
+  public void setHeading(@NotNull Heading heading) {
+    if (heading != this.heading) {
+      this.heading = heading;
+      notifyChange();
+      if (space != null) {
+        space.playerChanged();
+      }
     }
+  }
 
-    public CommandCardField getCardField(int i) {
-        return cards[i];
-    }
+  public CommandCardField getProgramField(int i) {
+    return program[i];
+  }
 
-    @Override
-    public String toString() {
-        return "Player{" +
-                "board=" + board +
-                ", name='" + name + '\'' +
-                ", color='" + color + '\'' +
-                ", space=" + space +
-                ", heading=" + heading +
-                ", program=" + Arrays.toString(program) +
-                ", cards=" + Arrays.toString(cards) +
-                '}';
-    }
+  public CommandCardField getCardField(int i) {
+    return cards[i];
+  }
 
-    public boolean isRebooting() {
-        return rebooting;
-    }
+  @Override
+  public String toString() {
+    return "Player{" +
+        "board=" + board +
+        ", name='" + name + '\'' +
+        ", color='" + color + '\'' +
+        ", space=" + space +
+        ", heading=" + heading +
+        ", program=" + Arrays.toString(program) +
+        ", cards=" + Arrays.toString(cards) +
+        '}';
+  }
 
-    public void setRebooting(boolean rebooting) {
-        this.rebooting = rebooting;
-        this.setSpace(null);
-    }
+  public boolean isRebooting() {
+    return rebooting;
+  }
 
-    public void reboot(GameController gameController) {
-        setRebooting(false);
-        setSpace(getStartingSpace());
-        // TODO: Implement recieving damage cards, and handle caes where other robot is on starting sapace.
-    }
+  public void setRebooting(boolean rebooting) {
+    this.rebooting = rebooting;
+    this.setSpace(null);
+  }
 
-    public Space getStartingSpace() {
-        return startingSpace;
-    }
+  public void reboot(GameController gameController) {
+    setRebooting(false);
+    setSpace(getStartingSpace());
+    // TODO: Implement recieving damage cards, and handle caes where other robot is on starting sapace.
+  }
 
-    public int getLastCheckpoint() {
-        return lastCheckpoint;
-    }
+  public Space getStartingSpace() {
+    return startingSpace;
+  }
 
-    public void setLastCheckpoint(int lastCheckpoint) {
-        this.lastCheckpoint = lastCheckpoint;
-    }
+  public int getLastCheckpoint() {
+    return lastCheckpoint;
+  }
 
-    public boolean getIsAI() {
-        return isAI;
-    }
+  public void setLastCheckpoint(int lastCheckpoint) {
+    this.lastCheckpoint = lastCheckpoint;
+  }
 
-    public void setIsAI(boolean AI) {
-        isAI = AI;
-    }
+  public boolean getIsAI() {
+    return isAI;
+  }
+
+  public void setIsAI(boolean AI) {
+    isAI = AI;
+  }
 }

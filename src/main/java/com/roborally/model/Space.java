@@ -31,69 +31,69 @@ import java.util.List;
  * ...
  *
  * @author Ekkart Kindler, ekki@dtu.dk
- *
  */
 public class Space extends Subject {
-    private final List<Heading> walls = new ArrayList<>();
-    private final List<FieldAction> actions = new ArrayList<>();
 
-    public final Board board;
+  private final List<Heading> walls = new ArrayList<>();
+  private final List<FieldAction> actions = new ArrayList<>();
 
-    public final int x;
-    public final int y;
+  public final Board board;
 
-    private Player player;
+  public final int x;
+  public final int y;
 
-    public Space(Board board, int x, int y) {
-        this.board = board;
-        this.x = x;
-        this.y = y;
-        player = null;
+  private Player player;
+
+  public Space(Board board, int x, int y) {
+    this.board = board;
+    this.x = x;
+    this.y = y;
+    player = null;
+  }
+
+  public Player getPlayer() {
+    return player;
+  }
+
+  public void setPlayer(Player player) {
+    Player oldPlayer = this.player;
+    if (player != oldPlayer &&
+        (player == null || board == player.board)) {
+      this.player = player;
+      if (oldPlayer != null) {
+        // this should actually not happen
+        oldPlayer.setSpace(null);
+      }
+      if (player != null) {
+        player.setSpace(this);
+      }
+      notifyChange();
     }
+  }
 
-    public Player getPlayer() {
-        return player;
-    }
+  public List<Heading> getWalls() {
+    return walls;
+  }
 
-    public void setPlayer(Player player) {
-        Player oldPlayer = this.player;
-        if (player != oldPlayer &&
-                (player == null || board == player.board)) {
-            this.player = player;
-            if (oldPlayer != null) {
-                // this should actually not happen
-                oldPlayer.setSpace(null);
-            }
-            if (player != null) {
-                player.setSpace(this);
-            }
-            notifyChange();
-        }
-    }
+  public List<FieldAction> getActions() {
+    return actions;
+  }
 
-    public List<Heading> getWalls() {
-        return walls;
-    }
+  void playerChanged() {
+    // This is a minor hack; since some views that are registered with the space
+    // also need to update when some player attributes change, the player can
+    // notify the space of these changes by calling this method.
+    notifyChange();
+  }
 
-    public List<FieldAction> getActions() {
-        return actions;
-    }
-
-    void playerChanged() {
-        // This is a minor hack; since some views that are registered with the space
-        // also need to update when some player attributes change, the player can
-        // notify the space of these changes by calling this method.
-        notifyChange();
-    }
-
-    @Override
-    public String toString() {
-        return "Space{" +
-                "walls=" + walls +
-                ", actions=" + actions +
-                ", board=" + board +
-                ", x=" + x +
-                ", y=" + y +
-                '}';
-    }
+  @Override
+  public String toString() {
+    return "Space{" +
+        "walls=" + walls +
+        ", actions=" + actions +
+        ", board=" + board +
+        ", x=" + x +
+        ", y=" + y +
+        '}';
+  }
 }

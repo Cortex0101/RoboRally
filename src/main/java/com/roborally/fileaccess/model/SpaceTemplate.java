@@ -7,11 +7,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SpaceTemplate {
-    public final List<Heading> walls = new ArrayList<>();
-    public final List<FieldAction> actions = new ArrayList<>();
 
-    public int x;
-    public int y;
+  public final List<Heading> walls = new ArrayList<>();
+  public final List<FieldAction> actions = new ArrayList<>();
 
-    public PlayerTemplate player;
+  public int x;
+  public int y;
+
+  public PlayerTemplate player;
 }
