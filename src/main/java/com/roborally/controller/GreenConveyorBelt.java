@@ -24,12 +24,11 @@ public class GreenConveyorBelt extends FieldAction {
     if (player == null) {
       return false;
     }
-    Heading playerHeading = player.getHeading();
 
+    Heading originalPlayerHeading = player.getHeading();
     player.setHeading(heading);
     gameController.move1Forward(player);
-    player.setHeading(playerHeading);
-
+    player.setHeading(originalPlayerHeading);
     return true;
   }
 
