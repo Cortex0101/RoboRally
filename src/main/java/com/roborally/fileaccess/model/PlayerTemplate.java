@@ -11,6 +11,6 @@ public class PlayerTemplate {
     public String color;
     public Heading heading;
     public boolean AI;
-    public List<Command> commandCards = new ArrayList<>(8);
-    public List<Command> commandCardsInRegisters = new ArrayList<>(5);
+    public final List<Command> commandCards = new ArrayList<>(8);
+    public final List<Command> commandCardsInRegisters = new ArrayList<>(5);
 }
