@@ -126,8 +126,6 @@ public class GameController {
   private void setAIPrograms() {
     for (int i = 0; i < board.getPlayersNumber(); i++) {
       if (board.getPlayer(i).getIsAI()) {
-        System.out.println(
-            "Player" + i + " looking for checkpoint " + board.getPlayer(i).getLastCheckpoint() + 1);
         setPlayerProgram(board.getPlayer(i), ai[i].findBestProgramToGetTo(
             board.getCheckPoint(board.getPlayer(i).getLastCheckpoint() + 1)));
       }

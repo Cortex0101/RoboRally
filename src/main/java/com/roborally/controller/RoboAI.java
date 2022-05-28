@@ -104,15 +104,11 @@ public class RoboAI {
       updateAIPosition();
       performMoves(cards);
       int distance = boardCopy.getDistanceBetweenSpaces(aiPlayerCopy.getSpace(), desiredSpace);
-      if (distance == 0) {
-        System.out.println("test"); // remove, just for debugging
-      }
       if (distance < shortestDistanceFound) {
         shortestDistanceFound = distance;
         bestProgrammingDeckFound = cards;
       }
     }
-    System.out.println("Distance to space: " + shortestDistanceFound); // remove, just for debugging
     return bestProgrammingDeckFound;
   }
 }

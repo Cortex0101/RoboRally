@@ -146,7 +146,6 @@ public class AppController implements Observer {
     Optional<String> boardToLoad = dialog.showAndWait();
 
     String boardLoaded = boardToLoad.orElse("defaultboard");
-    System.out.println("Loaded board: " + boardLoaded);
     Board board = LoadBoard.loadBoard(boardLoaded);
     gameController = new GameController(Objects.requireNonNull(board));
     // TODO: Dont set here
