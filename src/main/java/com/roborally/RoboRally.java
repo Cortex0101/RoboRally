@@ -25,6 +25,7 @@ import com.roborally.controller.AppController;
 import com.roborally.controller.GameController;
 import com.roborally.view.BoardView;
 import com.roborally.view.RoboRallyMenuBar;
+import com.roborally.view.SetupScreen;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
@@ -58,7 +59,10 @@ public class RoboRally extends Application {
     vbox.setMinWidth(MIN_APP_WIDTH);
     Scene primaryScene = new Scene(vbox);
 
-    stage.setScene(primaryScene);
+    SetupScreen setupScreen = new SetupScreen();
+    stage.setScene(setupScreen.getScene());
+
+    //stage.setScene(primaryScene);
     stage.setTitle("RoboRally");
     stage.setOnCloseRequest(
         e -> {
