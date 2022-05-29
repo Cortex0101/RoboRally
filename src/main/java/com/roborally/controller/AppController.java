@@ -22,6 +22,7 @@
 package com.roborally.controller;
 
 import com.roborally.fileaccess.LoadBoard;
+import com.roborally.view.SetupScreen;
 import designpatterns.observer.Observer;
 import designpatterns.observer.Subject;
 
@@ -54,6 +55,12 @@ public class AppController implements Observer {
     this.roboRally = roboRally;
   }
 
+  public void newGame() {
+    SetupScreen setupScreen = new SetupScreen(roboRally);
+    roboRally.setScene(setupScreen.getScene());
+  }
+
+  /*
   public void newGame() {
     ChoiceDialog<Integer> dialog = new ChoiceDialog<>(PLAYER_NUMBER_OPTIONS.get(0),
         PLAYER_NUMBER_OPTIONS);
@@ -89,6 +96,7 @@ public class AppController implements Observer {
       roboRally.createBoardView(gameController);
     }
   }
+   */
 
   public GameController getGameController() {
     return gameController;

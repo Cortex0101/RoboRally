@@ -43,26 +43,18 @@ public class RoboRally extends Application {
 
   private Stage stage;
   private BorderPane boardRoot;
+  private Scene primaryScene;
 
   @Override
   public void start(Stage primaryStage) {
     stage = primaryStage;
-
     AppController appController = new AppController(this);
-
-    // create the primary scene with the a menu bar and a pane for
-    // the board view (which initially is empty); it will be filled
-    // when the user creates a new game or loads a game
     RoboRallyMenuBar menuBar = new RoboRallyMenuBar(appController);
     boardRoot = new BorderPane();
     VBox vbox = new VBox(menuBar, boardRoot);
     vbox.setMinWidth(MIN_APP_WIDTH);
-    Scene primaryScene = new Scene(vbox);
-
-    SetupScreen setupScreen = new SetupScreen();
-    stage.setScene(setupScreen.getScene());
-
-    //stage.setScene(primaryScene);
+    primaryScene = new Scene(vbox);
+    stage.setScene(primaryScene);
     stage.setTitle("RoboRally");
     stage.setOnCloseRequest(
         e -> {
@@ -72,6 +64,14 @@ public class RoboRally extends Application {
     stage.setResizable(false);
     stage.sizeToScene();
     stage.show();
+  }
+
+  public Scene getPrimaryScene() {
+    return primaryScene;
+  }
+
+  public void setScene(Scene scene) {
+    stage.setScene(scene);
   }
 
   public void createBoardView(GameController gameController) {

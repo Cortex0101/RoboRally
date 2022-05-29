@@ -1,5 +1,6 @@
 package com.roborally.view;
 
+import com.roborally.RoboRally;
 import java.util.Arrays;
 import java.util.List;
 import javafx.geometry.Insets;
@@ -80,7 +81,11 @@ public class SetupScreen {
 
   Scene scene;
 
-  public SetupScreen() {
+  RoboRally roboRally;
+
+  public SetupScreen(RoboRally roboRally) {
+    this.roboRally = roboRally;
+
     twoColumn.setPrefSize(400, 360);
     twoColumn.setAlignment(Pos.TOP_CENTER);
 
@@ -176,10 +181,10 @@ public class SetupScreen {
 
     setSliderCallbacks();
     updatePlayerMenu((int) playerSlider.getValue());
-    setRadioButtonCallbacks();
-  }
 
-  private void setRadioButtonCallbacks() {
+    backButton.setOnMouseReleased(mouseEvent -> {
+      roboRally.setScene(roboRally.getPrimaryScene());
+    });
   }
 
   private void setSliderCallbacks() {
