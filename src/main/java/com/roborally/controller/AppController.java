@@ -102,8 +102,12 @@ public class AppController implements Observer {
     return gameController;
   }
 
-  public void newGameWithoutUI(String boardName) {
-    Board board = LoadBoard.loadBoard(boardName);
+  public void setGameController(GameController gameController) {
+    this.gameController = gameController;
+  }
+
+  public void newGameWithoutUI(String boardName, boolean useTempBoard) {
+    Board board = LoadBoard.loadBoard(useTempBoard ? "tempBoard" : boardName);//LoadBoard.loadBoard(boardName);
     gameController = new GameController(Objects.requireNonNull(board));
     gameController.startProgrammingPhase(board.resetRegisters);
   }
@@ -136,11 +140,11 @@ public class AppController implements Observer {
     return fileNames;
   }
 
-  private void setAIPlayers() {
+  public void setAIPlayers(boolean fromNew) {
     Board board = gameController.board;
     for (int i = 0; i < board.getPlayersNumber(); i++) {
       if (board.getPlayer(i).getIsAI()) {
-        gameController.setAI(new RoboAI(this, board.getPlayer(i)), i);
+        gameController.setAI(new RoboAI(this, board.getPlayer(i), fromNew), i);
       }
     }
   }
@@ -157,7 +161,7 @@ public class AppController implements Observer {
     Board board = LoadBoard.loadBoard(boardLoaded);
     gameController = new GameController(Objects.requireNonNull(board));
     // TODO: Dont set here
-    setAIPlayers();
+    setAIPlayers(false);
     gameController.startProgrammingPhase(board.resetRegisters);
     roboRally.createBoardView(gameController);
   }

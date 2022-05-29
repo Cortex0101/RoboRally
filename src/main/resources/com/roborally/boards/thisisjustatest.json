@@ -15,35 +15,6 @@
     },
     {
       "walls": [],
-      "actions": [],
-      "x": 0,
-      "y": 5,
-      "player": {
-        "name": "AI2",
-        "color": "blue",
-        "heading": "SOUTH",
-        "AI": true,
-        "commandCards": [
-          "MOVE1",
-          "U_TURN",
-          "MOVE3",
-          "U_TURN",
-          "MOVE2",
-          "OPTION_LEFT_RIGHT",
-          "LEFT",
-          "LEFT"
-        ],
-        "commandCardsInRegisters": [
-          null,
-          null,
-          null,
-          null,
-          null
-        ]
-      }
-    },
-    {
-      "walls": [],
       "actions": [
         {
           "CLASSNAME": "com.roborally.controller.Gear",
@@ -302,35 +273,6 @@
     },
     {
       "walls": [],
-      "actions": [],
-      "x": 3,
-      "y": 4,
-      "player": {
-        "name": "AI3",
-        "color": "orange",
-        "heading": "SOUTH",
-        "AI": true,
-        "commandCards": [
-          "MOVE2",
-          "LEFT",
-          "MOVE1",
-          "LEFT",
-          "U_TURN",
-          "LEFT",
-          "RIGHT",
-          "OPTION_LEFT_RIGHT"
-        ],
-        "commandCardsInRegisters": [
-          null,
-          null,
-          null,
-          null,
-          null
-        ]
-      }
-    },
-    {
-      "walls": [],
       "actions": [
         {
           "CLASSNAME": "com.roborally.controller.GreenConveyorBelt",
@@ -361,19 +303,19 @@
       "x": 3,
       "y": 10,
       "player": {
-        "name": "Player1",
+        "name": "",
         "color": "red",
         "heading": "NORTH",
         "AI": false,
         "commandCards": [
-          "LEFT",
-          "MOVE2",
-          "MOVE3",
-          "MOVE3",
-          "MOVE3",
-          "MOVE2",
-          "OPTION_LEFT_RIGHT",
-          "MOVE3"
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
         ],
         "commandCardsInRegisters": [
           null,
@@ -479,7 +421,30 @@
       ],
       "actions": [],
       "x": 4,
-      "y": 10
+      "y": 10,
+      "player": {
+        "name": "",
+        "color": "green",
+        "heading": "NORTH",
+        "AI": true,
+        "commandCards": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "commandCardsInRegisters": [
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      }
     },
     {
       "walls": [],
@@ -551,7 +516,30 @@
       ],
       "actions": [],
       "x": 5,
-      "y": 10
+      "y": 10,
+      "player": {
+        "name": "",
+        "color": "blue",
+        "heading": "NORTH",
+        "AI": true,
+        "commandCards": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "commandCardsInRegisters": [
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      }
     },
     {
       "walls": [],
@@ -618,35 +606,6 @@
     },
     {
       "walls": [],
-      "actions": [],
-      "x": 6,
-      "y": 7,
-      "player": {
-        "name": "AI1",
-        "color": "green",
-        "heading": "EAST",
-        "AI": true,
-        "commandCards": [
-          "U_TURN",
-          "RIGHT",
-          "MOVE3",
-          "MOVE3",
-          "MOVE3",
-          "MOVE2",
-          "MOVE1",
-          "MOVE3"
-        ],
-        "commandCardsInRegisters": [
-          null,
-          null,
-          null,
-          null,
-          null
-        ]
-      }
-    },
-    {
-      "walls": [],
       "actions": [
         {
           "CLASSNAME": "com.roborally.controller.GreenConveyorBelt",
@@ -677,7 +636,30 @@
       ],
       "actions": [],
       "x": 6,
-      "y": 10
+      "y": 10,
+      "player": {
+        "name": "",
+        "color": "orange",
+        "heading": "NORTH",
+        "AI": true,
+        "commandCards": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "commandCardsInRegisters": [
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      }
     },
     {
       "walls": [],

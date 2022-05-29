@@ -11,6 +11,7 @@ import com.roborally.controller.FieldAction;
 import com.roborally.model.*;
 
 import java.io.*;
+import javafx.scene.paint.Color;
 
 /**
  * ...
@@ -21,8 +22,110 @@ public class LoadBoard {
 
   private static final String BOARDSFOLDER =
       System.getProperty("user.dir") + "\\src\\main\\resources\\com\\roborally\\boards";
+  private static final String DEFAULTBOARDSFOLDER = System.getProperty("user.dir") + "\\src\\main\\resources\\com\\roborally\\defaultBoards";
   private static final String DEFAULTBOARD = "defaultboard";
   private static final String JSON_EXT = "json";
+
+  public static class BoardConfig {
+    public int playerNumber;
+    public int AINumber;
+    public String[] playerNames = new String[playerNumber];
+    public String[] playerColors = new String[playerNumber];
+
+    public BoardConfig(int playerNumber, int AINumber) {
+      this.playerNumber = playerNumber;
+      this.AINumber = AINumber;
+      this.playerNames = new String[playerNumber];
+      this.playerColors = new String[playerNumber];
+    }
+  }
+
+  public enum DefaultBoard {
+    easy,
+    medium,
+    hard
+  }
+
+  public static Board loadDefaultBoard(BoardConfig boardConfig, DefaultBoard defaultBoard) {
+    String boardname = null;
+    int[][] playerStartingPositions = new int[6][2];
+
+    switch (defaultBoard) {
+      case easy -> {
+        boardname = "easy";
+        playerStartingPositions[0] = new int[]{3, 10};
+        playerStartingPositions[1] = new int[]{4, 10};
+        playerStartingPositions[2] = new int[]{5, 10};
+        playerStartingPositions[3] = new int[]{6, 10};
+        playerStartingPositions[4] = new int[]{7, 10};
+        playerStartingPositions[5] = new int[]{8, 10};
+      }
+      case medium -> {
+        boardname = "medium";
+      }
+      case hard -> {
+        boardname = "hard";
+      }
+    }
+
+    InputStream inputStream;
+    try {
+      inputStream = new FileInputStream(DEFAULTBOARDSFOLDER + "\\" + boardname + "." + JSON_EXT);
+    } catch (FileNotFoundException fileNotFoundException) {
+      fileNotFoundException.printStackTrace();
+      return new Board(8, 8); // Returns a default 8x8 board - do something else in the future
+    }
+
+    GsonBuilder simpleBuilder = new GsonBuilder().
+        registerTypeAdapter(FieldAction.class, new Adapter<FieldAction>());
+    Gson gson = simpleBuilder.create();
+
+    Board result;
+    JsonReader reader = null;
+    try {
+      reader = gson.newJsonReader(new InputStreamReader(inputStream));
+      BoardTemplate template = gson.fromJson(reader, BoardTemplate.class);
+
+      result = new Board(template.width, template.height, boardname);
+      for (SpaceTemplate spaceTemplate : template.spaces) {
+        Space space = result.getSpace(spaceTemplate.x, spaceTemplate.y);
+        if (space != null) {
+          space.getActions().addAll(spaceTemplate.actions);
+          space.getWalls().addAll(spaceTemplate.walls);
+
+          for (FieldAction fieldAction : space.getActions()) {
+            if (fieldAction.getClass().getName().equals("com.roborally.controller.CheckPoint")) {
+              result.addCheckPoint(space);
+            }
+          }
+        }
+      }
+      for (int i = 0; i < boardConfig.playerNumber; ++i) {
+        Player player = new Player(result, boardConfig.playerColors[i], boardConfig.playerNames[i], result.getSpace(playerStartingPositions[i][0], playerStartingPositions[i][1]));
+        player.setHeading(Heading.NORTH); // Might be different for other board - update in the future
+        player.setIsAI(i >= (boardConfig.playerNumber - boardConfig.AINumber));
+        result.getSpace(playerStartingPositions[i][0], playerStartingPositions[i][1]).setPlayer(player);
+        result.addPlayer(player);
+      }
+      saveBoard(result, "tempBoard");
+      reader.close();
+      return result;
+    } catch (IOException e1) {
+      try {
+        reader.close();
+        inputStream = null;
+      } catch (IOException ignored) {
+      }
+      if (inputStream != null) {
+        try {
+          inputStream.close();
+        } catch (IOException ignored) {
+
+        }
+      }
+    }
+    return null;
+  }
 
   public static Board loadBoard(String boardname) {
     if (boardname == null) {

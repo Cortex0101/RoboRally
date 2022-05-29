@@ -1,8 +1,14 @@
 package com.roborally.view;
 
 import com.roborally.RoboRally;
+import com.roborally.controller.GameController;
+import com.roborally.fileaccess.LoadBoard;
+import com.roborally.fileaccess.LoadBoard.BoardConfig;
+import com.roborally.fileaccess.LoadBoard.DefaultBoard;
+import com.roborally.model.Board;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
@@ -78,6 +84,8 @@ public class SetupScreen {
   Button playButton = new Button("Play");
 
   ToggleGroup toggleGroup = new ToggleGroup();
+
+  List<Pair<ColorPicker, TextField>> playerMenuItems;
 
   Scene scene;
 
@@ -179,11 +187,39 @@ public class SetupScreen {
 
     scene = new Scene(twoColumn);
 
+    playerMenuItems = List.of(
+        new Pair<>(name1ColorPicker, name1TextField),
+        new Pair<>(name2ColorPicker, name2TextField),
+        new Pair<>(name3ColorPicker, name3TextField),
+        new Pair<>(name4ColorPicker, name4TextField),
+        new Pair<>(name5ColorPicker, name5TextField),
+        new Pair<>(name6ColorPicker, name6TextField));
+
     setSliderCallbacks();
     updatePlayerMenu((int) playerSlider.getValue());
 
     backButton.setOnMouseReleased(mouseEvent -> {
       roboRally.setScene(roboRally.getPrimaryScene());
+    });
+
+    playButton.setOnMouseReleased(mouseEvent -> {
+      BoardConfig boardConfig = new BoardConfig((int) playerSlider.getValue(), (int) AISlider.getValue());
+      for (int i = 0; i < playerSlider.getValue(); i++) {
+        boardConfig.playerNames[i] = playerMenuItems.get(i).getValue().getText().isEmpty() ? playerMenuItems.get(i).getValue()
+            .getPromptText() : playerMenuItems.get(i).getValue().getText();
+        // TODO: Add ability to set colors form the color pickers
+        boardConfig.playerColors[i] = Arrays.asList("red", "green", "blue", "orange", "grey", "magenta").get(i);
+      }
+
+      // TODO: Add ability to select between 3 levels using the radio buttons
+
+      roboRally.setScene(roboRally.getPrimaryScene());
+      Board board = LoadBoard.loadDefaultBoard(boardConfig, DefaultBoard.easy);
+      roboRally.getAppController().setGameController(new GameController(Objects.requireNonNull(board)));
+      // TODO: Dont set here
+      roboRally.getAppController().setAIPlayers(true);
+      roboRally.getAppController().getGameController().startProgrammingPhase(board.resetRegisters);
+      roboRally.createBoardView(roboRally.getAppController().getGameController());
     });
   }
 
@@ -204,14 +240,6 @@ public class SetupScreen {
   }
 
   private void updatePlayerMenu(int playerCount) {
-    List<Pair<ColorPicker, TextField>> playerMenuItems = List.of(
-        new Pair<>(name1ColorPicker, name1TextField),
-        new Pair<>(name2ColorPicker, name2TextField),
-        new Pair<>(name3ColorPicker, name3TextField),
-        new Pair<>(name4ColorPicker, name4TextField),
-        new Pair<>(name5ColorPicker, name5TextField),
-        new Pair<>(name6ColorPicker, name6TextField));
-
     for (int i = 0; i < 6; i++) {
       if (playerCount > i) {
         playerMenuItems.get(i).getKey().setDisable(false);

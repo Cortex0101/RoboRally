@@ -45,10 +45,12 @@ public class RoboRally extends Application {
   private BorderPane boardRoot;
   private Scene primaryScene;
 
+  private AppController appController;
+
   @Override
   public void start(Stage primaryStage) {
     stage = primaryStage;
-    AppController appController = new AppController(this);
+    appController = new AppController(this);
     RoboRallyMenuBar menuBar = new RoboRallyMenuBar(appController);
     boardRoot = new BorderPane();
     VBox vbox = new VBox(menuBar, boardRoot);
@@ -64,6 +66,10 @@ public class RoboRally extends Application {
     stage.setResizable(false);
     stage.sizeToScene();
     stage.show();
+  }
+
+  public AppController getAppController() {
+    return appController;
   }
 
   public Scene getPrimaryScene() {

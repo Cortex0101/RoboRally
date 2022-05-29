@@ -17,7 +17,7 @@ public class RoboAI {
   /**
    * @param AIplayerOrig the player this class should generate moves for
    */
-  public RoboAI(AppController originalAppController, Player AIplayerOrig) {
+  public RoboAI(AppController originalAppController, Player AIplayerOrig, boolean fromNew) {
     gameOrig = originalAppController.getGameController();
     Board boardOrig = gameOrig.board;
     aiPlayerOrig = AIplayerOrig;
@@ -26,7 +26,7 @@ public class RoboAI {
     // without affecting the board visible to the player
     AppController appCopy = new AppController(
         null); // RoboRally is only used for GUI so we just pass null
-    appCopy.newGameWithoutUI(boardOrig.boardName);
+    appCopy.newGameWithoutUI(boardOrig.boardName, fromNew);
     gameCopy = appCopy.getGameController();
     boardCopy = gameCopy.board;
     //aiPlayerCopy = new Player(boardCopy, "red", "AIPlayer", boardCopy.getSpace(AIplayerOrig.getStartingSpace().x, AIplayerOrig.getSpace().y)); // Create a new player, no copy - as this would make changes to the actual visible AI player
