@@ -80,6 +80,7 @@ public class SpaceView extends StackPane implements ViewObserver {
     // This space view should listen to changes of the space
     space.attach(this);
     update(space);
+    SpriteSheetSingleton.getInstance().spriteSheet.setSpaceSize(this.getPrefWidth(), this.getPrefHeight());
   }
 
   private void updatePlayer() {
@@ -253,9 +254,9 @@ public class SpaceView extends StackPane implements ViewObserver {
       if (fieldAction.getClass().getName().equals("com.roborally.controller.Gear")) {
         Gear gear = (Gear) fieldAction;
         if (gear.getDirection().equals(Gear.Direction.LEFT)) {
-          this.getChildren().add(SpriteSheetSingleton.getInstance().spriteSheet.getFrame(4, 6, this.getPrefWidth(), this.getPrefHeight()));
+          this.getChildren().add(SpriteSheetSingleton.getInstance().spriteSheet.getFrame("left gear"));
         } else {
-          this.getChildren().add(SpriteSheetSingleton.getInstance().spriteSheet.getFrame(5, 6, this.getPrefWidth(), this.getPrefHeight()));
+          this.getChildren().add(SpriteSheetSingleton.getInstance().spriteSheet.getFrame("right gear"));
         }
       }
     }
@@ -264,19 +265,7 @@ public class SpaceView extends StackPane implements ViewObserver {
   private void updatePits() {
     for (FieldAction fieldAction : space.getActions()) {
       if (fieldAction.getClass().getName().equals("com.roborally.controller.Pit")) {
-        Pit pit = (Pit) fieldAction;
-
-        Pane pane = new Pane();
-
-        final double spacing = 4.0;
-        Polygon square = new Polygon(
-            spacing, spacing,
-            SPACE_WIDTH - spacing, spacing,
-            SPACE_WIDTH - spacing, SPACE_HEIGHT - spacing,
-            spacing, SPACE_HEIGHT - spacing);
-        square.setFill(Color.LIGHTGRAY);
-        pane.getChildren().add(square);
-        this.getChildren().add(pane);
+        this.getChildren().add(SpriteSheetSingleton.getInstance().spriteSheet.getFrame("pit"));
       }
     }
   }

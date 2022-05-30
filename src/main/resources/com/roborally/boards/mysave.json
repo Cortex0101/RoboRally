@@ -308,13 +308,13 @@
         "heading": "NORTH",
         "AI": true,
         "commandCards": [
-          "LEFT",
-          "LEFT",
-          "MOVE2",
-          "MOVE3",
           "MOVE1",
-          "LEFT",
+          "RIGHT",
           "U_TURN",
+          "MOVE3",
+          "U_TURN",
+          "OPTION_LEFT_RIGHT",
+          "OPTION_LEFT_RIGHT",
           "LEFT"
         ],
         "commandCardsInRegisters": [
@@ -428,14 +428,14 @@
         "heading": "NORTH",
         "AI": true,
         "commandCards": [
-          "U_TURN",
-          "U_TURN",
           "RIGHT",
           "U_TURN",
           "MOVE1",
-          "MOVE1",
-          "MOVE2",
-          "MOVE3"
+          "MOVE3",
+          "OPTION_LEFT_RIGHT",
+          "RIGHT",
+          "OPTION_LEFT_RIGHT",
+          "RIGHT"
         ],
         "commandCardsInRegisters": [
           null,
@@ -523,14 +523,14 @@
         "heading": "NORTH",
         "AI": false,
         "commandCards": [
-          "MOVE2",
-          "MOVE2",
+          "MOVE3",
+          "MOVE3",
           "RIGHT",
           "OPTION_LEFT_RIGHT",
           "U_TURN",
-          "LEFT",
-          "MOVE2",
-          "RIGHT"
+          "MOVE3",
+          "MOVE1",
+          "MOVE3"
         ],
         "commandCardsInRegisters": [
           null,
@@ -643,14 +643,14 @@
         "heading": "NORTH",
         "AI": true,
         "commandCards": [
-          "MOVE1",
-          "OPTION_LEFT_RIGHT",
           "MOVE3",
           "MOVE3",
-          "OPTION_LEFT_RIGHT",
           "MOVE3",
-          "MOVE1",
-          "OPTION_LEFT_RIGHT"
+          "LEFT",
+          "MOVE2",
+          "RIGHT",
+          "MOVE3",
+          "U_TURN"
         ],
         "commandCardsInRegisters": [
           null,
@@ -726,14 +726,14 @@
         "heading": "NORTH",
         "AI": true,
         "commandCards": [
+          "RIGHT",
           "OPTION_LEFT_RIGHT",
-          "U_TURN",
+          "MOVE2",
+          "MOVE2",
           "MOVE3",
-          "LEFT",
-          "OPTION_LEFT_RIGHT",
-          "OPTION_LEFT_RIGHT",
-          "OPTION_LEFT_RIGHT",
-          "RIGHT"
+          "RIGHT",
+          "U_TURN",
+          "LEFT"
         ],
         "commandCardsInRegisters": [
           null,
