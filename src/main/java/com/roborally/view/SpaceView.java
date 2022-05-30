@@ -65,14 +65,16 @@ public class SpaceView extends StackPane implements ViewObserver {
     this.setMinHeight(SPACE_HEIGHT);
     this.setMaxHeight(SPACE_HEIGHT);
 
+    /*
     if ((space.x + space.y) % 2 == 0) {
       this.setStyle("-fx-background-color: white;");
     } else {
       this.setStyle("-fx-background-color: black;");
     }
+     */
     space.attach(this);
-    update(space);
     SpriteSheetSingleton.getInstance().spriteSheet.setSpaceSize(this.getPrefWidth(), this.getPrefHeight());
+    update(space);
   }
 
   private void updatePlayer() {
@@ -123,44 +125,38 @@ public class SpaceView extends StackPane implements ViewObserver {
         case EAST -> {
           ImageView view = SpriteSheetSingleton.getInstance().spriteSheet.getFrame("wall");
           view.setRotate(90.0);
+          view.toFront();
           this.getChildren().add(view);
         }
         case SOUTH -> {
           ImageView view = SpriteSheetSingleton.getInstance().spriteSheet.getFrame("wall");
           view.setRotate(180.0);
+          view.toFront();
           this.getChildren().add(view);
         }
         case WEST -> {
           ImageView view = SpriteSheetSingleton.getInstance().spriteSheet.getFrame("wall");
           view.setRotate(270.0);
+          view.toFront();
           this.getChildren().add(view);
         }
       }
     }
   }
 
-
+  // Todo: update to use custom textures
   private void updateGreenConveyorBelt() {
     for (FieldAction fieldAction : space.getActions()) {
       if (fieldAction.getClass().getName().equals("com.roborally.controller.GreenConveyorBelt")) {
         GreenConveyorBelt conveyorBelt = (GreenConveyorBelt) fieldAction;
-
-        Pane pane = new Pane();
-
-        Polygon arrow = new Polygon(SPACE_WIDTH / 2.0, 10,
-            SPACE_WIDTH - 10, 20,
-            SPACE_WIDTH - 20, 20,
-            SPACE_WIDTH - 20, SPACE_HEIGHT - 10,
-            20, SPACE_HEIGHT - 10,
-            20, 20,
-            10, 20);
-
-        arrow.setFill(GREEN_CONVEYOR_BELT_COLOR);
-
-        arrow.setRotate(((90 * conveyorBelt.getHeading().ordinal()) % 360) - 180);
-
-        pane.getChildren().add(arrow);
-        this.getChildren().add(pane);
+        ImageView view = SpriteSheetSingleton.getInstance().spriteSheet.getFrame("green conveyor belt");
+        switch (conveyorBelt.getHeading()) {
+          case NORTH -> view.setRotate(0.0);
+          case EAST -> view.setRotate(90.0);
+          case SOUTH -> view.setRotate(180.0);
+          case WEST -> view.setRotate(270.0);
+        }
+        this.getChildren().add(view);
       }
     }
   }
@@ -203,9 +199,13 @@ public class SpaceView extends StackPane implements ViewObserver {
       if (fieldAction.getClass().getName().equals("com.roborally.controller.Gear")) {
         Gear gear = (Gear) fieldAction;
         if (gear.getDirection().equals(Gear.Direction.LEFT)) {
-          this.getChildren().add(SpriteSheetSingleton.getInstance().spriteSheet.getFrame("left gear"));
+          ImageView view = SpriteSheetSingleton.getInstance().spriteSheet.getFrame("left gear");
+          view.toFront();
+          this.getChildren().add(view);
         } else {
-          this.getChildren().add(SpriteSheetSingleton.getInstance().spriteSheet.getFrame("right gear"));
+          ImageView view = SpriteSheetSingleton.getInstance().spriteSheet.getFrame("right gear");
+          view.toFront();
+          this.getChildren().add(view);
         }
       }
     }
@@ -214,7 +214,9 @@ public class SpaceView extends StackPane implements ViewObserver {
   private void updatePits() {
     for (FieldAction fieldAction : space.getActions()) {
       if (fieldAction.getClass().getName().equals("com.roborally.controller.Pit")) {
-        this.getChildren().add(SpriteSheetSingleton.getInstance().spriteSheet.getFrame("pit"));
+        ImageView view = SpriteSheetSingleton.getInstance().spriteSheet.getFrame("pit");
+        view.toFront();
+        this.getChildren().add(view);
       }
     }
   }
@@ -223,7 +225,9 @@ public class SpaceView extends StackPane implements ViewObserver {
     for (FieldAction fieldAction : space.getActions()) {
       if (fieldAction.getClass().getName().equals("com.roborally.controller.CheckPoint")) {
         CheckPoint checkPoint = (CheckPoint) fieldAction;
-        this.getChildren().add(SpriteSheetSingleton.getInstance().spriteSheet.getFrame("checkpoint " + checkPoint.getCheckpointNum()));
+        ImageView view = SpriteSheetSingleton.getInstance().spriteSheet.getFrame("checkpoint " + checkPoint.getCheckpointNum());
+        view.toFront();
+        this.getChildren().add(view);
       }
     }
   }
@@ -232,6 +236,7 @@ public class SpaceView extends StackPane implements ViewObserver {
   public void updateView(Subject subject) {
     if (subject == this.space) {
       this.getChildren().clear();
+      this.getChildren().add(SpriteSheetSingleton.getInstance().spriteSheet.getFrame("blank"));
       updateWall();
       updateGreenConveyorBelt();
       updateBlueConveyorBelt();
