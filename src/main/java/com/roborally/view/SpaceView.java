@@ -165,31 +165,14 @@ public class SpaceView extends StackPane implements ViewObserver {
     for (FieldAction fieldAction : space.getActions()) {
       if (fieldAction.getClass().getName().equals("com.roborally.controller.BlueConveyorBelt")) {
         BlueConveyorBelt conveyorBelt = (BlueConveyorBelt) fieldAction;
-
-        Pane pane = new Pane();
-
-        Polygon arrow1 = new Polygon(SPACE_WIDTH / 2.0, 10,
-            SPACE_WIDTH - 10, 20,
-            SPACE_WIDTH - 20, 20,
-            SPACE_WIDTH - 20, SPACE_HEIGHT / 2.0,
-            20, SPACE_HEIGHT / 2.0,
-            20, 20,
-            10, 20);
-
-        Polygon arrow2 = new Polygon(SPACE_WIDTH / 2.0, SPACE_HEIGHT / 2.0,
-            SPACE_WIDTH - 10, (SPACE_HEIGHT / 2.0) + 20,
-            SPACE_WIDTH - 20, (SPACE_HEIGHT / 2.0) + 20,
-            SPACE_WIDTH - 20, SPACE_HEIGHT - 10,
-            20, SPACE_HEIGHT - 10,
-            20, (SPACE_HEIGHT / 2.0) + 20,
-            10, (SPACE_HEIGHT / 2.0) + 20);
-
-        arrow1.setFill(BLUE_CONVEYOR_BELT_COLOR);
-        arrow2.setFill(BLUE_CONVEYOR_BELT_COLOR);
-
-        pane.setRotate(((90 * conveyorBelt.getHeading().ordinal()) % 360) - 180);
-        pane.getChildren().addAll(arrow1, arrow2);
-        this.getChildren().add(pane);
+        ImageView view = SpriteSheetSingleton.getInstance().spriteSheet.getFrame("blue conveyor belt");
+        switch (conveyorBelt.getHeading()) {
+          case NORTH -> view.setRotate(0.0);
+          case EAST -> view.setRotate(90.0);
+          case SOUTH -> view.setRotate(180.0);
+          case WEST -> view.setRotate(270.0);
+        }
+        this.getChildren().add(view);
       }
     }
   }
