@@ -22,12 +22,14 @@
 package com.roborally.view;
 
 import com.roborally.controller.*;
+import com.roborally.model.SpriteSheetSingleton;
 import designpatterns.observer.Subject;
 import com.roborally.model.Player;
 import com.roborally.model.Space;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -35,13 +37,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.*;
 import javafx.scene.text.Text;
+import org.intellij.lang.annotations.JdkConstants.InputEventMask;
 import org.jetbrains.annotations.NotNull;
 
-/**
- * ...
- *
- * @author Ekkart Kindler, ekki@dtu.dk
- */
 public class SpaceView extends StackPane implements ViewObserver {
 
   final public static int SPACE_HEIGHT = 60; // 60; // 75;
@@ -59,7 +57,6 @@ public class SpaceView extends StackPane implements ViewObserver {
   public SpaceView(@NotNull Space space) {
     this.space = space;
 
-    // XXX the following styling should better be done with styles
     this.setPrefWidth(SPACE_WIDTH);
     this.setMinWidth(SPACE_WIDTH);
     this.setMaxWidth(SPACE_WIDTH);
@@ -68,16 +65,15 @@ public class SpaceView extends StackPane implements ViewObserver {
     this.setMinHeight(SPACE_HEIGHT);
     this.setMaxHeight(SPACE_HEIGHT);
 
+    /*
     if ((space.x + space.y) % 2 == 0) {
       this.setStyle("-fx-background-color: white;");
     } else {
       this.setStyle("-fx-background-color: black;");
     }
-
-    // updatePlayer();
-
-    // This space view should listen to changes of the space
+     */
     space.attach(this);
+    SpriteSheetSingleton.getInstance().spriteSheet.setSpaceSize(this.getPrefWidth(), this.getPrefHeight());
     update(space);
   }
 
@@ -117,53 +113,50 @@ public class SpaceView extends StackPane implements ViewObserver {
     }
   }
 
+  // TODO: When multiple walls are drawn on the same space, use the custom textures
   private void updateWall() {
       if (space.getWalls().isEmpty()) {
           return;
       }
 
     for (var wallHeading : space.getWalls()) {
-      Pane pane = new Pane();
-      Rectangle rectangle = new Rectangle(0.0, 0.0, SPACE_WIDTH, SPACE_HEIGHT);
-      rectangle.setFill(Color.TRANSPARENT);
-      pane.getChildren().add(rectangle);
-
-      Line line = null;
       switch (wallHeading) {
-        case NORTH -> line = new Line(2, 2, SPACE_WIDTH - 2, 2);
-        case EAST -> line = new Line(SPACE_WIDTH - 2, 2, SPACE_WIDTH - 2, SPACE_HEIGHT - 2);
-        case SOUTH -> line = new Line(2, SPACE_HEIGHT - 2, SPACE_WIDTH - 2, SPACE_HEIGHT - 2);
-        case WEST -> line = new Line(2, 2, 2, SPACE_HEIGHT - 2);
+        case NORTH -> this.getChildren().add(SpriteSheetSingleton.getInstance().spriteSheet.getFrame("wall"));
+        case EAST -> {
+          ImageView view = SpriteSheetSingleton.getInstance().spriteSheet.getFrame("wall");
+          view.setRotate(90.0);
+          view.toFront();
+          this.getChildren().add(view);
+        }
+        case SOUTH -> {
+          ImageView view = SpriteSheetSingleton.getInstance().spriteSheet.getFrame("wall");
+          view.setRotate(180.0);
+          view.toFront();
+          this.getChildren().add(view);
+        }
+        case WEST -> {
+          ImageView view = SpriteSheetSingleton.getInstance().spriteSheet.getFrame("wall");
+          view.setRotate(270.0);
+          view.toFront();
+          this.getChildren().add(view);
+        }
       }
-      line.setStroke(WALL_COLOR);
-      line.setStrokeWidth(WALL_THICKNESS);
-      pane.getChildren().add(line);
-      this.getChildren().add(pane);
     }
   }
 
-
+  // Todo: update to use custom textures
   private void updateGreenConveyorBelt() {
     for (FieldAction fieldAction : space.getActions()) {
       if (fieldAction.getClass().getName().equals("com.roborally.controller.GreenConveyorBelt")) {
         GreenConveyorBelt conveyorBelt = (GreenConveyorBelt) fieldAction;
-
-        Pane pane = new Pane();
-
-        Polygon arrow = new Polygon(SPACE_WIDTH / 2.0, 10,
-            SPACE_WIDTH - 10, 20,
-            SPACE_WIDTH - 20, 20,
-            SPACE_WIDTH - 20, SPACE_HEIGHT - 10,
-            20, SPACE_HEIGHT - 10,
-            20, 20,
-            10, 20);
-
-        arrow.setFill(GREEN_CONVEYOR_BELT_COLOR);
-
-        arrow.setRotate(((90 * conveyorBelt.getHeading().ordinal()) % 360) - 180);
-
-        pane.getChildren().add(arrow);
-        this.getChildren().add(pane);
+        ImageView view = SpriteSheetSingleton.getInstance().spriteSheet.getFrame("green conveyor belt");
+        switch (conveyorBelt.getHeading()) {
+          case NORTH -> view.setRotate(0.0);
+          case EAST -> view.setRotate(90.0);
+          case SOUTH -> view.setRotate(180.0);
+          case WEST -> view.setRotate(270.0);
+        }
+        this.getChildren().add(view);
       }
     }
   }
@@ -172,99 +165,31 @@ public class SpaceView extends StackPane implements ViewObserver {
     for (FieldAction fieldAction : space.getActions()) {
       if (fieldAction.getClass().getName().equals("com.roborally.controller.BlueConveyorBelt")) {
         BlueConveyorBelt conveyorBelt = (BlueConveyorBelt) fieldAction;
-
-        Pane pane = new Pane();
-
-        Polygon arrow1 = new Polygon(SPACE_WIDTH / 2.0, 10,
-            SPACE_WIDTH - 10, 20,
-            SPACE_WIDTH - 20, 20,
-            SPACE_WIDTH - 20, SPACE_HEIGHT / 2.0,
-            20, SPACE_HEIGHT / 2.0,
-            20, 20,
-            10, 20);
-
-        Polygon arrow2 = new Polygon(SPACE_WIDTH / 2.0, SPACE_HEIGHT / 2.0,
-            SPACE_WIDTH - 10, (SPACE_HEIGHT / 2.0) + 20,
-            SPACE_WIDTH - 20, (SPACE_HEIGHT / 2.0) + 20,
-            SPACE_WIDTH - 20, SPACE_HEIGHT - 10,
-            20, SPACE_HEIGHT - 10,
-            20, (SPACE_HEIGHT / 2.0) + 20,
-            10, (SPACE_HEIGHT / 2.0) + 20);
-
-        arrow1.setFill(BLUE_CONVEYOR_BELT_COLOR);
-        arrow2.setFill(BLUE_CONVEYOR_BELT_COLOR);
-
-        pane.setRotate(((90 * conveyorBelt.getHeading().ordinal()) % 360) - 180);
-        pane.getChildren().addAll(arrow1, arrow2);
-        this.getChildren().add(pane);
+        ImageView view = SpriteSheetSingleton.getInstance().spriteSheet.getFrame("blue conveyor belt");
+        switch (conveyorBelt.getHeading()) {
+          case NORTH -> view.setRotate(0.0);
+          case EAST -> view.setRotate(90.0);
+          case SOUTH -> view.setRotate(180.0);
+          case WEST -> view.setRotate(270.0);
+        }
+        this.getChildren().add(view);
       }
     }
-  }
-
-  /**
-   * From stack overflow:
-   */
-  private Path drawSemiRing(double centerX, double centerY, double radius, double innerRadius,
-      Color bgColor, Color strkColor) {
-    Path path = new Path();
-    path.setFill(bgColor);
-    path.setStroke(strkColor);
-    path.setFillRule(FillRule.EVEN_ODD);
-
-    MoveTo moveTo = new MoveTo();
-    moveTo.setX(centerX + innerRadius);
-    moveTo.setY(centerY);
-
-    ArcTo arcToInner = new ArcTo();
-    arcToInner.setX(centerX - innerRadius);
-    arcToInner.setY(centerY);
-    arcToInner.setRadiusX(innerRadius);
-    arcToInner.setRadiusY(innerRadius);
-
-    MoveTo moveTo2 = new MoveTo();
-    moveTo2.setX(centerX + innerRadius);
-    moveTo2.setY(centerY);
-
-    HLineTo hLineToRightLeg = new HLineTo();
-    hLineToRightLeg.setX(centerX + radius);
-
-    ArcTo arcTo = new ArcTo();
-    arcTo.setX(centerX - radius);
-    arcTo.setY(centerY);
-    arcTo.setRadiusX(radius);
-    arcTo.setRadiusY(radius);
-
-    HLineTo hLineToLeftLeg = new HLineTo();
-    hLineToLeftLeg.setX(centerX - innerRadius);
-
-    path.getElements().add(moveTo);
-    path.getElements().add(arcToInner);
-    path.getElements().add(moveTo2);
-    path.getElements().add(hLineToRightLeg);
-    path.getElements().add(arcTo);
-    path.getElements().add(hLineToLeftLeg);
-
-    return path;
   }
 
   private void updateGears() {
     for (FieldAction fieldAction : space.getActions()) {
       if (fieldAction.getClass().getName().equals("com.roborally.controller.Gear")) {
         Gear gear = (Gear) fieldAction;
-
-        Pane pane = new Pane();
-        pane.getChildren().add(
-            drawSemiRing(SPACE_WIDTH / 2.0, SPACE_HEIGHT / 2.0, SPACE_WIDTH / 2.0,
-                SPACE_WIDTH / 4.0, Color.ORANGERED, Color.DARKRED));
-        Polygon triangle = new Polygon(0.0, SPACE_HEIGHT / 2.0,
-            SPACE_WIDTH / 4.0 /* inner radius */, SPACE_HEIGHT / 2.0,
-            ((SPACE_WIDTH / 2.0) - (SPACE_WIDTH / 4.0)) / 2.0, (SPACE_HEIGHT / 2.0) + 20);
-        triangle.setFill(Color.ORANGERED);
-        pane.getChildren().add(triangle);
-          if (gear.getDirection().equals(Gear.Direction.RIGHT)) {
-              pane.setScaleY(-1);
-          }
-        this.getChildren().add(pane);
+        if (gear.getDirection().equals(Gear.Direction.LEFT)) {
+          ImageView view = SpriteSheetSingleton.getInstance().spriteSheet.getFrame("left gear");
+          view.toFront();
+          this.getChildren().add(view);
+        } else {
+          ImageView view = SpriteSheetSingleton.getInstance().spriteSheet.getFrame("right gear");
+          view.toFront();
+          this.getChildren().add(view);
+        }
       }
     }
   }
@@ -272,73 +197,20 @@ public class SpaceView extends StackPane implements ViewObserver {
   private void updatePits() {
     for (FieldAction fieldAction : space.getActions()) {
       if (fieldAction.getClass().getName().equals("com.roborally.controller.Pit")) {
-        Pit pit = (Pit) fieldAction;
-
-        Pane pane = new Pane();
-
-        final double spacing = 4.0;
-        Polygon square = new Polygon(
-            spacing, spacing,
-            SPACE_WIDTH - spacing, spacing,
-            SPACE_WIDTH - spacing, SPACE_HEIGHT - spacing,
-            spacing, SPACE_HEIGHT - spacing);
-        square.setFill(Color.LIGHTGRAY);
-        pane.getChildren().add(square);
-        this.getChildren().add(pane);
+        ImageView view = SpriteSheetSingleton.getInstance().spriteSheet.getFrame("pit");
+        view.toFront();
+        this.getChildren().add(view);
       }
     }
-  }
-
-  /**
-   * Taken from https://stackoverflow.com/questions/41746511/how-to-put-some-text-right-center-of-a-circle-that-have-been-drawn-on-javafx-can
-   */
-  private WritableImage createCircledNumber(int number) {
-    //createCircledNumber() method always returns 26px X 26px sized image
-    StackPane sPane = new StackPane();
-    sPane.setPrefSize(26, 26);
-
-    Circle c = new Circle(26 / 2.0);
-    c.setStroke(Color.BLACK);
-    c.setFill(Color.WHITE);
-    c.setStrokeWidth(3);
-    sPane.getChildren().add(c);
-
-    Text txtNum = new Text(number + "");
-    sPane.getChildren().add(txtNum);
-    SnapshotParameters parameters = new SnapshotParameters();
-    parameters.setFill(Color.TRANSPARENT);
-    return sPane.snapshot(parameters, null);
   }
 
   private void updateCheckPoints() {
     for (FieldAction fieldAction : space.getActions()) {
       if (fieldAction.getClass().getName().equals("com.roborally.controller.CheckPoint")) {
         CheckPoint checkPoint = (CheckPoint) fieldAction;
-
-        Pane pane = new Pane();
-
-        final double spacing = 4.0;
-        Polygon square = new Polygon(
-            spacing, spacing,
-            SPACE_WIDTH - spacing, spacing,
-            SPACE_WIDTH - spacing, SPACE_HEIGHT - spacing,
-            spacing, SPACE_HEIGHT - spacing);
-        square.setFill(Color.LIGHTGREEN);
-        pane.getChildren().add(square);
-
-        Canvas cvs = new Canvas();
-        cvs.setWidth(SPACE_WIDTH);
-        cvs.setHeight(SPACE_HEIGHT);
-        cvs.setLayoutX(0);
-        cvs.setLayoutY(0);
-        pane.getChildren().add(cvs);
-
-        GraphicsContext gc = cvs.getGraphicsContext2D();
-        double x = (cvs.getWidth() - 26) / 2;
-        double y = (cvs.getHeight() - 26) / 2;
-        gc.drawImage(createCircledNumber(checkPoint.getCheckpointNum()), x, y);
-
-        this.getChildren().add(pane);
+        ImageView view = SpriteSheetSingleton.getInstance().spriteSheet.getFrame("checkpoint " + checkPoint.getCheckpointNum());
+        view.toFront();
+        this.getChildren().add(view);
       }
     }
   }
@@ -347,6 +219,7 @@ public class SpaceView extends StackPane implements ViewObserver {
   public void updateView(Subject subject) {
     if (subject == this.space) {
       this.getChildren().clear();
+      this.getChildren().add(SpriteSheetSingleton.getInstance().spriteSheet.getFrame("blank"));
       updateWall();
       updateGreenConveyorBelt();
       updateBlueConveyorBelt();
