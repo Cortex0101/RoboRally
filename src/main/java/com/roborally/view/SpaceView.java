@@ -29,6 +29,7 @@ import com.roborally.model.Space;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -36,6 +37,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.*;
 import javafx.scene.text.Text;
+import org.intellij.lang.annotations.JdkConstants.InputEventMask;
 import org.jetbrains.annotations.NotNull;
 
 public class SpaceView extends StackPane implements ViewObserver {
@@ -109,28 +111,31 @@ public class SpaceView extends StackPane implements ViewObserver {
     }
   }
 
+  // TODO: When multiple walls are drawn on the same space, use the custom textures
   private void updateWall() {
       if (space.getWalls().isEmpty()) {
           return;
       }
 
     for (var wallHeading : space.getWalls()) {
-      Pane pane = new Pane();
-      Rectangle rectangle = new Rectangle(0.0, 0.0, SPACE_WIDTH, SPACE_HEIGHT);
-      rectangle.setFill(Color.TRANSPARENT);
-      pane.getChildren().add(rectangle);
-
-      Line line = null;
       switch (wallHeading) {
-        case NORTH -> line = new Line(2, 2, SPACE_WIDTH - 2, 2);
-        case EAST -> line = new Line(SPACE_WIDTH - 2, 2, SPACE_WIDTH - 2, SPACE_HEIGHT - 2);
-        case SOUTH -> line = new Line(2, SPACE_HEIGHT - 2, SPACE_WIDTH - 2, SPACE_HEIGHT - 2);
-        case WEST -> line = new Line(2, 2, 2, SPACE_HEIGHT - 2);
+        case NORTH -> this.getChildren().add(SpriteSheetSingleton.getInstance().spriteSheet.getFrame("wall"));
+        case EAST -> {
+          ImageView view = SpriteSheetSingleton.getInstance().spriteSheet.getFrame("wall");
+          view.setRotate(90.0);
+          this.getChildren().add(view);
+        }
+        case SOUTH -> {
+          ImageView view = SpriteSheetSingleton.getInstance().spriteSheet.getFrame("wall");
+          view.setRotate(180.0);
+          this.getChildren().add(view);
+        }
+        case WEST -> {
+          ImageView view = SpriteSheetSingleton.getInstance().spriteSheet.getFrame("wall");
+          view.setRotate(270.0);
+          this.getChildren().add(view);
+        }
       }
-      line.setStroke(WALL_COLOR);
-      line.setStrokeWidth(WALL_THICKNESS);
-      pane.getChildren().add(line);
-      this.getChildren().add(pane);
     }
   }
 
