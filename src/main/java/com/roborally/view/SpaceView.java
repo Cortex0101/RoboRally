@@ -38,11 +38,6 @@ import javafx.scene.shape.*;
 import javafx.scene.text.Text;
 import org.jetbrains.annotations.NotNull;
 
-/**
- * ...
- *
- * @author Ekkart Kindler, ekki@dtu.dk
- */
 public class SpaceView extends StackPane implements ViewObserver {
 
   final public static int SPACE_HEIGHT = 60; // 60; // 75;
@@ -60,7 +55,6 @@ public class SpaceView extends StackPane implements ViewObserver {
   public SpaceView(@NotNull Space space) {
     this.space = space;
 
-    // XXX the following styling should better be done with styles
     this.setPrefWidth(SPACE_WIDTH);
     this.setMinWidth(SPACE_WIDTH);
     this.setMaxWidth(SPACE_WIDTH);
@@ -74,10 +68,6 @@ public class SpaceView extends StackPane implements ViewObserver {
     } else {
       this.setStyle("-fx-background-color: black;");
     }
-
-    // updatePlayer();
-
-    // This space view should listen to changes of the space
     space.attach(this);
     update(space);
     SpriteSheetSingleton.getInstance().spriteSheet.setSpaceSize(this.getPrefWidth(), this.getPrefHeight());
@@ -203,52 +193,6 @@ public class SpaceView extends StackPane implements ViewObserver {
     }
   }
 
-  /**
-   * From stack overflow:
-   */
-  private Path drawSemiRing(double centerX, double centerY, double radius, double innerRadius,
-      Color bgColor, Color strkColor) {
-    Path path = new Path();
-    path.setFill(bgColor);
-    path.setStroke(strkColor);
-    path.setFillRule(FillRule.EVEN_ODD);
-
-    MoveTo moveTo = new MoveTo();
-    moveTo.setX(centerX + innerRadius);
-    moveTo.setY(centerY);
-
-    ArcTo arcToInner = new ArcTo();
-    arcToInner.setX(centerX - innerRadius);
-    arcToInner.setY(centerY);
-    arcToInner.setRadiusX(innerRadius);
-    arcToInner.setRadiusY(innerRadius);
-
-    MoveTo moveTo2 = new MoveTo();
-    moveTo2.setX(centerX + innerRadius);
-    moveTo2.setY(centerY);
-
-    HLineTo hLineToRightLeg = new HLineTo();
-    hLineToRightLeg.setX(centerX + radius);
-
-    ArcTo arcTo = new ArcTo();
-    arcTo.setX(centerX - radius);
-    arcTo.setY(centerY);
-    arcTo.setRadiusX(radius);
-    arcTo.setRadiusY(radius);
-
-    HLineTo hLineToLeftLeg = new HLineTo();
-    hLineToLeftLeg.setX(centerX - innerRadius);
-
-    path.getElements().add(moveTo);
-    path.getElements().add(arcToInner);
-    path.getElements().add(moveTo2);
-    path.getElements().add(hLineToRightLeg);
-    path.getElements().add(arcTo);
-    path.getElements().add(hLineToLeftLeg);
-
-    return path;
-  }
-
   private void updateGears() {
     for (FieldAction fieldAction : space.getActions()) {
       if (fieldAction.getClass().getName().equals("com.roborally.controller.Gear")) {
@@ -270,56 +214,11 @@ public class SpaceView extends StackPane implements ViewObserver {
     }
   }
 
-  /**
-   * Taken from https://stackoverflow.com/questions/41746511/how-to-put-some-text-right-center-of-a-circle-that-have-been-drawn-on-javafx-can
-   */
-  private WritableImage createCircledNumber(int number) {
-    //createCircledNumber() method always returns 26px X 26px sized image
-    StackPane sPane = new StackPane();
-    sPane.setPrefSize(26, 26);
-
-    Circle c = new Circle(26 / 2.0);
-    c.setStroke(Color.BLACK);
-    c.setFill(Color.WHITE);
-    c.setStrokeWidth(3);
-    sPane.getChildren().add(c);
-
-    Text txtNum = new Text(number + "");
-    sPane.getChildren().add(txtNum);
-    SnapshotParameters parameters = new SnapshotParameters();
-    parameters.setFill(Color.TRANSPARENT);
-    return sPane.snapshot(parameters, null);
-  }
-
   private void updateCheckPoints() {
     for (FieldAction fieldAction : space.getActions()) {
       if (fieldAction.getClass().getName().equals("com.roborally.controller.CheckPoint")) {
         CheckPoint checkPoint = (CheckPoint) fieldAction;
-
-        Pane pane = new Pane();
-
-        final double spacing = 4.0;
-        Polygon square = new Polygon(
-            spacing, spacing,
-            SPACE_WIDTH - spacing, spacing,
-            SPACE_WIDTH - spacing, SPACE_HEIGHT - spacing,
-            spacing, SPACE_HEIGHT - spacing);
-        square.setFill(Color.LIGHTGREEN);
-        pane.getChildren().add(square);
-
-        Canvas cvs = new Canvas();
-        cvs.setWidth(SPACE_WIDTH);
-        cvs.setHeight(SPACE_HEIGHT);
-        cvs.setLayoutX(0);
-        cvs.setLayoutY(0);
-        pane.getChildren().add(cvs);
-
-        GraphicsContext gc = cvs.getGraphicsContext2D();
-        double x = (cvs.getWidth() - 26) / 2;
-        double y = (cvs.getHeight() - 26) / 2;
-        gc.drawImage(createCircledNumber(checkPoint.getCheckpointNum()), x, y);
-
-        this.getChildren().add(pane);
+        this.getChildren().add(SpriteSheetSingleton.getInstance().spriteSheet.getFrame("checkpoint " + checkPoint.getCheckpointNum()));
       }
     }
   }
