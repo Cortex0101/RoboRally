@@ -23,6 +23,7 @@ package com.roborally;
 
 import com.roborally.controller.AppController;
 import com.roborally.controller.GameController;
+import com.roborally.model.SpriteSheet;
 import com.roborally.view.BoardView;
 import com.roborally.view.RoboRallyMenuBar;
 import com.roborally.view.SetupScreen;
@@ -56,6 +57,11 @@ public class RoboRally extends Application {
     VBox vbox = new VBox(menuBar, boardRoot);
     vbox.setMinWidth(MIN_APP_WIDTH);
     primaryScene = new Scene(vbox);
+    SpriteSheet spriteSheet = new SpriteSheet("D:\\Development\\RoboRally\\src\\main\\resources\\com\\roborally\\images\\TileMap.png", 8, 17);
+    vbox.getChildren().add(spriteSheet.getFrame(0, 0, 50, 50));
+    vbox.getChildren().add(spriteSheet.getFrame(0, 1));
+    vbox.getChildren().add(spriteSheet.getFrame(2, 2, 70, 70));
+    vbox.getChildren().add(spriteSheet.getFrame(3, 3));
     stage.setScene(primaryScene);
     stage.setTitle("RoboRally");
     stage.setOnCloseRequest(
