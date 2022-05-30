@@ -36,7 +36,7 @@ public class SpriteSheet {
     return view;
   }
 
-  public ImageView getFrame(int row, int col, int width, int height) {
+  public ImageView getFrame(int row, int col, double width, double height) {
     ImageView view = getFrame(row, col);
     view.setFitWidth(width);
     view.setFitHeight(height);

@@ -22,6 +22,7 @@
 package com.roborally.view;
 
 import com.roborally.controller.*;
+import com.roborally.model.SpriteSheetSingleton;
 import designpatterns.observer.Subject;
 import com.roborally.model.Player;
 import com.roborally.model.Space;
@@ -251,20 +252,11 @@ public class SpaceView extends StackPane implements ViewObserver {
     for (FieldAction fieldAction : space.getActions()) {
       if (fieldAction.getClass().getName().equals("com.roborally.controller.Gear")) {
         Gear gear = (Gear) fieldAction;
-
-        Pane pane = new Pane();
-        pane.getChildren().add(
-            drawSemiRing(SPACE_WIDTH / 2.0, SPACE_HEIGHT / 2.0, SPACE_WIDTH / 2.0,
-                SPACE_WIDTH / 4.0, Color.ORANGERED, Color.DARKRED));
-        Polygon triangle = new Polygon(0.0, SPACE_HEIGHT / 2.0,
-            SPACE_WIDTH / 4.0 /* inner radius */, SPACE_HEIGHT / 2.0,
-            ((SPACE_WIDTH / 2.0) - (SPACE_WIDTH / 4.0)) / 2.0, (SPACE_HEIGHT / 2.0) + 20);
-        triangle.setFill(Color.ORANGERED);
-        pane.getChildren().add(triangle);
-          if (gear.getDirection().equals(Gear.Direction.RIGHT)) {
-              pane.setScaleY(-1);
-          }
-        this.getChildren().add(pane);
+        if (gear.getDirection().equals(Gear.Direction.LEFT)) {
+          this.getChildren().add(SpriteSheetSingleton.getInstance().spriteSheet.getFrame(4, 6, this.getPrefWidth(), this.getPrefHeight()));
+        } else {
+          this.getChildren().add(SpriteSheetSingleton.getInstance().spriteSheet.getFrame(5, 6, this.getPrefWidth(), this.getPrefHeight()));
+        }
       }
     }
   }
