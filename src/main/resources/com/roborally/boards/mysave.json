@@ -167,7 +167,30 @@
         }
       ],
       "x": 2,
-      "y": 3
+      "y": 3,
+      "player": {
+        "name": "AI2",
+        "color": "blue",
+        "heading": "SOUTH",
+        "AI": true,
+        "commandCards": [
+          "LEFT",
+          "U_TURN",
+          "MOVE3",
+          "RIGHT",
+          "LEFT",
+          "MOVE2",
+          "MOVE1",
+          "RIGHT"
+        ],
+        "commandCardsInRegisters": [
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      }
     },
     {
       "walls": [],
@@ -278,6 +301,19 @@
       "actions": [],
       "x": 3,
       "y": 4
+    },
+    {
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "com.roborally.controller.SingleBoardLaser",
+          "INSTANCE": {
+            "heading": "EAST"
+          }
+        }
+      ],
+      "x": 3,
+      "y": 6
     },
     {
       "walls": [],
@@ -316,14 +352,14 @@
         "heading": "NORTH",
         "AI": false,
         "commandCards": [
+          "RIGHT",
+          "MOVE2",
           "U_TURN",
-          "MOVE3",
-          "MOVE3",
           "OPTION_LEFT_RIGHT",
-          "OPTION_LEFT_RIGHT",
-          "MOVE1",
-          "OPTION_LEFT_RIGHT",
-          "MOVE3"
+          "RIGHT",
+          "U_TURN",
+          "LEFT",
+          "U_TURN"
         ],
         "commandCardsInRegisters": [
           null,
@@ -429,30 +465,7 @@
       ],
       "actions": [],
       "x": 4,
-      "y": 10,
-      "player": {
-        "name": "AI1",
-        "color": "green",
-        "heading": "NORTH",
-        "AI": true,
-        "commandCards": [
-          "MOVE3",
-          "U_TURN",
-          "RIGHT",
-          "LEFT",
-          "MOVE3",
-          "RIGHT",
-          "MOVE2",
-          "MOVE2"
-        ],
-        "commandCardsInRegisters": [
-          null,
-          null,
-          null,
-          null,
-          null
-        ]
-      }
+      "y": 10
     },
     {
       "walls": [],
@@ -493,6 +506,35 @@
     },
     {
       "walls": [],
+      "actions": [],
+      "x": 5,
+      "y": 6,
+      "player": {
+        "name": "AI3",
+        "color": "orange",
+        "heading": "EAST",
+        "AI": true,
+        "commandCards": [
+          "U_TURN",
+          "MOVE2",
+          "OPTION_LEFT_RIGHT",
+          "MOVE2",
+          "MOVE3",
+          "RIGHT",
+          "OPTION_LEFT_RIGHT",
+          "MOVE1"
+        ],
+        "commandCardsInRegisters": [
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      }
+    },
+    {
+      "walls": [],
       "actions": [
         {
           "CLASSNAME": "com.roborally.controller.GreenConveyorBelt",
@@ -524,30 +566,7 @@
       ],
       "actions": [],
       "x": 5,
-      "y": 10,
-      "player": {
-        "name": "AI2",
-        "color": "blue",
-        "heading": "NORTH",
-        "AI": true,
-        "commandCards": [
-          "U_TURN",
-          "MOVE1",
-          "MOVE2",
-          "MOVE3",
-          "RIGHT",
-          "RIGHT",
-          "MOVE2",
-          "RIGHT"
-        ],
-        "commandCardsInRegisters": [
-          null,
-          null,
-          null,
-          null,
-          null
-        ]
-      }
+      "y": 10
     },
     {
       "walls": [],
@@ -574,6 +593,35 @@
       ],
       "x": 6,
       "y": 2
+    },
+    {
+      "walls": [],
+      "actions": [],
+      "x": 6,
+      "y": 3,
+      "player": {
+        "name": "AI1",
+        "color": "green",
+        "heading": "SOUTH",
+        "AI": true,
+        "commandCards": [
+          "U_TURN",
+          "MOVE1",
+          "U_TURN",
+          "MOVE3",
+          "U_TURN",
+          "MOVE1",
+          "MOVE3",
+          "MOVE2"
+        ],
+        "commandCardsInRegisters": [
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      }
     },
     {
       "walls": [],
@@ -644,30 +692,7 @@
       ],
       "actions": [],
       "x": 6,
-      "y": 10,
-      "player": {
-        "name": "AI3",
-        "color": "orange",
-        "heading": "NORTH",
-        "AI": true,
-        "commandCards": [
-          "MOVE1",
-          "U_TURN",
-          "U_TURN",
-          "OPTION_LEFT_RIGHT",
-          "U_TURN",
-          "MOVE3",
-          "MOVE3",
-          "MOVE2"
-        ],
-        "commandCardsInRegisters": [
-          null,
-          null,
-          null,
-          null,
-          null
-        ]
-      }
+      "y": 10
     },
     {
       "walls": [],
@@ -694,6 +719,19 @@
       ],
       "x": 7,
       "y": 3
+    },
+    {
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "com.roborally.controller.SingleBoardLaser",
+          "INSTANCE": {
+            "heading": "WEST"
+          }
+        }
+      ],
+      "x": 7,
+      "y": 4
     },
     {
       "walls": [

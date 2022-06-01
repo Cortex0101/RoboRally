@@ -216,7 +216,19 @@ public class SpaceView extends StackPane implements ViewObserver {
   }
 
   private void updateSingleLasers() {
-
+    for (FieldAction fieldAction : space.getActions()) {
+      if (fieldAction.getClass().getName().equals("com.roborally.controller.SingleBoardLaser")) {
+        SingleBoardLaser singleBoardLaser = (SingleBoardLaser) fieldAction;
+        ImageView view = SpriteSheetSingleton.getInstance().spriteSheet.getFrame("single laser wall");
+        switch (singleBoardLaser.getHeading()) {
+          case NORTH -> view.setRotate(0.0);
+          case EAST -> view.setRotate(90.0);
+          case SOUTH -> view.setRotate(180.0);
+          case WEST -> view.setRotate(270.0);
+        }
+        this.getChildren().add(view);
+      }
+    }
   }
 
   @Override

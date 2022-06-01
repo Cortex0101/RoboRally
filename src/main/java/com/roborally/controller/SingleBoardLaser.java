@@ -10,7 +10,6 @@ import java.util.stream.Collectors;
 
 public class SingleBoardLaser extends FieldAction {
   private Heading heading;
-  GameController gameController;
 
   public Heading getHeading() {
     return heading;
@@ -27,11 +26,12 @@ public class SingleBoardLaser extends FieldAction {
    * @param origin the space containing the board laser
    * @return a list of all the spaces that the laser will hit
    */
-  private List<Space> getSpacesInPath(Board board, Space origin) {
+  public List<Space> getSpacesInPath(Board board, Space origin) {
     ArrayList<Space> spaces = new ArrayList<>();
     spaces.add(origin);
+    Space space = origin;
     while (true) {
-      Space space = board.getNeighbour(origin, heading);
+      space = board.getNeighbour(space, heading);
 
       if (space == null) {
         break;
