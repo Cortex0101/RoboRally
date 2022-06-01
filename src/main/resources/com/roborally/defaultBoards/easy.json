@@ -485,6 +485,22 @@
       "y": 3
     },
     {
+      "walls": [
+        "EAST"
+      ],
+      "actions": [],
+      "x": 3,
+      "y": 4
+    },
+    {
+      "walls": [
+        "WEST"
+      ],
+      "actions": [],
+      "x": 7,
+      "y": 6
+    },
+    {
       "walls": [],
       "actions": [
         {
