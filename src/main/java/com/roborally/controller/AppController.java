@@ -150,8 +150,7 @@ public class AppController implements Observer {
   }
 
   public void loadGame() {
-    final List<String> savedGames = getFileNames(
-        "D:\\Development\\RoboRally\\src\\main\\resources\\com\\roborally\\boards\\");
+    final List<String> savedGames = getFileNames(System.getProperty("user.dir") + "\\src\\main\\resources\\com\\roborally\\boards\\");
     ChoiceDialog<String> dialog = new ChoiceDialog<>(savedGames.get(0), savedGames);
     dialog.setTitle("Load game");
     dialog.setHeaderText("Select game to be loaded");
