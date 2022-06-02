@@ -256,8 +256,8 @@ public class SpaceView extends StackPane implements ViewObserver {
       updateGears();
       updatePits();
       updateCheckPoints();
-      updateSingleLaserNonOrigin();
-      updateSingleLasers();
+      //updateSingleLaserNonOrigin();
+      //updateSingleLasers();
       updatePlayer();
     }
   }
