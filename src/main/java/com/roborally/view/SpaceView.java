@@ -22,6 +22,7 @@
 package com.roborally.view;
 
 import com.roborally.controller.*;
+import com.roborally.model.Space.Laser;
 import com.roborally.model.SpriteSheetSingleton;
 import designpatterns.observer.Subject;
 import com.roborally.model.Player;
@@ -215,6 +216,35 @@ public class SpaceView extends StackPane implements ViewObserver {
     }
   }
 
+  private void updateSingleLasers() {
+    for (FieldAction fieldAction : space.getActions()) {
+      if (fieldAction.getClass().getName().equals("com.roborally.controller.SingleBoardLaser")) {
+        SingleBoardLaser singleBoardLaser = (SingleBoardLaser) fieldAction;
+        ImageView view = SpriteSheetSingleton.getInstance().spriteSheet.getFrame("single laser wall");
+        switch (singleBoardLaser.getHeading()) {
+          case NORTH -> view.setRotate(0.0);
+          case EAST -> view.setRotate(90.0);
+          case SOUTH -> view.setRotate(180.0);
+          case WEST -> view.setRotate(270.0);
+        }
+        this.getChildren().add(view);
+      }
+    }
+  }
+
+  /**
+   * Above method updates the actual wall with the laser shooter, while this one updates individual lasers
+   */
+  private void updateSingleLaserNonOrigin() {
+    if (this.space.getLaser() == Laser.horizontal) {
+      this.getChildren().add(SpriteSheetSingleton.getInstance().spriteSheet.getFrame("single laser horizontal"));
+    } else if (this.space.getLaser() == Laser.vertical) {
+      this.getChildren().add(SpriteSheetSingleton.getInstance().spriteSheet.getFrame("single laser vertical"));
+    } else if (this.space.getLaser() == Laser.cross) {
+      this.getChildren().add(SpriteSheetSingleton.getInstance().spriteSheet.getFrame("single laser cross"));
+    }
+  }
+
   @Override
   public void updateView(Subject subject) {
     if (subject == this.space) {
@@ -226,6 +256,8 @@ public class SpaceView extends StackPane implements ViewObserver {
       updateGears();
       updatePits();
       updateCheckPoints();
+      //updateSingleLaserNonOrigin();
+      //updateSingleLasers();
       updatePlayer();
     }
   }

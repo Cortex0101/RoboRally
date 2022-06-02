@@ -34,6 +34,15 @@ import java.util.List;
  */
 public class Space extends Subject {
 
+  public enum Laser {
+    horizontal,
+    vertical,
+    cross,
+    none
+  }
+
+  private Laser laser;
+
   private final List<Heading> walls = new ArrayList<>();
   private final List<FieldAction> actions = new ArrayList<>();
 
@@ -49,6 +58,15 @@ public class Space extends Subject {
     this.x = x;
     this.y = y;
     player = null;
+    this.laser = Laser.none;
+  }
+
+  public Laser getLaser() {
+    return laser;
+  }
+
+  public void setLaser(Laser laser) {
+    this.laser = laser;
   }
 
   public Player getPlayer() {
