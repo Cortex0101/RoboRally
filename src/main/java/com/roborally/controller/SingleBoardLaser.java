@@ -4,6 +4,7 @@ import com.roborally.model.Board;
 import com.roborally.model.Heading;
 import com.roborally.model.Player;
 import com.roborally.model.Space;
+import com.roborally.model.Space.Laser;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -55,11 +56,31 @@ public class SingleBoardLaser extends FieldAction {
     return spaces;
   }
 
+  private void updateLaserSpaces(List<Space> spaces) {
+    for (Space space : spaces) {
+      if (heading == Heading.NORTH || heading == Heading.SOUTH) {
+        if (space.getLaser() == Laser.horizontal) {
+          space.setLaser(Laser.cross);
+        } else {
+          space.setLaser(Laser.vertical);
+        }
+      }
+      else {
+        if (space.getLaser() == Laser.vertical) {
+          space.setLaser(Laser.cross);
+        } else {
+          space.setLaser(Laser.horizontal);
+        }
+      }
+    }
+  }
+
   @Override
   public boolean doAction(GameController gameController, Space space) {
     if (gameController.board.getPlayersNumber() == 1)
       return false;
     List<Space> spaces = getSpacesInPath(gameController.board, space);
+    updateLaserSpaces(spaces);
 
     Space lastSpace = spaces.get(spaces.size() - 1);
     if (lastSpace.getPlayer() != null) {

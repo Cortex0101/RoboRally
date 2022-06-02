@@ -34,7 +34,7 @@ import java.util.List;
  */
 public class Space extends Subject {
 
-  private enum Laser {
+  public enum Laser {
     horizontal,
     vertical,
     cross,
