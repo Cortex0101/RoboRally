@@ -56,7 +56,7 @@ public class SingleBoardLaser extends FieldAction {
     return spaces;
   }
 
-  private void updateLaserSpaces(List<Space> spaces) {
+  public void updateLaserSpaces(List<Space> spaces) {
     for (Space space : spaces) {
       if (heading == Heading.NORTH || heading == Heading.SOUTH) {
         if (space.getLaser() == Laser.horizontal) {
@@ -77,7 +77,7 @@ public class SingleBoardLaser extends FieldAction {
 
   @Override
   public boolean doAction(GameController gameController, Space space) {
-    if (gameController.board.getPlayersNumber() == 1)
+    if (gameController.board.getPlayersNumber() == 1) // This is just temporary. Should figure out a way not to call this so much though.
       return false;
     List<Space> spaces = getSpacesInPath(gameController.board, space);
     updateLaserSpaces(spaces);

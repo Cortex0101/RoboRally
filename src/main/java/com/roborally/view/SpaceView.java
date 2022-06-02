@@ -22,6 +22,7 @@
 package com.roborally.view;
 
 import com.roborally.controller.*;
+import com.roborally.model.Space.Laser;
 import com.roborally.model.SpriteSheetSingleton;
 import designpatterns.observer.Subject;
 import com.roborally.model.Player;
@@ -231,6 +232,19 @@ public class SpaceView extends StackPane implements ViewObserver {
     }
   }
 
+  /**
+   * Above method updates the actual wall with the laser shooter, while this one updates individual lasers
+   */
+  private void updateSingleLaserNonOrigin() {
+    if (this.space.getLaser() == Laser.horizontal) {
+      this.getChildren().add(SpriteSheetSingleton.getInstance().spriteSheet.getFrame("single laser horizontal"));
+    } else if (this.space.getLaser() == Laser.vertical) {
+      this.getChildren().add(SpriteSheetSingleton.getInstance().spriteSheet.getFrame("single laser vertical"));
+    } else if (this.space.getLaser() == Laser.cross) {
+      this.getChildren().add(SpriteSheetSingleton.getInstance().spriteSheet.getFrame("single laser cross"));
+    }
+  }
+
   @Override
   public void updateView(Subject subject) {
     if (subject == this.space) {
@@ -242,6 +256,7 @@ public class SpaceView extends StackPane implements ViewObserver {
       updateGears();
       updatePits();
       updateCheckPoints();
+      updateSingleLaserNonOrigin();
       updateSingleLasers();
       updatePlayer();
     }

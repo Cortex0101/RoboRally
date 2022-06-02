@@ -65,7 +65,9 @@ public class SpriteSheet {
     frameMap.put("left gear", new Pair<>(4, 6));
     frameMap.put("right gear", new Pair<>(5, 6));
     frameMap.put("single laser wall", new Pair<>(4, 4));
-    frameMap.put("single laser", new Pair<>(6, 5));
+    frameMap.put("single laser horizontal", new Pair<>(6, 5));
+    frameMap.put("single laser vertical", new Pair<>(6, 6));
+    frameMap.put("single laser cross", new Pair<>(7, 5));
   }
 
   public ImageView getFrame(int row, int col) {
