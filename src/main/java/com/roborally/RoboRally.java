@@ -57,7 +57,6 @@ public class RoboRally extends Application {
     VBox vbox = new VBox(menuBar, boardRoot);
     vbox.setMinWidth(MIN_APP_WIDTH);
     primaryScene = new Scene(vbox);
-    SpriteSheet spriteSheet = new SpriteSheet("D:\\Development\\RoboRally\\src\\main\\resources\\com\\roborally\\images\\TileMap.png", 8, 17);
     stage.setScene(primaryScene);
     stage.setTitle("RoboRally");
     stage.setOnCloseRequest(
