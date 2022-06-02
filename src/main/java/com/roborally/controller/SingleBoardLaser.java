@@ -29,6 +29,10 @@ public class SingleBoardLaser extends FieldAction {
   public List<Space> getSpacesInPath(Board board, Space origin) {
     ArrayList<Space> spaces = new ArrayList<>();
     spaces.add(origin);
+    if (origin.getPlayer() != null) {
+      return spaces;
+    }
+
     Space space = origin;
     while (true) {
       space = board.getNeighbour(space, heading);
@@ -39,13 +43,13 @@ public class SingleBoardLaser extends FieldAction {
 
       if (space.getPlayer() != null) {
         spaces.add(space);
-        break;
+        return spaces;
       }
 
       if (space.getWalls().stream().noneMatch(heading1 -> heading1 == getHeading().prev().prev())) {
         spaces.add(space);
       } else {
-        break;
+        return spaces;
       }
     }
     return spaces;
@@ -53,11 +57,14 @@ public class SingleBoardLaser extends FieldAction {
 
   @Override
   public boolean doAction(GameController gameController, Space space) {
+    if (gameController.board.getPlayersNumber() == 1)
+      return false;
     List<Space> spaces = getSpacesInPath(gameController.board, space);
 
     Space lastSpace = spaces.get(spaces.size() - 1);
     if (lastSpace.getPlayer() != null) {
-      System.out.println("Hit player: " + lastSpace.getPlayer().getName());
+      // Only print if this is not a test board
+        System.out.println("Hit player: " + lastSpace.getPlayer().getName());
       return true;
     }
 
