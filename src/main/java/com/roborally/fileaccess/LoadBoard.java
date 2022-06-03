@@ -62,6 +62,12 @@ public class LoadBoard {
       }
       case medium -> {
         boardname = "medium";
+        playerStartingPositions[0] = new int[]{1, 0};
+        playerStartingPositions[1] = new int[]{0, 2};
+        playerStartingPositions[2] = new int[]{1, 4};
+        playerStartingPositions[3] = new int[]{1, 5};
+        playerStartingPositions[4] = new int[]{0, 7};
+        playerStartingPositions[5] = new int[]{1, 9};
       }
       case hard -> {
         boardname = "hard";
