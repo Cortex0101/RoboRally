@@ -146,6 +146,7 @@ public class SetupScreen {
     rightSliderSeparator.setPrefWidth(200.0);
     level1HBox.setAlignment(Pos.TOP_RIGHT);
     level1Button.setPadding(new Insets(0.0, 50.0, 0.0, 0.0));
+    level1Button.setSelected(true);
     level1Button.setToggleGroup(toggleGroup);
     level1ImageView.setFitWidth(78.0);
     level1ImageView.setFitHeight(75.0);
@@ -211,12 +212,20 @@ public class SetupScreen {
         boardConfig.playerColors[i] = Arrays.asList("red", "green", "blue", "orange", "grey", "magenta").get(i);
       }
 
-      // TODO: Add ability to select between 3 levels using the radio buttons
+      DefaultBoard selectedBoard;
+      if (level1Button.isSelected()) {
+        selectedBoard = DefaultBoard.easy;
+      } else if (level2Button.isSelected()) {
+        selectedBoard = DefaultBoard.medium;
+      } else if (level3Button.isSelected()) {
+        selectedBoard = DefaultBoard.hard;
+      } else {
+        selectedBoard = DefaultBoard.easy;
+      }
 
       roboRally.setScene(roboRally.getPrimaryScene());
-      Board board = LoadBoard.loadDefaultBoard(boardConfig, DefaultBoard.easy);
+      Board board = LoadBoard.loadDefaultBoard(boardConfig, selectedBoard);
       roboRally.getAppController().setGameController(new GameController(Objects.requireNonNull(board)));
-      // TODO: Dont set here
       roboRally.getAppController().setAIPlayers(true);
       roboRally.getAppController().getGameController().startProgrammingPhase(board.resetRegisters);
       roboRally.createBoardView(roboRally.getAppController().getGameController());

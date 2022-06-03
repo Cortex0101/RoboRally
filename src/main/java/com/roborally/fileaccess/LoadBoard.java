@@ -11,6 +11,8 @@ import com.roborally.controller.FieldAction;
 import com.roborally.model.*;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 import javafx.scene.paint.Color;
 
 /**
@@ -108,9 +110,13 @@ public class LoadBoard {
       }
       for (int i = 0; i < boardConfig.playerNumber; ++i) {
         Player player = new Player(result, boardConfig.playerColors[i], boardConfig.playerNames[i], result.getSpace(playerStartingPositions[i][0], playerStartingPositions[i][1]));
-        player.setHeading(Heading.NORTH); // Might be different for other board - update in the future
         player.setIsAI(i >= (boardConfig.playerNumber - boardConfig.AINumber));
         result.getSpace(playerStartingPositions[i][0], playerStartingPositions[i][1]).setPlayer(player);
+        switch (boardname) {
+          case "easy" -> player.setHeading(Heading.NORTH);
+          case "medium" -> player.setHeading(Heading.EAST);
+          case "hard" -> player.setHeading(Heading.EAST);
+        }
         result.addPlayer(player);
       }
       saveBoard(result, "tempBoard");
@@ -223,6 +229,8 @@ public class LoadBoard {
     template.width = board.width;
     template.height = board.height;
 
+    List<SpaceTemplate> playerSpaces = new ArrayList<SpaceTemplate>();
+
     for (int i = 0; i < board.width; i++) {
       for (int j = 0; j < board.height; j++) {
         Space space = board.getSpace(i, j);
@@ -234,7 +242,9 @@ public class LoadBoard {
           spaceTemplate.y = space.y;
           spaceTemplate.actions.addAll(space.getActions());
           spaceTemplate.walls.addAll(space.getWalls());
+          boolean isPlayerSpace = false;
           if (space.getPlayer() != null) {
+            isPlayerSpace = true;
             spaceTemplate.player = new PlayerTemplate();
             spaceTemplate.player.name = space.getPlayer().getName();
             spaceTemplate.player.color = space.getPlayer().getColor();
@@ -258,7 +268,23 @@ public class LoadBoard {
                 }
             }
           }
-          template.spaces.add(spaceTemplate);
+          if (!isPlayerSpace) {
+            template.spaces.add(spaceTemplate);
+          }
+          else {
+            playerSpaces.add(spaceTemplate);
+            isPlayerSpace = false;
+          }
+        }
+      }
+    }
+
+    for (int k = 0; k < board.getPlayersNumber(); k++) {
+      String playerName = board.getPlayer(k).getName();
+      for (SpaceTemplate spaceTemplate1 : playerSpaces) {
+        if (spaceTemplate1.player.name.equals(playerName)) {
+          template.spaces.add(spaceTemplate1);
+          break;
         }
       }
     }

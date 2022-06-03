@@ -340,7 +340,9 @@
       "actions": [
         {
           "CLASSNAME": "com.roborally.controller.CheckPoint",
-          "INSTANCE": {}
+          "INSTANCE": {
+            "heading": "SOUTH"
+          }
         }
       ],
       "x": 22,
@@ -370,7 +372,9 @@
       "actions": [
         {
           "CLASSNAME": "com.roborally.controller.CheckPoint",
-          "INSTANCE": {}
+          "INSTANCE": {
+            "heading": "EAST"
+          }
         }
       ],
       "x": 6,
@@ -511,17 +515,6 @@
     },
     {
       "walls": [],
-      "actions": [
-        {
-          "CLASSNAME": "com.roborally.controller.PriorityAntenna",
-          "INSTANCE": {}
-        }
-      ],
-      "x": 0,
-      "y": 5
-    },
-    {
-      "walls": [],
       "actions": [],
       "x": 1,
       "y": 5
@@ -658,7 +651,9 @@
       "actions": [
         {
           "CLASSNAME": "com.roborally.controller.CheckPoint",
-          "INSTANCE": {}
+          "INSTANCE": {
+            "heading": "NORTH"
+          }
         }
       ],
       "x": 17,
