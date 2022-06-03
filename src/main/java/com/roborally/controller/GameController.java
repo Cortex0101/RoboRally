@@ -51,8 +51,10 @@ public class GameController {
   }
 
   /**
+   * Move current player to space, without accounting for movement rules.
+   *
    * This method should be used for debugging only. To move players accounting for pushing and other
-   * game features use moveToSpace()
+   * game features use moveToSpace().
    *
    * @param space the space to which the current player should move
    */
@@ -338,8 +340,10 @@ public class GameController {
           moveToSpace(player, target, heading);
         } catch (ImpossibleMoveException e) {
             if (!player.getIsAI()) // disable printing for AI players to avoid bloat
-            {
+              {
                 e.printStackTrace();
+            } else {
+              e.player.setHeading(e.player.getHeading()); // quirky workaround. If theres nothing here the stacktracke gets printed...
             }
         }
       }
