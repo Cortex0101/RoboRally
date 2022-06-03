@@ -55,12 +55,12 @@ public class LoadBoard {
     switch (defaultBoard) {
       case easy -> {
         boardname = "easy";
-        playerStartingPositions[0] = new int[]{3, 10};
-        playerStartingPositions[1] = new int[]{4, 10};
-        playerStartingPositions[2] = new int[]{5, 10};
-        playerStartingPositions[3] = new int[]{6, 10};
-        playerStartingPositions[4] = new int[]{7, 10};
-        playerStartingPositions[5] = new int[]{8, 10};
+        playerStartingPositions[0] = new int[]{1, 0};
+        playerStartingPositions[1] = new int[]{0, 2};
+        playerStartingPositions[2] = new int[]{1, 4};
+        playerStartingPositions[3] = new int[]{1, 5};
+        playerStartingPositions[4] = new int[]{0, 7};
+        playerStartingPositions[5] = new int[]{1, 9};
       }
       case medium -> {
         boardname = "medium";
@@ -73,6 +73,12 @@ public class LoadBoard {
       }
       case hard -> {
         boardname = "hard";
+        playerStartingPositions[0] = new int[]{11, 1};
+        playerStartingPositions[1] = new int[]{12, 3};
+        playerStartingPositions[2] = new int[]{11, 4};
+        playerStartingPositions[3] = new int[]{11, 5};
+        playerStartingPositions[4] = new int[]{12, 6};
+        playerStartingPositions[5] = new int[]{11, 8};
       }
     }
 
@@ -113,9 +119,9 @@ public class LoadBoard {
         player.setIsAI(i >= (boardConfig.playerNumber - boardConfig.AINumber));
         result.getSpace(playerStartingPositions[i][0], playerStartingPositions[i][1]).setPlayer(player);
         switch (boardname) {
-          case "easy" -> player.setHeading(Heading.NORTH);
+          case "easy" -> player.setHeading(Heading.EAST);
           case "medium" -> player.setHeading(Heading.EAST);
-          case "hard" -> player.setHeading(Heading.EAST);
+          case "hard" -> player.setHeading(Heading.WEST);
         }
         result.addPlayer(player);
       }
