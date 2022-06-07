@@ -32,6 +32,7 @@ import com.roborally.model.Board;
 import com.roborally.model.Player;
 
 import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
@@ -40,6 +41,9 @@ import javafx.scene.control.TextInputDialog;
 
 import java.io.File;
 import java.util.*;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 
 public class AppController implements Observer {
 
@@ -58,6 +62,32 @@ public class AppController implements Observer {
   public void newGame() {
     SetupScreen setupScreen = new SetupScreen(roboRally);
     roboRally.setScene(setupScreen.getScene());
+
+    roboRally.getPrimaryScene().setOnKeyPressed(new EventHandler<KeyEvent>() {
+      @Override
+      public void handle(KeyEvent event) {
+        if (event.getCode() == KeyCode.S) {
+          storeGame();
+          event.consume();
+        }
+        if (event.getCode() == KeyCode.L) {
+          setGame();
+          event.consume();
+        }
+      }
+    });
+  }
+
+  public void storeGame() {
+    LoadBoard.saveBoard(gameController.board, "tempSave");
+  }
+
+  public void setGame() {
+    Board board = LoadBoard.loadBoard("tempSave");
+    gameController = new GameController(Objects.requireNonNull(board));
+    setAIPlayers(false);
+    gameController.startProgrammingPhase(board.resetRegisters);
+    roboRally.createBoardView(gameController);
   }
 
   /*
