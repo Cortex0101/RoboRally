@@ -100,6 +100,9 @@ public class Server {
         ++playersReady;
         if (playersReady == clientHandlerList.size()) {
           everyoneReady = true;
+          roboRally.getAppController().getGameController().finishProgrammingPhase();
+          roboRally.getAppController().getGameController().executePrograms();
+          roboRally.getAppController().storeGame();
         }
         out.println("OK");
       }
