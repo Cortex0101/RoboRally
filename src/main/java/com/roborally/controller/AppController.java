@@ -83,11 +83,20 @@ public class AppController implements Observer {
   }
 
   public void setGame() {
-    Board board = LoadBoard.loadBoard("tempSave");
-    gameController = new GameController(Objects.requireNonNull(board));
-    setAIPlayers(false);
-    gameController.startProgrammingPhase(board.resetRegisters);
-    roboRally.createBoardView(gameController);
+    if (roboRally.isHost) {
+      Board board = LoadBoard.loadBoard("tempSave");
+      gameController = new GameController(Objects.requireNonNull(board));
+      setAIPlayers(false);
+      gameController.startProgrammingPhase(board.resetRegisters);
+      roboRally.createBoardView(gameController);
+    } else if (roboRally.isClient) {
+      String jsonBoard = roboRally.client.post("GET_BOARD");
+      Board board = LoadBoard.loadBoardFromJson(jsonBoard);
+      gameController = new GameController(Objects.requireNonNull(board));
+      setAIPlayers(false);
+      gameController.startProgrammingPhase(board.resetRegisters);
+      roboRally.createBoardView(gameController);
+    }
   }
 
   /*

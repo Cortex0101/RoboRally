@@ -81,6 +81,7 @@ public class Server {
         roboRally.getAppController().storeGame();
         String jsonBoard = LoadBoard.getBoardContent();
         out.print(jsonBoard);
+        out.println();
       }
     }
   }

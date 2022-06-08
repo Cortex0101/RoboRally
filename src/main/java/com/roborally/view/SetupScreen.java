@@ -253,7 +253,6 @@ public class SetupScreen {
       } else {
         String jsonBoard = roboRally.client.post("GET_BOARD");
         board = LoadBoard.loadBoardFromJson(jsonBoard);
-        //board = LoadBoard.loadBoardFromJson(LoadBoard.getBoardContent());
       }
       roboRally.getAppController().setGameController(new GameController(Objects.requireNonNull(board)));
       roboRally.getAppController().setAIPlayers(true);

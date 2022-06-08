@@ -27,11 +27,14 @@ public class Client {
   public String post(String msg) {
     try {
       out.println(msg);
+      System.out.println(in.ready());
       String line = in.readLine();
-      StringBuilder response = new StringBuilder(line);
-      while (in.ready() && (line = in.readLine()) != null) {
+      StringBuilder response = new StringBuilder();
+
+      do {
         response.append(line);
-      }
+      } while ((in.ready() && (line = in.readLine()) != null));
+
       return response.toString();
     } catch (Exception e) {
       e.printStackTrace();
@@ -52,8 +55,9 @@ public class Client {
 
   public static void main(String argvs[]) throws InterruptedException {
     Client client1 = new Client();
-    Client client2 = new Client();
     client1.startConnection("127.0.0.1", 6666);
-    client2.startConnection("127.0.0.1", 6666);
+    //String reponse1 = client1.post("exit");
+    String response2 = client1.post("GET_BOARD");
+    System.out.println(response2);
   }
 }

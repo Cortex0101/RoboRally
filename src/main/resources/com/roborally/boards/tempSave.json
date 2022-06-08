@@ -669,14 +669,14 @@
         "heading": "EAST",
         "AI": false,
         "commandCards": [
+          "LEFT",
           "MOVE2",
-          "RIGHT",
+          "MOVE2",
+          "MOVE1",
+          "LEFT",
           "U_TURN",
-          "RIGHT",
-          "MOVE3",
           "LEFT",
-          "LEFT",
-          "OPTION_LEFT_RIGHT"
+          "LEFT"
         ],
         "commandCardsInRegisters": [
           null,
@@ -699,13 +699,13 @@
         "AI": false,
         "commandCards": [
           "MOVE1",
-          "LEFT",
-          "LEFT",
-          "U_TURN",
-          "U_TURN",
+          "MOVE1",
+          "MOVE1",
+          "MOVE1",
+          "RIGHT",
           "MOVE1",
           "MOVE3",
-          "OPTION_LEFT_RIGHT"
+          "MOVE2"
         ],
         "commandCardsInRegisters": [
           null,
@@ -719,22 +719,22 @@
     {
       "walls": [],
       "actions": [],
-      "x": 8,
-      "y": 6,
+      "x": 1,
+      "y": 4,
       "player": {
         "name": "AI1",
         "color": "blue",
-        "heading": "SOUTH",
+        "heading": "EAST",
         "AI": true,
         "commandCards": [
-          "MOVE2",
-          "MOVE1",
-          "MOVE3",
+          "LEFT",
+          "RIGHT",
+          "OPTION_LEFT_RIGHT",
           "U_TURN",
           "MOVE2",
-          "OPTION_LEFT_RIGHT",
-          "MOVE1",
-          "U_TURN"
+          "MOVE3",
+          "U_TURN",
+          "LEFT"
         ],
         "commandCardsInRegisters": [
           null,
@@ -748,21 +748,21 @@
     {
       "walls": [],
       "actions": [],
-      "x": 9,
+      "x": 1,
       "y": 5,
       "player": {
         "name": "AI2",
         "color": "orange",
-        "heading": "WEST",
+        "heading": "EAST",
         "AI": true,
         "commandCards": [
+          "RIGHT",
           "MOVE3",
+          "MOVE1",
           "OPTION_LEFT_RIGHT",
-          "MOVE2",
           "MOVE3",
-          "LEFT",
-          "MOVE2",
-          "LEFT",
+          "U_TURN",
+          "OPTION_LEFT_RIGHT",
           "MOVE2"
         ],
         "commandCardsInRegisters": [
