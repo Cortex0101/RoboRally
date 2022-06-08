@@ -104,7 +104,7 @@ public class PlayerView extends Tab implements ViewObserver {
           }
 
           private void requestUpdatedMap() {
-            String ready = gameController.roboRally.client.post("EVERYONE_READY");
+            String ready = gameController.roboRally.client.post("IS_EVERYONE_READY");
             if (ready.equals("YES")) {
               gameController.roboRally.getAppController().setGame();
               cancel();

@@ -669,14 +669,14 @@
         "heading": "EAST",
         "AI": false,
         "commandCards": [
-          "MOVE1",
-          "U_TURN",
-          "U_TURN",
           "RIGHT",
+          "RIGHT",
+          "MOVE2",
+          "MOVE1",
           "OPTION_LEFT_RIGHT",
-          "LEFT",
-          "LEFT",
-          "LEFT"
+          "MOVE1",
+          "OPTION_LEFT_RIGHT",
+          "MOVE1"
         ],
         "commandCardsInRegisters": [
           null,
@@ -700,12 +700,12 @@
         "commandCards": [
           "U_TURN",
           "MOVE3",
-          "MOVE2",
-          "RIGHT",
-          "MOVE3",
-          "MOVE1",
           "U_TURN",
-          "LEFT"
+          "LEFT",
+          "MOVE3",
+          "RIGHT",
+          "MOVE2",
+          "RIGHT"
         ],
         "commandCardsInRegisters": [
           null,
@@ -727,14 +727,14 @@
         "heading": "EAST",
         "AI": true,
         "commandCards": [
-          "MOVE2",
-          "U_TURN",
-          "U_TURN",
-          "U_TURN",
-          "RIGHT",
-          "MOVE1",
+          "OPTION_LEFT_RIGHT",
+          "OPTION_LEFT_RIGHT",
           "MOVE3",
-          "LEFT"
+          "LEFT",
+          "OPTION_LEFT_RIGHT",
+          "U_TURN",
+          "MOVE1",
+          "MOVE3"
         ],
         "commandCardsInRegisters": [
           null,
@@ -757,13 +757,13 @@
         "AI": true,
         "commandCards": [
           "MOVE2",
-          "MOVE1",
-          "MOVE1",
-          "U_TURN",
+          "OPTION_LEFT_RIGHT",
+          "RIGHT",
+          "MOVE2",
           "MOVE3",
-          "LEFT",
           "MOVE1",
-          "U_TURN"
+          "OPTION_LEFT_RIGHT",
+          "OPTION_LEFT_RIGHT"
         ],
         "commandCardsInRegisters": [
           null,

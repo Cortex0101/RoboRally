@@ -115,6 +115,7 @@ public class AppController implements Observer {
       roboRally.createBoardView(gameController);
     } else if (roboRally.isClient) {
       String jsonBoard = roboRally.client.post("GET_BOARD");
+      String ignore = roboRally.client.post("SUBTRACT_READY");
       Board board = LoadBoard.loadBoardFromJson(jsonBoard);
       gameController = new GameController(Objects.requireNonNull(board));
       setAIPlayers(false);

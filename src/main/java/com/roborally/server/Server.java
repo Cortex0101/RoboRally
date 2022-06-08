@@ -83,13 +83,17 @@ public class Server {
 
       if (message.equals("GET_BOARD")) {
         roboRally.getAppController().storeGame();
+        String jsonBoard = LoadBoard.getBoardContent();
+        out.print(jsonBoard);
+        out.println();
+      }
+
+      if (message.equals("SUBTRACT_READY")) {
         --playersReady;
         if (playersReady == 0) {
           everyoneReady = false;
         }
-        String jsonBoard = LoadBoard.getBoardContent();
-        out.print(jsonBoard);
-        out.println();
+        out.println("OK");
       }
 
       if (message.equals("PLAYER_READY")) {
