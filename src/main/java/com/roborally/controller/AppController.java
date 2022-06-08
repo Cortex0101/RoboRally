@@ -22,6 +22,7 @@
 package com.roborally.controller;
 
 import com.roborally.fileaccess.LoadBoard;
+import com.roborally.model.CommandCardField;
 import com.roborally.view.SetupScreen;
 import designpatterns.observer.Observer;
 import designpatterns.observer.Subject;
@@ -74,8 +75,25 @@ public class AppController implements Observer {
           setGame();
           event.consume();
         }
+        if (event.getCode() == KeyCode.U) {
+          try {
+            uploadProgram();
+          } catch (Exception e) {
+            e.printStackTrace();
+          }
+        }
       }
     });
+  }
+
+  public void uploadProgram() throws Exception {
+    final int playerNum = 0;
+    for (int i = 0; i < 5; i++) {
+      String response = roboRally.client.post("C " + playerNum + " " + i  + " " + this.gameController.board.getPlayer(playerNum).getCardField(i).getCard().getName());
+      if (!response.equals("OK")) {
+        throw new Exception("Failed to update player program");
+      }
+    }
   }
 
   public void storeGame() {

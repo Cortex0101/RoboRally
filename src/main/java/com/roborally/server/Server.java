@@ -3,6 +3,8 @@ package com.roborally.server;
 import com.roborally.RoboRally;
 import com.roborally.StartRoboRally;
 import com.roborally.fileaccess.LoadBoard;
+import com.roborally.model.Command;
+import com.roborally.model.CommandCard;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -82,6 +84,36 @@ public class Server {
         String jsonBoard = LoadBoard.getBoardContent();
         out.print(jsonBoard);
         out.println();
+      }
+
+      if (message.startsWith("C")) {
+        String[] card = message.split(" ");
+        Command command = null;
+        switch (card[3]) {
+          case "Move 1" -> {
+            command = Command.MOVE1;
+          }
+          case "Move 2" -> {
+            command = Command.MOVE2;
+          }
+          case "Move 3" -> {
+            command = Command.MOVE3;
+          }
+          case "Turn Right" -> {
+            command = Command.RIGHT;
+          }
+          case "Turn Left" -> {
+            command = Command.LEFT;
+          }
+          case "U-turn" -> {
+            command = Command.U_TURN;
+          }
+          case "Left OR Right" -> {
+            command = Command.OPTION_LEFT_RIGHT;
+          }
+        }
+        roboRally.getAppController().getGameController().board.getPlayer(Integer.parseInt(card[1])).getProgramField(Integer.parseInt(card[2])).setCard(new CommandCard(command));
+        out.println("OK");
       }
     }
   }
