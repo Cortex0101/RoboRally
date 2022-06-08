@@ -19,6 +19,8 @@ public class Server {
   private ServerSocket serverSocket;
   private List<ClientHandler> clientHandlerList = new ArrayList<>();
   public RoboRally roboRally;
+  private int playersReady = 0;
+  private boolean everyoneReady = false;
 
   public void start(int port) {
     try {
@@ -81,9 +83,29 @@ public class Server {
 
       if (message.equals("GET_BOARD")) {
         roboRally.getAppController().storeGame();
+        --playersReady;
+        if (playersReady == 0) {
+          everyoneReady = false;
+        }
         String jsonBoard = LoadBoard.getBoardContent();
         out.print(jsonBoard);
         out.println();
+      }
+
+      if (message.equals("PLAYER_READY")) {
+        ++playersReady;
+        if (playersReady == clientHandlerList.size()) {
+          everyoneReady = true;
+        }
+        out.println("OK");
+      }
+
+      if (message.equals("IS_EVERYONE_READY")) {
+        if (everyoneReady) {
+          out.println("YES");
+        } else {
+          out.println("NO");
+        }
       }
 
       if (message.equals("GET_CLIENT_NUM")) {

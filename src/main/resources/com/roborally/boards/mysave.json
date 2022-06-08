@@ -383,6 +383,32 @@
         }
       ],
       "x": 8,
+      "y": 3
+    },
+    {
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "com.roborally.controller.CheckPoint",
+          "INSTANCE": {
+            "heading": "NORTH"
+          }
+        }
+      ],
+      "x": 8,
+      "y": 7
+    },
+    {
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "com.roborally.controller.GreenConveyorBelt",
+          "INSTANCE": {
+            "heading": "EAST"
+          }
+        }
+      ],
+      "x": 8,
       "y": 8
     },
     {
@@ -636,93 +662,21 @@
       "walls": [],
       "actions": [],
       "x": 1,
-      "y": 1,
+      "y": 0,
       "player": {
         "name": "Player1",
         "color": "red",
-        "heading": "SOUTH",
+        "heading": "EAST",
         "AI": false,
         "commandCards": [
-          "OPTION_LEFT_RIGHT",
-          "RIGHT",
-          "OPTION_LEFT_RIGHT",
-          "OPTION_LEFT_RIGHT",
-          "MOVE3",
-          "LEFT",
-          "MOVE3",
-          "U_TURN"
-        ],
-        "commandCardsInRegisters": [
           "MOVE1",
-          "RIGHT",
-          null,
-          "OPTION_LEFT_RIGHT",
-          "U_TURN"
-        ]
-      }
-    },
-    {
-      "walls": [],
-      "actions": [
-        {
-          "CLASSNAME": "com.roborally.controller.CheckPoint",
-          "INSTANCE": {
-            "heading": "NORTH"
-          }
-        }
-      ],
-      "x": 8,
-      "y": 7,
-      "player": {
-        "name": "AI1",
-        "color": "green",
-        "heading": "WEST",
-        "AI": true,
-        "commandCards": [
-          "MOVE2",
-          "MOVE1",
-          "MOVE1",
-          "MOVE2",
-          "MOVE3",
-          "MOVE2",
-          "RIGHT",
-          "MOVE3"
-        ],
-        "commandCardsInRegisters": [
-          null,
-          null,
-          null,
-          null,
-          null
-        ]
-      }
-    },
-    {
-      "walls": [],
-      "actions": [
-        {
-          "CLASSNAME": "com.roborally.controller.GreenConveyorBelt",
-          "INSTANCE": {
-            "heading": "EAST"
-          }
-        }
-      ],
-      "x": 8,
-      "y": 3,
-      "player": {
-        "name": "AI2",
-        "color": "blue",
-        "heading": "EAST",
-        "AI": true,
-        "commandCards": [
-          "MOVE3",
           "U_TURN",
-          "MOVE3",
-          "MOVE1",
-          "LEFT",
-          "LEFT",
           "U_TURN",
-          "MOVE3"
+          "RIGHT",
+          "OPTION_LEFT_RIGHT",
+          "LEFT",
+          "LEFT",
+          "LEFT"
         ],
         "commandCardsInRegisters": [
           null,
@@ -736,22 +690,80 @@
     {
       "walls": [],
       "actions": [],
-      "x": 9,
+      "x": 0,
+      "y": 2,
+      "player": {
+        "name": "AI1",
+        "color": "green",
+        "heading": "EAST",
+        "AI": true,
+        "commandCards": [
+          "U_TURN",
+          "MOVE3",
+          "MOVE2",
+          "RIGHT",
+          "MOVE3",
+          "MOVE1",
+          "U_TURN",
+          "LEFT"
+        ],
+        "commandCardsInRegisters": [
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      }
+    },
+    {
+      "walls": [],
+      "actions": [],
+      "x": 1,
+      "y": 4,
+      "player": {
+        "name": "AI2",
+        "color": "blue",
+        "heading": "EAST",
+        "AI": true,
+        "commandCards": [
+          "MOVE2",
+          "U_TURN",
+          "U_TURN",
+          "U_TURN",
+          "RIGHT",
+          "MOVE1",
+          "MOVE3",
+          "LEFT"
+        ],
+        "commandCardsInRegisters": [
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      }
+    },
+    {
+      "walls": [],
+      "actions": [],
+      "x": 1,
       "y": 5,
       "player": {
         "name": "AI3",
         "color": "orange",
-        "heading": "SOUTH",
+        "heading": "EAST",
         "AI": true,
         "commandCards": [
           "MOVE2",
-          "OPTION_LEFT_RIGHT",
-          "RIGHT",
-          "LEFT",
-          "MOVE3",
+          "MOVE1",
+          "MOVE1",
           "U_TURN",
-          "OPTION_LEFT_RIGHT",
-          "LEFT"
+          "MOVE3",
+          "LEFT",
+          "MOVE1",
+          "U_TURN"
         ],
         "commandCardsInRegisters": [
           null,

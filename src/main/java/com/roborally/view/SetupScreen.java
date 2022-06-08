@@ -256,6 +256,7 @@ public class SetupScreen {
         board = LoadBoard.loadBoardFromJson(jsonBoard);
       }
       roboRally.getAppController().setGameController(new GameController(Objects.requireNonNull(board)));
+      roboRally.getAppController().getGameController().roboRally = roboRally;
       roboRally.getAppController().setAIPlayers(true);
       roboRally.getAppController().getGameController().startProgrammingPhase(board.resetRegisters);
       roboRally.createBoardView(roboRally.getAppController().getGameController());
