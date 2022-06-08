@@ -693,10 +693,10 @@
       "x": 0,
       "y": 2,
       "player": {
-        "name": "AI1",
+        "name": "Player2",
         "color": "green",
         "heading": "EAST",
-        "AI": true,
+        "AI": false,
         "commandCards": [
           null,
           null,
@@ -722,7 +722,7 @@
       "x": 1,
       "y": 4,
       "player": {
-        "name": "AI2",
+        "name": "AI1",
         "color": "blue",
         "heading": "EAST",
         "AI": true,
@@ -751,7 +751,7 @@
       "x": 1,
       "y": 5,
       "player": {
-        "name": "AI3",
+        "name": "AI2",
         "color": "orange",
         "heading": "EAST",
         "AI": true,

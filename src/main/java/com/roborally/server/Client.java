@@ -27,8 +27,12 @@ public class Client {
   public String post(String msg) {
     try {
       out.println(msg);
-      String response = in.readLine();
-      return response;
+      String line = in.readLine();
+      StringBuilder response = new StringBuilder(line);
+      while (in.ready() && (line = in.readLine()) != null) {
+        response.append(line);
+      }
+      return response.toString();
     } catch (Exception e) {
       e.printStackTrace();
       return null;

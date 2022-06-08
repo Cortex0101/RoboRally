@@ -6,6 +6,8 @@ import com.roborally.fileaccess.LoadBoard;
 import com.roborally.fileaccess.LoadBoard.BoardConfig;
 import com.roborally.fileaccess.LoadBoard.DefaultBoard;
 import com.roborally.model.Board;
+import com.roborally.server.Client;
+import com.roborally.server.Server;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -23,6 +25,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -199,6 +202,25 @@ public class SetupScreen {
     setSliderCallbacks();
     updatePlayerMenu((int) playerSlider.getValue());
 
+    /////////////////////////
+    this.getScene().setOnKeyPressed(e -> {
+      if (e.getCode() == KeyCode.H) {
+        roboRally.isHost = true;
+        roboRally.isMultiplayer = true;
+        roboRally.server = new Server();
+        roboRally.server.roboRally = roboRally;
+        new Thread(() -> roboRally.server.start(6666)).start();
+      }
+      if (e.getCode() == KeyCode.C) {
+        roboRally.isClient = true;
+        roboRally.isMultiplayer = true;
+        roboRally.client = new Client();
+        roboRally.client.startConnection("127.0.0.1", 6666);
+      }
+    });
+
+    ////////////////////////
+
     backButton.setOnMouseReleased(mouseEvent -> {
       roboRally.setScene(roboRally.getPrimaryScene());
     });
@@ -224,7 +246,15 @@ public class SetupScreen {
       }
 
       roboRally.setScene(roboRally.getPrimaryScene());
-      Board board = LoadBoard.loadDefaultBoard(boardConfig, selectedBoard);
+
+      Board board;
+      if (!roboRally.isClient) {
+        board = LoadBoard.loadDefaultBoard(boardConfig, selectedBoard);
+      } else {
+        String jsonBoard = roboRally.client.post("GET_BOARD");
+        board = LoadBoard.loadBoardFromJson(jsonBoard);
+        //board = LoadBoard.loadBoardFromJson(LoadBoard.getBoardContent());
+      }
       roboRally.getAppController().setGameController(new GameController(Objects.requireNonNull(board)));
       roboRally.getAppController().setAIPlayers(true);
       roboRally.getAppController().getGameController().startProgrammingPhase(board.resetRegisters);

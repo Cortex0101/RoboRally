@@ -1,6 +1,8 @@
 package com.roborally.server;
 
 import com.roborally.RoboRally;
+import com.roborally.StartRoboRally;
+import com.roborally.fileaccess.LoadBoard;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -14,6 +16,7 @@ public class Server {
 
   private ServerSocket serverSocket;
   private List<ClientHandler> clientHandlerList = new ArrayList<>();
+  public RoboRally roboRally;
 
   public void start(int port) {
     try {
@@ -72,6 +75,12 @@ public class Server {
       if (message.equals("exit")) {
         out.println("bye");
         connected = false;
+      }
+
+      if (message.equals("GET_BOARD")) {
+        roboRally.getAppController().storeGame();
+        String jsonBoard = LoadBoard.getBoardContent();
+        out.print(jsonBoard);
       }
     }
   }

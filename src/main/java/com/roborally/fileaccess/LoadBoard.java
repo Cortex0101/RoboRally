@@ -11,8 +11,10 @@ import com.roborally.controller.FieldAction;
 import com.roborally.model.*;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import javafx.scene.paint.Color;
 
 /**
@@ -141,6 +143,81 @@ public class LoadBoard {
 
         }
       }
+    }
+    return null;
+  }
+
+  public static String getBoardContent() {
+    return getBoardContent("tempSave");
+  }
+
+  public static String getBoardContent(String boardgames) {
+    InputStream inputStream = null;
+    try {
+      inputStream = new FileInputStream(BOARDSFOLDER + "\\" + boardgames + "." + JSON_EXT);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+
+    return new BufferedReader(
+        new InputStreamReader(inputStream, StandardCharsets.UTF_8))
+        .lines()
+        .collect(Collectors.joining("\n"));
+  }
+
+  public static Board loadBoardFromJson(String json) {
+    GsonBuilder simpleBuilder = new GsonBuilder().
+        registerTypeAdapter(FieldAction.class, new Adapter<FieldAction>());
+    Gson gson = simpleBuilder.create();
+    Board result;
+
+    try {
+      BoardTemplate template = gson.fromJson(json, BoardTemplate.class);
+
+      result = new Board(template.width, template.height, "tempSave");
+      for (SpaceTemplate spaceTemplate : template.spaces) {
+        Space space = result.getSpace(spaceTemplate.x, spaceTemplate.y);
+        if (space != null) {
+          space.getActions().addAll(spaceTemplate.actions);
+          space.getWalls().addAll(spaceTemplate.walls);
+
+          for (FieldAction fieldAction : space.getActions()) {
+            if (fieldAction.getClass().getName().equals("com.roborally.controller.CheckPoint")) {
+              result.addCheckPoint(space);
+            }
+          }
+
+          if (spaceTemplate.player != null) {
+            Player player = new Player(result, spaceTemplate.player.color,
+                spaceTemplate.player.name, space);
+            player.setHeading(spaceTemplate.player.heading);
+            player.setIsAI(spaceTemplate.player.AI);
+            space.setPlayer(player);
+            for (int i = 0; i < spaceTemplate.player.commandCards.size(); i++) {
+              if (spaceTemplate.player.commandCards.get(i) != null) {
+                player.getCardField(i)
+                    .setCard(new CommandCard(spaceTemplate.player.commandCards.get(i)));
+                result.resetRegisters = false;
+              } else {
+                player.getCardField(i).setCard(null);
+              }
+            }
+            for (int i = 0; i < spaceTemplate.player.commandCardsInRegisters.size(); i++) {
+              if (spaceTemplate.player.commandCardsInRegisters.get(i) != null) {
+                player.getProgramField(i)
+                    .setCard(new CommandCard(
+                        spaceTemplate.player.commandCardsInRegisters.get(i)));
+              } else {
+                player.getProgramField(i).setCard(null);
+              }
+            }
+            result.addPlayer(player);
+          }
+        }
+      }
+      return result;
+    } catch (Exception ignored) {
+
     }
     return null;
   }
