@@ -86,6 +86,10 @@ public class Server {
         out.println();
       }
 
+      if (message.equals("GET_CLIENT_NUM")) {
+        out.println(clientHandlerList.size());
+      }
+
       if (message.startsWith("C")) {
         String[] card = message.split(" ");
         Command command = null;

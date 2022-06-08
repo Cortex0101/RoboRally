@@ -55,6 +55,7 @@ public class RoboRally extends Application {
   public boolean isMultiplayer = false;
   public Server server = null;
   public Client client = null;
+  public int clientNum = 0;
 
   @Override
   public void start(Stage primaryStage) {
