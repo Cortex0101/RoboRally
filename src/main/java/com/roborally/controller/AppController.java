@@ -87,9 +87,13 @@ public class AppController implements Observer {
   }
 
   public void uploadProgram() throws Exception {
+    Board board = this.gameController.board;
     final int playerNum = 0;
-    for (int i = 0; i < 5; i++) {
-      String response = roboRally.client.post("C " + playerNum + " " + i  + " " + this.gameController.board.getPlayer(playerNum).getCardField(i).getCard().getName());
+    for (int i = 0; i < Player.NO_REGISTERS; i++) {
+      Player player = board.getPlayer(playerNum);
+      CommandCardField field = player.getProgramField(i);
+      String name = field.getCard().getName();
+      String response = roboRally.client.post("C " + playerNum + " " + i  + " " + name);
       if (!response.equals("OK")) {
         throw new Exception("Failed to update player program");
       }

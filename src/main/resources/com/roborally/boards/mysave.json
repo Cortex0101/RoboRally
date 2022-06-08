@@ -599,6 +599,19 @@
         {
           "CLASSNAME": "com.roborally.controller.BlueConveyorBelt",
           "INSTANCE": {
+            "heading": "EAST"
+          }
+        }
+      ],
+      "x": 11,
+      "y": 7
+    },
+    {
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "com.roborally.controller.BlueConveyorBelt",
+          "INSTANCE": {
             "heading": "NORTH"
           }
         }
@@ -657,77 +670,41 @@
         "AI": false,
         "commandCards": [
           null,
-          "MOVE2",
-          null,
-          "MOVE2",
-          "LEFT",
-          "MOVE2",
-          "MOVE2",
-          "MOVE3"
-        ],
-        "commandCardsInRegisters": [
-          "MOVE3",
-          "OPTION_LEFT_RIGHT",
           null,
           null,
-          null
-        ]
-      }
-    },
-    {
-      "walls": [],
-      "actions": [
-        {
-          "CLASSNAME": "com.roborally.controller.BlueConveyorBelt",
-          "INSTANCE": {
-            "heading": "EAST"
-          }
-        }
-      ],
-      "x": 11,
-      "y": 7,
-      "player": {
-        "name": "AI1",
-        "color": "green",
-        "heading": "NORTH",
-        "AI": true,
-        "commandCards": [
-          "MOVE1",
-          "MOVE2",
-          "LEFT",
-          "OPTION_LEFT_RIGHT",
-          "MOVE1",
+          null,
+          null,
           "U_TURN",
-          "MOVE2",
-          "MOVE1"
+          "U_TURN",
+          "OPTION_LEFT_RIGHT"
         ],
         "commandCardsInRegisters": [
-          null,
-          null,
-          null,
-          null,
-          null
+          "MOVE2",
+          "MOVE1",
+          "OPTION_LEFT_RIGHT",
+          "RIGHT",
+          "LEFT"
         ]
       }
     },
     {
       "walls": [],
       "actions": [],
-      "x": 12,
-      "y": 5,
+      "x": 0,
+      "y": 2,
       "player": {
-        "name": "AI2",
-        "color": "blue",
-        "heading": "SOUTH",
+        "name": "AI1",
+        "color": "green",
+        "heading": "EAST",
         "AI": true,
         "commandCards": [
-          "RIGHT",
-          "U_TURN",
-          "U_TURN",
           "LEFT",
+          "OPTION_LEFT_RIGHT",
+          "RIGHT",
           "MOVE2",
-          "U_TURN",
+          "MOVE3",
           "MOVE2",
+          "MOVE3",
           "MOVE2"
         ],
         "commandCardsInRegisters": [
@@ -743,21 +720,50 @@
       "walls": [],
       "actions": [],
       "x": 1,
-      "y": 6,
+      "y": 4,
+      "player": {
+        "name": "AI2",
+        "color": "blue",
+        "heading": "EAST",
+        "AI": true,
+        "commandCards": [
+          "MOVE1",
+          "MOVE3",
+          "U_TURN",
+          "U_TURN",
+          "MOVE3",
+          "MOVE2",
+          "RIGHT",
+          "U_TURN"
+        ],
+        "commandCardsInRegisters": [
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      }
+    },
+    {
+      "walls": [],
+      "actions": [],
+      "x": 1,
+      "y": 5,
       "player": {
         "name": "AI3",
         "color": "orange",
-        "heading": "WEST",
+        "heading": "EAST",
         "AI": true,
         "commandCards": [
-          "OPTION_LEFT_RIGHT",
-          "LEFT",
-          "LEFT",
-          "MOVE2",
           "U_TURN",
+          "MOVE2",
+          "MOVE1",
+          "MOVE1",
+          "LEFT",
           "MOVE3",
-          "RIGHT",
-          "RIGHT"
+          "U_TURN",
+          "U_TURN"
         ],
         "commandCardsInRegisters": [
           null,

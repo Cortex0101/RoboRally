@@ -89,31 +89,42 @@ public class Server {
       if (message.startsWith("C")) {
         String[] card = message.split(" ");
         Command command = null;
-        switch (card[3]) {
-          case "Move 1" -> {
-            command = Command.MOVE1;
+        System.out.println(card[3]);
+        if (card.length > 4) {
+          switch (card[3] + " " + card[4]) {
+            case "Move 1" -> {
+              command = Command.MOVE1;
+            }
+            case "Move 2" -> {
+              command = Command.MOVE2;
+            }
+            case "Move 3" -> {
+              command = Command.MOVE3;
+            }
+            case "Turn Right" -> {
+              command = Command.RIGHT;
+            }
+            case "Turn Left" -> {
+              command = Command.LEFT;
+            }
+            case "Left OR" -> {
+              command = Command.OPTION_LEFT_RIGHT;
+            }
+            default -> {
+              command = Command.U_TURN;
+            }
           }
-          case "Move 2" -> {
-            command = Command.MOVE2;
-          }
-          case "Move 3" -> {
-            command = Command.MOVE3;
-          }
-          case "Turn Right" -> {
-            command = Command.RIGHT;
-          }
-          case "Turn Left" -> {
-            command = Command.LEFT;
-          }
-          case "U-turn" -> {
-            command = Command.U_TURN;
-          }
-          case "Left OR Right" -> {
-            command = Command.OPTION_LEFT_RIGHT;
-          }
+          roboRally.getAppController().getGameController().board.getPlayer(
+                  Integer.parseInt(card[1])).getProgramField(Integer.parseInt(card[2]))
+              .setCard(new CommandCard(command));
+          out.println("OK");
+        } else {
+          command = Command.U_TURN;
+          roboRally.getAppController().getGameController().board.getPlayer(
+                  Integer.parseInt(card[1])).getProgramField(Integer.parseInt(card[2]))
+              .setCard(new CommandCard(command));
+          out.println("OK");
         }
-        roboRally.getAppController().getGameController().board.getPlayer(Integer.parseInt(card[1])).getProgramField(Integer.parseInt(card[2])).setCard(new CommandCard(command));
-        out.println("OK");
       }
     }
   }
