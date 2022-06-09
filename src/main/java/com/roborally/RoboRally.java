@@ -56,6 +56,7 @@ public class RoboRally extends Application {
   public Server server = null;
   public Client client = null;
   public int clientNum = 0;
+  public boolean readyToUpdateBoard = false;
 
   @Override
   public void start(Stage primaryStage) {

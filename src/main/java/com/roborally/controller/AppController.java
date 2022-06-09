@@ -64,6 +64,13 @@ public class AppController implements Observer {
     SetupScreen setupScreen = new SetupScreen(roboRally);
     roboRally.setScene(setupScreen.getScene());
 
+    roboRally.getPrimaryScene().setOnMouseMoved(e -> {
+      if (roboRally.readyToUpdateBoard) {
+        gameController.roboRally.readyToUpdateBoard = false;
+        setGame();
+      }
+    });
+
     roboRally.getPrimaryScene().setOnKeyPressed(new EventHandler<KeyEvent>() {
       @Override
       public void handle(KeyEvent event) {
