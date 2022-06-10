@@ -17,6 +17,15 @@ public class BlueConveyorBelt extends FieldAction {
     this.heading = heading;
   }
 
+  /**
+   * @author Lucas Eiruff
+   *
+   * Moves the player 2 spaces in the conveyorbelts direction if the player lands on the field
+   *
+   * @param gameController the gameController of the respective game
+   * @param space          the space this action should be executed for
+   * @return true if the player landed on the field, false otherwise
+   */
   @Override
   public boolean doAction(@NotNull GameController gameController, @NotNull Space space) {
     Player player = space.getPlayer();
