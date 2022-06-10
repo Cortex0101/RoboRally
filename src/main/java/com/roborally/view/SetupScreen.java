@@ -202,7 +202,6 @@ public class SetupScreen {
     setSliderCallbacks();
     updatePlayerMenu((int) playerSlider.getValue());
 
-    /////////////////////////
     this.getScene().setOnKeyPressed(e -> {
       if (e.getCode() == KeyCode.H) {
         roboRally.isHost = true;
@@ -219,8 +218,6 @@ public class SetupScreen {
         roboRally.clientNum = Integer.parseInt(roboRally.client.post("GET_CLIENT_NUM"));
       }
     });
-
-    ////////////////////////
 
     backButton.setOnMouseReleased(mouseEvent -> {
       roboRally.setScene(roboRally.getPrimaryScene());
@@ -267,6 +264,11 @@ public class SetupScreen {
     });
   }
 
+  /**
+   * @author Lucas Eiruff
+   *
+   * Creates a slider to choose amount of players/AI
+   */
   private void setSliderCallbacks() {
     // Adjust slider positions if they are put in an invalid state
     playerSlider.setOnMouseReleased(event -> {

@@ -16,9 +16,9 @@ public class CheckPoint extends FieldAction {
    *
    * Checks if the player has landed on the previous checkpoint, then
    *
-   * @param gameController the gameController of the respective game
-   * @param space          the space this action should be executed for
-   * @return returns true if the player landed on the field, false otherwise
+   * @param gameController The gameController of the respective game
+   * @param space          The space this action should be executed for
+   * @return Returns true if the player landed on the field, false otherwise
    */
   @Override
   public boolean doAction(GameController gameController, Space space) {

@@ -25,7 +25,7 @@ import designpatterns.observer.Subject;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * ...
+ * Stores a command
  *
  * @author Ekkart Kindler, ekki@dtu.dk
  */

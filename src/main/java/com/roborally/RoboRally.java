@@ -58,6 +58,11 @@ public class RoboRally extends Application {
   public int clientNum = 0;
   public boolean readyToUpdateBoard = false;
 
+  /**
+   * @author Lucas Eiruff
+   *
+   * Generates a window with the game.
+   */
   @Override
   public void start(Stage primaryStage) {
     stage = primaryStage;

@@ -435,9 +435,9 @@ public class GameController {
   /**
    * @author Lucas Eiruff
    *
-   * @param source the register where the card originated from
-   * @param target the register which the cards is being moved to
-   * @return true if the card can be moved to the target, return false otherwise
+   * @param source The register where the card originated from
+   * @param target The register which the cards is being moved to
+   * @return True if the card can be moved to the target, return false otherwise
    */
   public boolean moveCards(@NotNull CommandCardField source, @NotNull CommandCardField target) {
     CommandCard sourceCard = source.getCard();
@@ -456,7 +456,7 @@ public class GameController {
    *
    * Executes a command with multiple choice in how to execute the command card.
    *
-   * @param command the choice made by the user in which command to use.
+   * @param command The choice made by the user in which command to use.
    */
   public void executeCommandOptionAndContinue(Command command) {
     board.setPhase(Phase.ACTIVATION);

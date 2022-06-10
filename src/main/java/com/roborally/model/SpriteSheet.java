@@ -18,6 +18,16 @@ public class SpriteSheet {
   private Rectangle2D[][] frames;
   private Map<String, Pair<Integer, Integer>> frameMap = new HashMap<>();
 
+  /**
+   * @author Lucas Eiruff
+   * @author August Hjortholm
+   *
+   * Separates the spritesheet into smaller frames the size of a field, for use in generating the board view
+   *
+   * @param URL The name of the spritesheet
+   * @param numRows The number of rows in the spritesheet
+   * @param numCols The number of columns in the spritesheet
+   */
   public SpriteSheet(final String URL, final int numRows, final int numCols) {
     this.spriteSheet = new Image(URL);
     this.rows = numRows;

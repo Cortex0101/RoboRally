@@ -55,11 +55,10 @@ public class AppController implements Observer {
 
   private GameController gameController;
 
-  //TODO shoudl we add authors when it's not one of us who made it
   /**
    * Manages the app, start, load, exit etc
    *
-   * @param roboRally the game of roborally
+   * @param roboRally The game of roborally
    */
   public AppController(RoboRally roboRally) {
     this.roboRally = roboRally;
@@ -105,7 +104,7 @@ public class AppController implements Observer {
   /**
    * @author Lucas Eiruff
    *
-   * uploads the game state to the other players
+   * Uploads the game state from the clients. The server responds "OK" if the update is received
    */
   //TODO is the server updating the clients, or the opposite?
   public void uploadProgram() throws Exception {

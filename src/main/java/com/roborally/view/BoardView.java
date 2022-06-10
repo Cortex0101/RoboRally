@@ -32,7 +32,7 @@ import javafx.scene.layout.VBox;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * ...
+ * Generates a view of the board
  *
  * @author Ekkart Kindler, ekki@dtu.dk
  */

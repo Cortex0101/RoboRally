@@ -224,9 +224,7 @@ public class SpaceView extends StackPane implements ViewObserver {
     }
   }
 
-  /**
-   * Above method updates the actual wall with the laser shooter, while this one updates individual lasers
-   */
+  //Above method updates the actual wall with the laser shooter, while this one updates individual lasers
   private void updateSingleLaserNonOrigin() {
     for (FieldAction fieldAction : space.getActions()) {
       if (fieldAction.getClass().getName().equals("com.roborally.controller.SingleBoardLaserNonOrigin")) {
@@ -241,6 +239,12 @@ public class SpaceView extends StackPane implements ViewObserver {
     }
   }
 
+  /**
+   * @author August Hjortholm
+   * @author Lucas Eiruff
+   *
+   * updates all fields view
+   */
   @Override
   public void updateView(Subject subject) {
     if (subject == this.space) {
@@ -257,5 +261,4 @@ public class SpaceView extends StackPane implements ViewObserver {
       updatePlayer();
     }
   }
-
 }

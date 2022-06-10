@@ -22,7 +22,7 @@
 package com.roborally.model;
 
 /**
- * ...
+ * Defines the direction of the field
  *
  * @author Ekkart Kindler, ekki@dtu.dk
  */

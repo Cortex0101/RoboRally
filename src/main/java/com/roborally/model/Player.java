@@ -30,7 +30,7 @@ import java.util.Arrays;
 import static com.roborally.model.Heading.SOUTH;
 
 /**
- * ...
+ * Defines the properties of a player
  *
  * @author Ekkart Kindler, ekki@dtu.dk
  */

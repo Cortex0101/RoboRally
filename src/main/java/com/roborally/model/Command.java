@@ -24,7 +24,7 @@ package com.roborally.model;
 import java.util.List;
 
 /**
- * ...
+ * Defines the different commands.
  *
  * @author Ekkart Kindler, ekki@dtu.dk
  */

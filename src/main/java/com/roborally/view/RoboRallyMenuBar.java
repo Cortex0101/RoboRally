@@ -25,7 +25,7 @@ import com.roborally.controller.AppController;
 import javafx.scene.control.*;
 
 /**
- * ...
+ * Generates a Menu bar to start, stop, load or save a game of Roborally
  *
  * @author Ekkart Kindler, ekki@dtu.dk
  */
