@@ -50,6 +50,13 @@ public class LoadBoard {
     hard
   }
 
+  /**
+   * loads a default board. called when no board has been chosen as an alternative
+   *
+   * @param boardConfig the settings of the board, like the player amount
+   * @param defaultBoard the default board used
+   * @return the board which was loaded from the default board file
+   */
   public static Board loadDefaultBoard(BoardConfig boardConfig, DefaultBoard defaultBoard) {
     String boardname = null;
     int[][] playerStartingPositions = new int[6][2];
@@ -165,6 +172,12 @@ public class LoadBoard {
         .collect(Collectors.joining("\n"));
   }
 
+  /**
+   * generates a board from a string, which has the format of the .json files
+   *
+   * @param json the information of the .json file
+   * @return the board which was generated from the .json string
+   */
   public static Board loadBoardFromJson(String json) {
     GsonBuilder simpleBuilder = new GsonBuilder().
         registerTypeAdapter(FieldAction.class, new Adapter<FieldAction>());
@@ -222,6 +235,12 @@ public class LoadBoard {
     return null;
   }
 
+  /**
+   * loads a .json file, then convert it into a playable board
+   *
+   * @param boardname the name of the file
+   * @return the board which was generated from the .json file
+   */
   public static Board loadBoard(String boardname) {
     if (boardname == null) {
       boardname = DEFAULTBOARD;
@@ -307,6 +326,12 @@ public class LoadBoard {
     return null;
   }
 
+  /**
+   * saves the game state in a .json file
+   *
+   * @param board the board which is to be stored in the file
+   * @param name the name of the file
+   */
   public static void saveBoard(Board board, String name) {
     BoardTemplate template = new BoardTemplate();
     template.width = board.width;
