@@ -35,8 +35,10 @@ import javafx.scene.control.TabPane;
 public class PlayersView extends TabPane implements ViewObserver {
 
   private final Board board;
+  GameController gameController;
 
   public PlayersView(GameController gameController) {
+    this.gameController = gameController;
     board = gameController.board;
 
     this.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
@@ -53,8 +55,12 @@ public class PlayersView extends TabPane implements ViewObserver {
   @Override
   public void updateView(Subject subject) {
     if (subject == board) {
-      Player current = board.getCurrentPlayer();
-      this.getSelectionModel().select(board.getPlayerNumber(current));
+      if (gameController.roboRally.isClient) {
+        this.getSelectionModel().select(gameController.roboRally.clientNum - 1);
+      } else {
+        Player current = board.getCurrentPlayer();
+        this.getSelectionModel().select(board.getPlayerNumber(current));
+      }
     }
   }
 

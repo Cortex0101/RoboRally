@@ -74,28 +74,133 @@ public class SetupScreen {
   HBox level1HBox = new HBox();
   RadioButton level1Button = new RadioButton("Easy");
   ImageView level1ImageView = new ImageView();
-  Image level1Image = new Image(IMAGES_PATH + "rallyTestImage.jpg");
+  Image level1Image = new Image(IMAGES_PATH + "riskyCrossing.png");
   HBox level2HBox = new HBox();
   RadioButton level2Button = new RadioButton("Medium");
   ImageView level2ImageView = new ImageView();
-  Image level2Image = new Image(IMAGES_PATH + "rallyTestImage.jpg");
+  Image level2Image = new Image(IMAGES_PATH + "passingLane.png");
   HBox level3HBox = new HBox();
   RadioButton level3Button = new RadioButton("Hard");
   ImageView level3ImageView = new ImageView();
-  Image level3Image = new Image(IMAGES_PATH + "rallyTestImage.jpg");
+  Image level3Image = new Image(IMAGES_PATH + "heavyArea.png");
   Separator levelSeparator = new Separator();
   Button playButton = new Button("Play");
 
   ToggleGroup toggleGroup = new ToggleGroup();
 
+
+  RadioButton singleplayerButton = new RadioButton("Single");
+  RadioButton hostButton = new RadioButton("Host");
+  RadioButton clientButton = new RadioButton("Client");
+  ToggleGroup onlineGroup = new ToggleGroup();
+  HBox onlineHBox = new HBox();
+
+  TextField hostPortField = new TextField();
+
   List<Pair<ColorPicker, TextField>> playerMenuItems;
+
+  boolean isHost = false;
+  boolean isClient = false;
 
   Scene scene;
 
   RoboRally roboRally;
 
+  private void disableAll() {
+    playerSlider.setDisable(true);
+
+    name1ColorPicker.setDisable(true);
+    name1TextField.setDisable(true);
+
+    name2ColorPicker.setDisable(true);
+    name2TextField.setDisable(true);
+
+    name3ColorPicker.setDisable(true);
+    name3TextField.setDisable(true);
+
+    name4ColorPicker.setDisable(true);
+    name4TextField.setDisable(true);
+
+    name5ColorPicker.setDisable(true);
+    name5TextField.setDisable(true);
+
+    name6ColorPicker.setDisable(true);
+    name6TextField.setDisable(true);
+
+    AISlider.setDisable(true);
+
+    level1Button.setDisable(true);
+    level2Button.setDisable(true);
+    level3Button.setDisable(true);
+  }
+
+  private void enableAll() {
+    playerSlider.setDisable(false);
+
+    if (playerSlider.getValue() >= 1) {
+      name1ColorPicker.setDisable(false);
+      name1TextField.setDisable(false);
+    }
+
+    if (playerSlider.getValue() >= 2) {
+      name2ColorPicker.setDisable(false);
+      name2TextField.setDisable(false);
+    }
+
+    if (playerSlider.getValue() >= 3) {
+      name3ColorPicker.setDisable(false);
+      name3TextField.setDisable(false);
+    }
+
+    if (playerSlider.getValue() >= 4) {
+      name4ColorPicker.setDisable(false);
+      name4TextField.setDisable(false);
+    }
+
+    if (playerSlider.getValue() >= 5) {
+      name5ColorPicker.setDisable(false);
+      name5TextField.setDisable(false);
+    }
+
+    if (playerSlider.getValue() >= 6) {
+      name6ColorPicker.setDisable(false);
+      name6TextField.setDisable(false);
+    }
+
+    AISlider.setDisable(false);
+
+    level1Button.setDisable(false);
+    level2Button.setDisable(false);
+    level3Button.setDisable(false);
+  }
+
   public SetupScreen(RoboRally roboRally) {
     this.roboRally = roboRally;
+
+    hostPortField.setPromptText("10.209.241.76");
+
+    singleplayerButton.fire();
+
+    singleplayerButton.setOnMousePressed(e -> {
+      hostPortField.setDisable(true);
+      isHost = false;
+      isClient = false;
+      enableAll();
+    });
+
+    hostButton.setOnMousePressed(e -> {
+      hostPortField.setDisable(true);
+      isHost = true;
+      isClient = false;
+      enableAll();
+    });
+
+    clientButton.setOnMousePressed(e -> {
+      hostPortField.setDisable(false);
+      isHost = false;
+      isClient = true;
+      disableAll();
+    });
 
     twoColumn.setPrefSize(400, 360);
     twoColumn.setAlignment(Pos.TOP_CENTER);
@@ -171,10 +276,13 @@ public class SetupScreen {
     level3ImageView.setImage(level3Image);
     levelSeparator.setPrefWidth(200.0);
     playButton.setPrefSize(360, 140);
+    
+    onlineHBox.getChildren().addAll(singleplayerButton, hostButton, clientButton);
+    onlineHBox.setMinSize(onlineHBox.getPrefWidth(), 24.0);
 
     twoColumn.getChildren().addAll(leftColumn, twoColumnSeparator, rightColumn);
 
-    leftColumn.getChildren().addAll(playersLabel, playerSlider, leftSliderSeparator, namesLabel, namesVBox, nameSeparator, backButton);
+    leftColumn.getChildren().addAll(playersLabel, playerSlider, leftSliderSeparator, namesLabel, namesVBox, nameSeparator, onlineHBox, backButton);
     namesVBox.getChildren().addAll(name1HBox, name2HBox, name3HBox, name4HBox, name5HBox, name6HBox);
     name1HBox.getChildren().addAll(name1ColorPicker, name1TextField);
     name2HBox.getChildren().addAll(name2ColorPicker, name2TextField);
@@ -183,7 +291,7 @@ public class SetupScreen {
     name5HBox.getChildren().addAll(name5ColorPicker, name5TextField);
     name6HBox.getChildren().addAll(name6ColorPicker, name6TextField);
 
-    rightColumn.getChildren().addAll(AILabel, AISlider, rightSliderSeparator, levelLabel, levelVBox, levelSeparator, playButton);
+    rightColumn.getChildren().addAll(AILabel, AISlider, rightSliderSeparator, levelLabel, levelVBox, levelSeparator, hostPortField, playButton);
     levelVBox.getChildren().addAll(level1HBox, level2HBox, level3HBox);
     level1HBox.getChildren().addAll(level1Button, level1ImageView);
     level2HBox.getChildren().addAll(level2Button, level2ImageView);
@@ -201,6 +309,11 @@ public class SetupScreen {
 
     setSliderCallbacks();
     updatePlayerMenu((int) playerSlider.getValue());
+    
+    singleplayerButton.setToggleGroup(onlineGroup);
+    hostButton.setToggleGroup(onlineGroup);
+    clientButton.setToggleGroup(onlineGroup);
+    singleplayerButton.setMinHeight(hostPortField.getPrefHeight());
 
     this.getScene().setOnKeyPressed(e -> {
       if (e.getCode() == KeyCode.H) {
@@ -224,6 +337,20 @@ public class SetupScreen {
     });
 
     playButton.setOnMouseReleased(mouseEvent -> {
+      if (isHost) {
+        roboRally.isHost = true;
+        roboRally.isMultiplayer = true;
+        roboRally.server = new Server();
+        roboRally.server.roboRally = roboRally;
+        new Thread(() -> roboRally.server.start(6666)).start();
+      } else if (isClient) {
+        roboRally.isClient = true;
+        roboRally.isMultiplayer = true;
+        roboRally.client = new Client();
+        roboRally.client.startConnection(hostPortField.getText(), 6666);
+        roboRally.clientNum = Integer.parseInt(roboRally.client.post("GET_CLIENT_NUM"));
+      }
+
       BoardConfig boardConfig = new BoardConfig((int) playerSlider.getValue(), (int) AISlider.getValue());
       for (int i = 0; i < playerSlider.getValue(); i++) {
         boardConfig.playerNames[i] = playerMenuItems.get(i).getValue().getText().isEmpty() ? playerMenuItems.get(i).getValue()

@@ -340,6 +340,12 @@ public class AppController implements Observer {
     // If the user did not cancel, the RoboRally application will exit
     // after the option to save the game
     if (gameController == null || stopGame()) {
+      if (roboRally.isHost) {
+        roboRally.server.stop();
+      }
+      if (roboRally.isClient) {
+        roboRally.client.stopConnection();
+      }
       Platform.exit();
     }
   }
