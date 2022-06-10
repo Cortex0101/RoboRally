@@ -47,10 +47,16 @@ public class SpriteSheet {
     frameMap.put("1-3-5 pushpanel", new Pair<>(0, 1));
     frameMap.put("blank", new Pair<>(4, 0));
     frameMap.put("pit", new Pair<>(5, 0));
-    frameMap.put("green conveyor belt", new Pair<>(0, 6));
+    frameMap.put("green conveyor belt north", new Pair<>(0, 6));
+    frameMap.put("green conveyor belt south", new Pair<>(1, 6));
+    frameMap.put("green conveyor belt west", new Pair<>(2, 6));
+    frameMap.put("green conveyor belt east", new Pair<>(3, 6));
     frameMap.put("green conveyor belt right turn", new Pair<>(2, 4));
     frameMap.put("green conveyor belt left turn", new Pair<>(1, 4));
-    frameMap.put("blue conveyor belt", new Pair<>(4, 1));
+    frameMap.put("blue conveyor belt north", new Pair<>(4, 1));
+    frameMap.put("blue conveyor belt south", new Pair<>(4, 2));
+    frameMap.put("blue conveyor belt east", new Pair<>(5, 1));
+    frameMap.put("blue conveyor belt west", new Pair<>(5, 2));
     frameMap.put("blue conveyor belt right turn", new Pair<>(2, 2));
     frameMap.put("blue conveyor belt left turn", new Pair<>(1, 2));
     frameMap.put("checkpoint 1", new Pair<>(0, 15));
@@ -61,12 +67,22 @@ public class SpriteSheet {
     frameMap.put("checkpoint 6", new Pair<>(1, 16));
     frameMap.put("checkpoint 7", new Pair<>(2, 16));
     frameMap.put("checkpoint 8", new Pair<>(3, 16));
-    frameMap.put("wall", new Pair<>(6, 3));
+    frameMap.put("south wall", new Pair<>(4, 3));
+    frameMap.put("west wall", new Pair<>(5, 3));
+    frameMap.put("north wall", new Pair<>(6, 3));
+    frameMap.put("east wall", new Pair<>(6, 2));
+    frameMap.put("northwest wall", new Pair<>(7, 2));
+    frameMap.put("southeast wall", new Pair<>(7, 0));
+    frameMap.put("southwest wall", new Pair<>(7, 3));
+    frameMap.put("northeast wall", new Pair<>(7, 1));
     frameMap.put("left gear", new Pair<>(4, 6));
     frameMap.put("right gear", new Pair<>(5, 6));
-    frameMap.put("single laser wall", new Pair<>(4, 4));
-    frameMap.put("single laser horizontal", new Pair<>(6, 5));
-    frameMap.put("single laser vertical", new Pair<>(6, 6));
+    frameMap.put("single laser wall north", new Pair<>(4, 5));
+    frameMap.put("single laser wall south", new Pair<>(4, 4));
+    frameMap.put("single laser wall east", new Pair<>(5, 5));
+    frameMap.put("single laser wall west", new Pair<>(5, 4));
+    frameMap.put("single laser horizontal", new Pair<>(6, 4));
+    frameMap.put("single laser vertical", new Pair<>(6, 5));
     frameMap.put("single laser cross", new Pair<>(7, 5));
   }
 

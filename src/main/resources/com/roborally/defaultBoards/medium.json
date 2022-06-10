@@ -414,19 +414,40 @@
     },
     {
       "walls": ["WEST"],
-      "actions": [],
+      "actions": [
+        {
+        "CLASSNAME": "com.roborally.controller.SingleBoardLaser",
+        "INSTANCE": {
+          "heading": "WEST"
+        }
+      }
+      ],
       "x": 16,
       "y": 3
     },
     {
       "walls": ["EAST"],
-      "actions": [],
+      "actions": [
+        {
+          "CLASSNAME": "com.roborally.controller.SingleBoardLaserNonOrigin",
+          "INSTANCE": {
+            "heading": "WEST"
+          }
+        }
+      ],
       "x": 17,
       "y": 3
     },
     {
       "walls": ["NORTH"],
-      "actions": [],
+      "actions": [
+        {
+          "CLASSNAME": "com.roborally.controller.SingleBoardLaser",
+          "INSTANCE": {
+            "heading": "NORTH"
+          }
+        }
+      ],
       "x": 19,
       "y": 3
     },
@@ -496,7 +517,14 @@
     },
     {
       "walls": ["SOUTH"],
-      "actions": [],
+      "actions": [
+        {
+          "CLASSNAME": "com.roborally.controller.SingleBoardLaserNonOrigin",
+          "INSTANCE": {
+            "heading": "SOUTH"
+          }
+        }
+      ],
       "x": 19,
       "y": 4
     },
@@ -566,7 +594,14 @@
     },
     {
       "walls": ["NORTH"],
-      "actions": [],
+      "actions": [
+        {
+          "CLASSNAME": "com.roborally.controller.SingleBoardLaserNonOrigin",
+          "INSTANCE": {
+            "heading": "SOUTH"
+          }
+        }
+      ],
       "x": 16,
       "y": 5
     },
@@ -642,7 +677,20 @@
     },
     {
       "walls": ["SOUTH"],
-      "actions": [],
+      "actions": [
+        {
+          "CLASSNAME": "com.roborally.controller.SingleBoardLaser",
+          "INSTANCE": {
+            "heading": "SOUTH"
+          }
+        },
+        {
+          "CLASSNAME": "com.roborally.controller.SingleBoardLaser",
+          "INSTANCE": {
+            "heading": "SOUTH"
+          }
+        }
+      ],
       "x": 16,
       "y": 6
     },
@@ -667,7 +715,14 @@
     },
     {
       "walls": ["EAST"],
-      "actions": [],
+      "actions": [
+        {
+          "CLASSNAME": "com.roborally.controller.SingleBoardLaser",
+          "INSTANCE": {
+            "heading": "EAST"
+          }
+        }
+      ],
       "x": 19,
       "y": 6
     },

@@ -44,7 +44,6 @@ import java.io.File;
 import java.util.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 
 public class AppController implements Observer {
 
@@ -184,8 +183,15 @@ public class AppController implements Observer {
     gameController.startProgrammingPhase(board.resetRegisters);
   }
 
-  private boolean validateSaveName(String name) {
-    return true; // TODO: Validate the name. For instance it can not contain an extension ie .json, and it must not already exsist in the save games directory or else we can overwrite it maybe?
+  private boolean checkForIllegalCharacters(String name) {
+    byte[] characters = name.getBytes();
+    for (int i = 0; i < characters.length; i++) {
+      if (!((characters[i] >= 65 && characters[i] <= 90) || (characters[i] >= 97 && characters[i] <= 122)) || characters[i] == 0){
+        System.out.println("error: invalid character");
+        return false;
+      }
+    }
+    return true;
   }
 
   public void saveGame() {
@@ -195,7 +201,7 @@ public class AppController implements Observer {
       dialog.setTitle("Save game");
       dialog.setHeaderText("Type name of save file");
       result = dialog.showAndWait();
-    } while (!validateSaveName(result.orElse("mysave")));
+    } while (!checkForIllegalCharacters(result.orElse("mysave")));
 
     LoadBoard.saveBoard(gameController.board, result.orElse("mysave"));
   }

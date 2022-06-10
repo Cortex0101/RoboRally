@@ -231,8 +231,12 @@ public class SetupScreen {
       for (int i = 0; i < playerSlider.getValue(); i++) {
         boardConfig.playerNames[i] = playerMenuItems.get(i).getValue().getText().isEmpty() ? playerMenuItems.get(i).getValue()
             .getPromptText() : playerMenuItems.get(i).getValue().getText();
-        // TODO: Add ability to set colors form the color pickers
-        boardConfig.playerColors[i] = Arrays.asList("red", "green", "blue", "orange", "grey", "magenta").get(i);
+        boardConfig.playerColors[i] = Arrays.asList(name1ColorPicker.getValue().toString(),
+                name2ColorPicker.getValue().toString(),
+                name3ColorPicker.getValue().toString(),
+                name4ColorPicker.getValue().toString(),
+                name5ColorPicker.getValue().toString(),
+                name6ColorPicker.getValue().toString()).get(i);
       }
 
       DefaultBoard selectedBoard;
