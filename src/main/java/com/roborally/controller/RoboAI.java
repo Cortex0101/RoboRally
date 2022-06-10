@@ -15,6 +15,10 @@ public class RoboAI {
 
 
   /**
+   * @author Lucas Eiruff
+   *
+   * Sets a player as an AI
+   *
    * @param AIplayerOrig the player this class should generate moves for
    */
   public RoboAI(AppController originalAppController, Player AIplayerOrig, boolean fromNew) {
@@ -49,6 +53,8 @@ public class RoboAI {
   }
 
   /**
+   * @author Lucas Eiruff
+   *
    * Programs the robot with the command cards specified and executes the program on the boardCopy.
    *
    * @param commandCards the commands to be executed.
@@ -63,6 +69,8 @@ public class RoboAI {
   }
 
   /**
+   * @author Lucas Eiruff
+   *
    * Get command cards based on indexes corresponding to the command card in the programming deck
    * at
    *
@@ -88,6 +96,8 @@ public class RoboAI {
   }
 
   /**
+   * @author Lucas Eiruff
+   *
    * Find the most optimal program to get closest to space
    *
    * @param desiredSpace the space to try to get closest to

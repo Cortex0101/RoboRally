@@ -15,6 +15,16 @@ public class SingleBoardLaserNonOrigin extends FieldAction {
         this.heading = heading;
     }
 
+    /**
+     * @author August Hjortholm
+     *
+     * removes all cards from the players register, and moves the player to the field which they started on
+     * this
+     *
+     * @param gameController the gameController of the respective game
+     * @param space          the space this action should be executed for
+     * @return returns true if the player landed on the field, false otherwise
+     */
     @Override
     public boolean doAction(GameController gameController, Space space) {
         Player player = space.getPlayer();
