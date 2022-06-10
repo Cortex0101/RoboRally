@@ -19,7 +19,7 @@ public class RoboAI {
    *
    * Sets a player as an AI
    *
-   * @param AIplayerOrig the player this class should generate moves for
+   * @param AIplayerOrig The player this class should generate moves for
    */
   public RoboAI(AppController originalAppController, Player AIplayerOrig, boolean fromNew) {
     gameOrig = originalAppController.getGameController();
@@ -41,6 +41,8 @@ public class RoboAI {
   }
 
   /**
+   * @author Lucas Eiruff
+   *
    * Since the originals and the copies arent linked, changes to the AI's positions in the original
    * dont update in the copy. Therefor call this method before doing any calculations to make sure
    * the AI's proper positions are set.
@@ -57,7 +59,7 @@ public class RoboAI {
    *
    * Programs the robot with the command cards specified and executes the program on the boardCopy.
    *
-   * @param commandCards the commands to be executed.
+   * @param commandCards The commands to be executed.
    */
   public void performMoves(List<CommandCard> commandCards) {
     for (int i = 0; i < Player.NO_REGISTERS; i++) {
@@ -74,8 +76,8 @@ public class RoboAI {
    * Get command cards based on indexes corresponding to the command card in the programming deck
    * at
    *
-   * @param indexes the indexes
-   * @return returns a list of command cards drawn from the command card deck at the indexes
+   * @param indexes The indexes
+   * @return Returns a list of command cards drawn from the command card deck at the indexes
    */
   private List<CommandCard> getCommandCardsBasedOnIndexes(List<Integer> indexes) {
     List<CommandCard> commandCards = new ArrayList<>();
@@ -100,8 +102,8 @@ public class RoboAI {
    *
    * Find the most optimal program to get closest to space
    *
-   * @param desiredSpace the space to try to get closest to
-   * @return the programming cards selected from the programming deck, that gets the robot closest
+   * @param desiredSpace The space to try to get closest to
+   * @return The programming cards selected from the programming deck, that gets the robot closest
    * to the desired space
    */
   public List<CommandCard> findBestProgramToGetTo(Space desiredSpace) {

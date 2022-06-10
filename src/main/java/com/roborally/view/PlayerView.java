@@ -35,7 +35,7 @@ import javafx.scene.layout.VBox;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * ...
+ * Generate a view for the programmin panel for each player
  *
  * @author Ekkart Kindler, ekki@dtu.dk
  */

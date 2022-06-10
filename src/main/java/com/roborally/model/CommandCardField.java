@@ -24,7 +24,7 @@ package com.roborally.model;
 import designpatterns.observer.Subject;
 
 /**
- * ...
+ * Defines the fields which command cards ar stored in
  *
  * @author Ekkart Kindler, ekki@dtu.dk
  */

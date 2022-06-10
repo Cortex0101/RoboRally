@@ -32,7 +32,7 @@ import java.util.List;
 import static com.roborally.model.Phase.INITIALISATION;
 
 /**
- * ...
+ * Defines the properties of the board
  *
  * @author Ekkart Kindler, ekki@dtu.dk
  */
@@ -139,6 +139,8 @@ public class Board extends Subject {
   }
 
   /**
+   * @author Lucas Eiruff
+   *
    * This method is used for the AI to generate a copy of the board with itself only
    *
    * @param player the only player that should be on the board
@@ -212,6 +214,8 @@ public class Board extends Subject {
   }
 
   /**
+   * @author Lucas Eiruff
+   *
    * Returns the neighbour of the given space of the board in the given heading. The neighbour is
    * returned only, if it can be reached from the given space (no walls or obstacles in either of
    * the involved spaces); otherwise, null will be returned.
@@ -234,7 +238,9 @@ public class Board extends Subject {
   }
 
   /**
-   * Caclulates the distance between two spaces on the board. The distance is calculated not as a
+   * @author Lucas Eiruff
+   *
+   * Calculates the distance between two spaces on the board. The distance is calculated not as a
    * diagonal, but the horizontal + vertical distance.
    *
    * @param space1 the first space

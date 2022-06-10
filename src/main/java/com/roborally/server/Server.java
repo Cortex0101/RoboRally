@@ -22,6 +22,13 @@ public class Server {
   private int playersReady = 0;
   private boolean everyoneReady = false;
 
+  /**
+   * @author Lucas Eiruff
+   *
+   * Creates a game which can be joined and starts a connection
+   *
+   * @param port
+   */
   public void start(int port) {
     try {
       serverSocket = new ServerSocket(port);
@@ -37,6 +44,11 @@ public class Server {
     }
   }
 
+  /**
+   * @author Lucas Eiruff
+   *
+   * Closes the connection of the server
+   */
   public void stop() {
     try {
       serverSocket.close();
@@ -56,6 +68,13 @@ public class Server {
       this.clientSocket = socket;
     }
 
+    /**
+     * @author Lucas Eiruff
+     *
+     * Updates the hosts game according to the clients updates,
+     * and updates the clients of the game state when apropriate
+     *
+     */
     public void run() {
       try {
         out = new PrintWriter(clientSocket.getOutputStream(), true);
@@ -75,6 +94,13 @@ public class Server {
       }
     }
 
+    /**
+     * @author Lucas Eiruff
+     *
+     * Processes the message sent by clients
+     *
+     * @param message the message sent by the client
+     */
     private void processMessage(String message) {
       if (message.equals("exit")) {
         out.println("bye");

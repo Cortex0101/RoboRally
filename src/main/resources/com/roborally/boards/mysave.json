@@ -298,6 +298,19 @@
         {
           "CLASSNAME": "com.roborally.controller.BlueConveyorBelt",
           "INSTANCE": {
+            "heading": "EAST"
+          }
+        }
+      ],
+      "x": 6,
+      "y": 6
+    },
+    {
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "com.roborally.controller.GreenConveyorBelt",
+          "INSTANCE": {
             "heading": "WEST"
           }
         }
@@ -422,6 +435,19 @@
       "actions": [
         {
           "CLASSNAME": "com.roborally.controller.BlueConveyorBelt",
+          "INSTANCE": {
+            "heading": "WEST"
+          }
+        }
+      ],
+      "x": 9,
+      "y": 3
+    },
+    {
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "com.roborally.controller.GreenConveyorBelt",
           "INSTANCE": {
             "heading": "SOUTH"
           }
@@ -872,9 +898,7 @@
       "y": 9
     },
     {
-      "walls": [
-        "NORTH"
-      ],
+      "walls": [],
       "actions": [],
       "x": 11,
       "y": 2

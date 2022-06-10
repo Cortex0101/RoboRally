@@ -38,7 +38,7 @@ import javafx.scene.paint.Color;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * ...
+ * Generates a view of the cards and their fields
  *
  * @author Ekkart Kindler, ekki@dtu.dk
  */
@@ -104,6 +104,7 @@ public class CardFieldView extends GridPane implements ViewObserver {
     field.attach(this);
     update(field);
   }
+
 
   private String cardFieldRepresentation(CommandCardField cardField) {
     if (cardField.player != null) {

@@ -55,11 +55,10 @@ public class AppController implements Observer {
 
   private GameController gameController;
 
-  //TODO shoudl we add authors when it's not one of us who made it
   /**
    * Manages the app, start, load, exit etc
    *
-   * @param roboRally the game of roborally
+   * @param roboRally The game of roborally
    */
   public AppController(RoboRally roboRally) {
     this.roboRally = roboRally;
@@ -105,9 +104,8 @@ public class AppController implements Observer {
   /**
    * @author Lucas Eiruff
    *
-   * uploads the game state to the other players
+   * Uploads the game state from the clients. The server responds "OK" if the update is received
    */
-  //TODO is the server updating the clients, or the opposite?
   public void uploadProgram() throws Exception {
     if (roboRally.isClient) {
       Board board = this.gameController.board;
@@ -136,9 +134,8 @@ public class AppController implements Observer {
   /**
    * @author Lucas Eiruff
    *
-   * Updates the game state on the hosts side,
+   * Updates the game state on the hosts side.
    */
-  //TODO is the server updating the clients, or the opposite?
   public void setGame() {
     if (roboRally.isHost) {
       Board board = LoadBoard.loadBoard("tempSave");
@@ -208,8 +205,6 @@ public class AppController implements Observer {
    * @author Lucas Eiruff
    *
    * Instantiates a new game without a UI, used for testing and AI players
-   *
-   * @return gameController
    */
   public void newGameWithoutUI(String boardName, boolean useTempBoard) {
     Board board = LoadBoard.loadBoard(useTempBoard ? "tempBoard" : boardName);//LoadBoard.loadBoard(boardName);
@@ -353,6 +348,24 @@ public class AppController implements Observer {
       }
       Platform.exit();
     }
+  }
+  /**
+   * @author August Hjortholm
+   *
+   * Opens an information window showing which player has won, then exits the program
+   */
+  public void endGame(String player) {
+    if (gameController != null) {
+      Alert alert = new Alert(AlertType.INFORMATION);
+      alert.setTitle("Victory!");
+      alert.setContentText(player + " Has won!");
+      Optional<ButtonType> result = alert.showAndWait();
+
+      if (result.isEmpty() || result.get() != ButtonType.OK) {
+        return; // return without exiting the application
+      }
+    }
+    Platform.exit();
   }
 
   public boolean isGameRunning() {

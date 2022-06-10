@@ -23,12 +23,10 @@ package com.roborally;
 
 import com.roborally.controller.AppController;
 import com.roborally.controller.GameController;
-import com.roborally.model.SpriteSheet;
 import com.roborally.server.Client;
 import com.roborally.server.Server;
 import com.roborally.view.BoardView;
 import com.roborally.view.RoboRallyMenuBar;
-import com.roborally.view.SetupScreen;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
@@ -36,7 +34,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 /**
- * ...
+ * Main method for roborally. Instantiates the elements required to start a game.
  *
  * @author Ekkart Kindler, ekki@dtu.dk
  */
@@ -58,6 +56,11 @@ public class RoboRally extends Application {
   public int clientNum = 0;
   public boolean readyToUpdateBoard = false;
 
+  /**
+   * @author Lucas Eiruff
+   *
+   * Generates a window with the game.
+   */
   @Override
   public void start(Stage primaryStage) {
     stage = primaryStage;

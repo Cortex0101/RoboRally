@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * ...
+ * Defines the properties of a space, along with if a player, laser or other special field is on it
  *
  * @author Ekkart Kindler, ekki@dtu.dk
  */

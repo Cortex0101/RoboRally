@@ -30,7 +30,7 @@ import java.util.Arrays;
 import static com.roborally.model.Heading.SOUTH;
 
 /**
- * ...
+ * Defines the properties of a player
  *
  * @author Ekkart Kindler, ekki@dtu.dk
  */
@@ -168,7 +168,6 @@ public class Player extends Subject {
   public void reboot(GameController gameController) {
     setRebooting(false);
     setSpace(getStartingSpace());
-    // TODO: Implement recieving damage cards, and handle caes where other robot is on starting sapace.
   }
 
   public Space getStartingSpace() {

@@ -22,7 +22,7 @@
 package com.roborally.model;
 
 /**
- * ...
+ * Defines the phases of the
  *
  * @author Ekkart Kindler, ekki@dtu.dk
  */

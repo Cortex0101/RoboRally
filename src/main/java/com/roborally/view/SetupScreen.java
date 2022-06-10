@@ -315,7 +315,6 @@ public class SetupScreen {
     clientButton.setToggleGroup(onlineGroup);
     singleplayerButton.setMinHeight(hostPortField.getPrefHeight());
 
-    /////////////////////////
     this.getScene().setOnKeyPressed(e -> {
       if (e.getCode() == KeyCode.H) {
         roboRally.isHost = true;
@@ -332,8 +331,6 @@ public class SetupScreen {
         roboRally.clientNum = Integer.parseInt(roboRally.client.post("GET_CLIENT_NUM"));
       }
     });
-
-    ////////////////////////
 
     backButton.setOnMouseReleased(mouseEvent -> {
       roboRally.setScene(roboRally.getPrimaryScene());
@@ -394,6 +391,11 @@ public class SetupScreen {
     });
   }
 
+  /**
+   * @author Lucas Eiruff
+   *
+   * Creates a slider to choose amount of players/AI
+   */
   private void setSliderCallbacks() {
     // Adjust slider positions if they are put in an invalid state
     playerSlider.setOnMouseReleased(event -> {

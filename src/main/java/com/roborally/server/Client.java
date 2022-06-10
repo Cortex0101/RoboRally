@@ -13,6 +13,14 @@ public class Client {
   private PrintWriter out;
   private BufferedReader in;
 
+  /**
+   * @author Lucas Eiruff
+   *
+   * Connects the client to the host
+   *
+   * @param ip the ip of the host
+   * @param port the port used for the game
+   */
   public void startConnection(String ip, int port) {
     try {
       clientSocket = new Socket(ip, port);
@@ -24,6 +32,14 @@ public class Client {
 
   }
 
+  /**
+   * @author Lucas Eiruff
+   *
+   * Updates the server on the game changes from the clients side
+   *
+   * @param msg
+   * @return
+   */
   public String post(String msg) {
     try {
       out.println(msg);
@@ -53,6 +69,7 @@ public class Client {
 
   }
 
+  //This method is for testing purposes only. it starts the game as a client by default
   public static void main(String argvs[]) throws InterruptedException {
     Client client1 = new Client();
     client1.startConnection("127.0.0.1", 6666);

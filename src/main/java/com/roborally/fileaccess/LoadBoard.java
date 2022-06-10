@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 import javafx.scene.paint.Color;
 
 /**
- * ...
+ * loads the board from a .json file
  *
  * @author Ekkart Kindler, ekki@dtu.dk
  */
@@ -51,6 +51,8 @@ public class LoadBoard {
   }
 
   /**
+   * @author Lucas Eiruff
+   *
    * loads a default board. called when no board has been chosen as an alternative
    *
    * @param boardConfig the settings of the board, like the player amount
@@ -173,6 +175,8 @@ public class LoadBoard {
   }
 
   /**
+   * @author Lucas Eiruff
+   *
    * generates a board from a string, which has the format of the .json files
    *
    * @param json the information of the .json file
@@ -236,6 +240,8 @@ public class LoadBoard {
   }
 
   /**
+   * @author Lucas Eiruff
+   *
    * loads a .json file, then convert it into a playable board
    *
    * @param boardname the name of the file
@@ -327,10 +333,12 @@ public class LoadBoard {
   }
 
   /**
-   * saves the game state in a .json file
+   * @author Lucas Eiruff
    *
-   * @param board the board which is to be stored in the file
-   * @param name the name of the file
+   * Saves the game state in a .json file
+   *
+   * @param board The board which is to be stored in the file
+   * @param name The name of the file
    */
   public static void saveBoard(Board board, String name) {
     BoardTemplate template = new BoardTemplate();

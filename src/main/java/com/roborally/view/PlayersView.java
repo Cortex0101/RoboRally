@@ -28,7 +28,7 @@ import com.roborally.model.Player;
 import javafx.scene.control.TabPane;
 
 /**
- * ...
+ * Generate the submenus for each player
  *
  * @author Ekkart Kindler, ekki@dtu.dk
  */
