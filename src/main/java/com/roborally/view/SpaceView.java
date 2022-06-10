@@ -40,6 +40,8 @@ import javafx.scene.shape.*;
 import javafx.scene.text.Text;
 import org.intellij.lang.annotations.JdkConstants.InputEventMask;
 import org.jetbrains.annotations.NotNull;
+import java.util.List;
+import com.roborally.model.Heading;
 
 public class SpaceView extends StackPane implements ViewObserver {
 
@@ -66,13 +68,6 @@ public class SpaceView extends StackPane implements ViewObserver {
     this.setMinHeight(SPACE_HEIGHT);
     this.setMaxHeight(SPACE_HEIGHT);
 
-    /*
-    if ((space.x + space.y) % 2 == 0) {
-      this.setStyle("-fx-background-color: white;");
-    } else {
-      this.setStyle("-fx-background-color: black;");
-    }
-     */
     space.attach(this);
     SpriteSheetSingleton.getInstance().spriteSheet.setSpaceSize(this.getPrefWidth(), this.getPrefHeight());
     update(space);
@@ -114,48 +109,40 @@ public class SpaceView extends StackPane implements ViewObserver {
     }
   }
 
-  // TODO: When multiple walls are drawn on the same space, use the custom textures
   private void updateWall() {
-      if (space.getWalls().isEmpty()) {
-          return;
-      }
+    if (space.getWalls().isEmpty()) {
+      return;
+    }
 
-    for (var wallHeading : space.getWalls()) {
-      switch (wallHeading) {
-        case NORTH -> this.getChildren().add(SpriteSheetSingleton.getInstance().spriteSheet.getFrame("wall"));
-        case EAST -> {
-          ImageView view = SpriteSheetSingleton.getInstance().spriteSheet.getFrame("wall");
-          view.setRotate(90.0);
-          view.toFront();
-          this.getChildren().add(view);
-        }
-        case SOUTH -> {
-          ImageView view = SpriteSheetSingleton.getInstance().spriteSheet.getFrame("wall");
-          view.setRotate(180.0);
-          view.toFront();
-          this.getChildren().add(view);
-        }
-        case WEST -> {
-          ImageView view = SpriteSheetSingleton.getInstance().spriteSheet.getFrame("wall");
-          view.setRotate(270.0);
-          view.toFront();
-          this.getChildren().add(view);
-        }
+    List<Heading> wallHeading = space.getWalls();
+    if (wallHeading.size() == 1) {
+      switch (wallHeading.get(0)) {
+        case NORTH -> this.getChildren().add(SpriteSheetSingleton.getInstance().spriteSheet.getFrame("north wall"));
+        case EAST -> this.getChildren().add(SpriteSheetSingleton.getInstance().spriteSheet.getFrame("east wall"));
+        case SOUTH -> this.getChildren().add(SpriteSheetSingleton.getInstance().spriteSheet.getFrame("south wall"));
+        case WEST -> this.getChildren().add(SpriteSheetSingleton.getInstance().spriteSheet.getFrame("west wall"));
+      }
+    }
+    else {
+      switch (wallHeading.get(0).toString() + wallHeading.get(1).toString()) {
+        case "EASTNORTH", "NORTHEAST" -> this.getChildren().add(SpriteSheetSingleton.getInstance().spriteSheet.getFrame("northeast wall"));
+        case "EASTSOUTH", "SOUTHEAST" -> this.getChildren().add(SpriteSheetSingleton.getInstance().spriteSheet.getFrame("southeast wall"));
+        case "WESTNORTH", "NORTHWEST" -> this.getChildren().add(SpriteSheetSingleton.getInstance().spriteSheet.getFrame("northwest wall"));
+        case "WESTSOUTH", "SOUTHWEST" -> this.getChildren().add(SpriteSheetSingleton.getInstance().spriteSheet.getFrame("southwest wall"));
       }
     }
   }
 
-  // Todo: update to use custom textures
   private void updateGreenConveyorBelt() {
     for (FieldAction fieldAction : space.getActions()) {
       if (fieldAction.getClass().getName().equals("com.roborally.controller.GreenConveyorBelt")) {
         GreenConveyorBelt conveyorBelt = (GreenConveyorBelt) fieldAction;
-        ImageView view = SpriteSheetSingleton.getInstance().spriteSheet.getFrame("green conveyor belt");
+        ImageView view = null;
         switch (conveyorBelt.getHeading()) {
-          case NORTH -> view.setRotate(0.0);
-          case EAST -> view.setRotate(90.0);
-          case SOUTH -> view.setRotate(180.0);
-          case WEST -> view.setRotate(270.0);
+          case NORTH -> view = SpriteSheetSingleton.getInstance().spriteSheet.getFrame("green conveyor belt north");
+          case EAST -> view = SpriteSheetSingleton.getInstance().spriteSheet.getFrame("green conveyor belt east");
+          case SOUTH -> view = SpriteSheetSingleton.getInstance().spriteSheet.getFrame("green conveyor belt south");
+          case WEST -> view = SpriteSheetSingleton.getInstance().spriteSheet.getFrame("green conveyor belt west");
         }
         this.getChildren().add(view);
       }
@@ -168,10 +155,10 @@ public class SpaceView extends StackPane implements ViewObserver {
         BlueConveyorBelt conveyorBelt = (BlueConveyorBelt) fieldAction;
         ImageView view = SpriteSheetSingleton.getInstance().spriteSheet.getFrame("blue conveyor belt");
         switch (conveyorBelt.getHeading()) {
-          case NORTH -> view.setRotate(0.0);
-          case EAST -> view.setRotate(90.0);
-          case SOUTH -> view.setRotate(180.0);
-          case WEST -> view.setRotate(270.0);
+          case NORTH -> view = SpriteSheetSingleton.getInstance().spriteSheet.getFrame("blue conveyor belt north");
+          case EAST -> view = SpriteSheetSingleton.getInstance().spriteSheet.getFrame("blue conveyor belt east");
+          case SOUTH -> view = SpriteSheetSingleton.getInstance().spriteSheet.getFrame("blue conveyor belt south");
+          case WEST -> view = SpriteSheetSingleton.getInstance().spriteSheet.getFrame("blue conveyor belt west");
         }
         this.getChildren().add(view);
       }
@@ -222,10 +209,15 @@ public class SpaceView extends StackPane implements ViewObserver {
         SingleBoardLaser singleBoardLaser = (SingleBoardLaser) fieldAction;
         ImageView view = SpriteSheetSingleton.getInstance().spriteSheet.getFrame("single laser wall");
         switch (singleBoardLaser.getHeading()) {
-          case NORTH -> view.setRotate(0.0);
-          case EAST -> view.setRotate(90.0);
-          case SOUTH -> view.setRotate(180.0);
-          case WEST -> view.setRotate(270.0);
+          case NORTH -> view = SpriteSheetSingleton.getInstance().spriteSheet.getFrame("single laser wall north");
+          case EAST -> view = SpriteSheetSingleton.getInstance().spriteSheet.getFrame("single laser wall east");
+          case SOUTH -> view = SpriteSheetSingleton.getInstance().spriteSheet.getFrame("single laser wall south");
+          case WEST -> view = SpriteSheetSingleton.getInstance().spriteSheet.getFrame("single laser wall west");
+        }
+        this.getChildren().add(view);
+        switch (singleBoardLaser.getHeading()) {
+          case NORTH, SOUTH -> view = SpriteSheetSingleton.getInstance().spriteSheet.getFrame("single laser vertical");
+          case EAST, WEST -> view = SpriteSheetSingleton.getInstance().spriteSheet.getFrame("single laser horizontal");
         }
         this.getChildren().add(view);
       }
@@ -236,12 +228,16 @@ public class SpaceView extends StackPane implements ViewObserver {
    * Above method updates the actual wall with the laser shooter, while this one updates individual lasers
    */
   private void updateSingleLaserNonOrigin() {
-    if (this.space.getLaser() == Laser.horizontal) {
-      this.getChildren().add(SpriteSheetSingleton.getInstance().spriteSheet.getFrame("single laser horizontal"));
-    } else if (this.space.getLaser() == Laser.vertical) {
-      this.getChildren().add(SpriteSheetSingleton.getInstance().spriteSheet.getFrame("single laser vertical"));
-    } else if (this.space.getLaser() == Laser.cross) {
-      this.getChildren().add(SpriteSheetSingleton.getInstance().spriteSheet.getFrame("single laser cross"));
+    for (FieldAction fieldAction : space.getActions()) {
+      if (fieldAction.getClass().getName().equals("com.roborally.controller.SingleBoardLaserNonOrigin")) {
+        SingleBoardLaserNonOrigin singleBoardLaser = (SingleBoardLaserNonOrigin) fieldAction;
+        ImageView view = SpriteSheetSingleton.getInstance().spriteSheet.getFrame("single laser wall");
+        switch (singleBoardLaser.getHeading()) {
+          case NORTH, SOUTH -> view = SpriteSheetSingleton.getInstance().spriteSheet.getFrame("single laser vertical");
+          case EAST, WEST -> view = SpriteSheetSingleton.getInstance().spriteSheet.getFrame("single laser horizontal");
+        }
+        this.getChildren().add(view);
+  }
     }
   }
 
@@ -256,8 +252,8 @@ public class SpaceView extends StackPane implements ViewObserver {
       updateGears();
       updatePits();
       updateCheckPoints();
-      //updateSingleLaserNonOrigin();
-      //updateSingleLasers();
+      updateSingleLaserNonOrigin();
+      updateSingleLasers();
       updatePlayer();
     }
   }

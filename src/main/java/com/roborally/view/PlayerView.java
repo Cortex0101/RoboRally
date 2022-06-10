@@ -24,6 +24,8 @@ package com.roborally.view;
 import designpatterns.observer.Subject;
 import com.roborally.controller.GameController;
 import com.roborally.model.*;
+import java.util.Timer;
+import java.util.TimerTask;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -57,7 +59,7 @@ public class PlayerView extends Tab implements ViewObserver {
 
   public PlayerView(@NotNull GameController gameController, @NotNull Player player) {
     super(player.getName());
-    this.setStyle("-fx-text-base-color: " + player.getColor() + ";");
+    this.setStyle("-fx-text-base-color: #" + player.getColor().substring(2) + ";");
 
     VBox top = new VBox();
     this.setContent(top);
@@ -84,7 +86,35 @@ public class PlayerView extends Tab implements ViewObserver {
     //      refactored.
 
     finishButton = new Button("Finish Programming");
-    finishButton.setOnAction(e -> gameController.finishProgrammingPhase());
+    finishButton.setOnAction(e -> {
+      if (!gameController.roboRally.isMultiplayer) {
+        gameController.finishProgrammingPhase();
+      } else {
+        try {
+          gameController.roboRally.getAppController().uploadProgram();
+          String ignore = gameController.roboRally.client.post("PLAYER_READY");
+        } catch (Exception ex) {
+          ex.printStackTrace();
+        }
+
+        TimerTask task = new TimerTask() {
+          public void run() {
+            System.out.println("Task performed on ");
+            requestUpdatedMap();
+          }
+
+          private void requestUpdatedMap() {
+            String ready = gameController.roboRally.client.post("IS_EVERYONE_READY");
+            if (ready.equals("YES")) {
+              gameController.roboRally.readyToUpdateBoard = true;
+              cancel();
+            }
+          }
+        };
+        Timer timer = new Timer("Timer");
+        timer.scheduleAtFixedRate(task, 1000L, 1000L);
+      }
+    });
 
     executeButton = new Button("Execute Program");
     executeButton.setOnAction(e -> gameController.executePrograms());

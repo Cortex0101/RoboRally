@@ -11,6 +11,13 @@ public class CheckPoint extends FieldAction {
   // This is just temporary until I figure out why GSON won't load using an integer.
   private Heading heading;
 
+  /**
+   * Checks if the player has landed on the previous checkpoint, then
+   *
+   * @param gameController the gameController of the respective game
+   * @param space          the space this action should be executed for
+   * @return
+   */
   @Override
   public boolean doAction(GameController gameController, Space space) {
     Player player = space.getPlayer();

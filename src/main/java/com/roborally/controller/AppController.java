@@ -22,6 +22,7 @@
 package com.roborally.controller;
 
 import com.roborally.fileaccess.LoadBoard;
+import com.roborally.model.CommandCardField;
 import com.roborally.view.SetupScreen;
 import designpatterns.observer.Observer;
 import designpatterns.observer.Subject;
@@ -32,6 +33,7 @@ import com.roborally.model.Board;
 import com.roborally.model.Player;
 
 import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
@@ -40,6 +42,8 @@ import javafx.scene.control.TextInputDialog;
 
 import java.io.File;
 import java.util.*;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 
 public class AppController implements Observer {
 
@@ -51,13 +55,107 @@ public class AppController implements Observer {
 
   private GameController gameController;
 
+  //TODO shoudl we add authors when it's not one of us who made it
+  /**
+   * Manages the app, start, load, exit etc
+   *
+   * @param roboRally the game of roborally
+   */
   public AppController(RoboRally roboRally) {
     this.roboRally = roboRally;
   }
-
+  /**
+   * @author Lucas Eiruff
+   *
+   * Instantiates a new game and sets all the parameters
+   */
   public void newGame() {
     SetupScreen setupScreen = new SetupScreen(roboRally);
     roboRally.setScene(setupScreen.getScene());
+
+    roboRally.getPrimaryScene().setOnMouseMoved(e -> {
+      if (roboRally.readyToUpdateBoard) {
+        gameController.roboRally.readyToUpdateBoard = false;
+        setGame();
+      }
+    });
+
+    roboRally.getPrimaryScene().setOnKeyPressed(new EventHandler<KeyEvent>() {
+      @Override
+      public void handle(KeyEvent event) {
+        if (event.getCode() == KeyCode.S) {
+          storeGame();
+          event.consume();
+        }
+        if (event.getCode() == KeyCode.L) {
+          setGame();
+          event.consume();
+        }
+        if (event.getCode() == KeyCode.U) {
+          try {
+            uploadProgram();
+          } catch (Exception e) {
+            e.printStackTrace();
+          }
+        }
+      }
+    });
+  }
+
+  /**
+   * @author Lucas Eiruff
+   *
+   * uploads the game state to the other players
+   */
+  //TODO is the server updating the clients, or the opposite?
+  public void uploadProgram() throws Exception {
+    if (roboRally.isClient) {
+      Board board = this.gameController.board;
+      final int playerNum = roboRally.clientNum - 1;
+      for (int i = 0; i < Player.NO_REGISTERS; i++) {
+        Player player = board.getPlayer(playerNum);
+        CommandCardField field = player.getProgramField(i);
+        String name = field.getCard().getName();
+        String response = roboRally.client.post("C " + playerNum + " " + i  + " " + name);
+        if (!response.equals("OK")) {
+          throw new Exception("Failed to update player program");
+        }
+      }
+    }
+  }
+
+  /**
+   * @author Lucas Eiruff
+   *
+   * stores the game state in a temporary .json file
+   */
+  public void storeGame() {
+    LoadBoard.saveBoard(gameController.board, "tempSave");
+  }
+
+  /**
+   * @author Lucas Eiruff
+   *
+   * Updates the game state on the hosts side,
+   */
+  //TODO is the server updating the clients, or the opposite?
+  public void setGame() {
+    if (roboRally.isHost) {
+      Board board = LoadBoard.loadBoard("tempSave");
+      gameController = new GameController(Objects.requireNonNull(board));
+      setAIPlayers(false);
+      gameController.startProgrammingPhase(board.resetRegisters);
+      roboRally.createBoardView(gameController);
+    } else if (roboRally.isClient) {
+      String jsonBoard = roboRally.client.post("GET_BOARD");
+      String ignore = roboRally.client.post("SUBTRACT_READY");
+      Board board = LoadBoard.loadBoardFromJson(jsonBoard);
+      gameController = new GameController(Objects.requireNonNull(board));
+      gameController.roboRally = roboRally;
+      setAIPlayers(false);
+      gameController.startProgrammingPhase(board.resetRegisters);
+      roboRally.createBoardView(gameController);
+    }
   }
 
   /*
@@ -106,16 +204,45 @@ public class AppController implements Observer {
     this.gameController = gameController;
   }
 
+  /**
+   * @author Lucas Eiruff
+   *
+   * Instantiates a new game without a UI, used for testing and AI players
+   *
+   * @return gameController
+   */
   public void newGameWithoutUI(String boardName, boolean useTempBoard) {
     Board board = LoadBoard.loadBoard(useTempBoard ? "tempBoard" : boardName);//LoadBoard.loadBoard(boardName);
     gameController = new GameController(Objects.requireNonNull(board));
     gameController.startProgrammingPhase(board.resetRegisters);
   }
 
-  private boolean validateSaveName(String name) {
-    return true; // TODO: Validate the name. For instance it can not contain an extension ie .json, and it must not already exsist in the save games directory or else we can overwrite it maybe?
+  /**
+   * @author August Hjortholm
+   *
+   * checks a string for any characters not in the alphabet. this method is mainly to prevent issues when saving a game
+   *
+   * @param name the name of the file
+   * @return true if the string is legal, false otherwise
+   */
+  private boolean checkForIllegalCharacters(String name) {
+    byte[] characters = name.getBytes();
+    for (int i = 0; i < characters.length; i++) {
+      if (!((characters[i] >= 65 && characters[i] <= 90) ||
+              (characters[i] >= 97 && characters[i] <= 122)) ||
+              characters[i] == 0){
+        System.out.println("error: invalid character");
+        return false;
+      }
+    }
+    return true;
   }
 
+  /**
+   * @author Lucas Eiruff
+   *
+   * Saves the game state into a .json file
+   */
   public void saveGame() {
     Optional<String> result;
     do {
@@ -123,11 +250,18 @@ public class AppController implements Observer {
       dialog.setTitle("Save game");
       dialog.setHeaderText("Type name of save file");
       result = dialog.showAndWait();
-    } while (!validateSaveName(result.orElse("mysave")));
+    } while (!checkForIllegalCharacters(result.orElse("mysave")));
 
     LoadBoard.saveBoard(gameController.board, result.orElse("mysave"));
   }
 
+  /**
+   * @author Lucas Eiruff
+   *
+   * returns all the names of the files saved in the boards folder
+   * @param directory the directory of the boards folder
+   * @return a list of all file names
+   */
   private List<String> getFileNames(String directory) {
     List<String> fileNames = new ArrayList<>();
     File folder = new File(directory);
@@ -148,7 +282,11 @@ public class AppController implements Observer {
       }
     }
   }
-
+  /**
+   * @author Lucas Eiruff
+   *
+   * Loads a the board from a .json file
+   */
   public void loadGame() {
     final List<String> savedGames = getFileNames(System.getProperty("user.dir") + "\\src\\main\\resources\\com\\roborally\\boards\\");
     ChoiceDialog<String> dialog = new ChoiceDialog<>(savedGames.get(0), savedGames);
@@ -159,13 +297,14 @@ public class AppController implements Observer {
     String boardLoaded = boardToLoad.orElse("defaultboard");
     Board board = LoadBoard.loadBoard(boardLoaded);
     gameController = new GameController(Objects.requireNonNull(board));
-    // TODO: Dont set here
     setAIPlayers(false);
     gameController.startProgrammingPhase(board.resetRegisters);
     roboRally.createBoardView(gameController);
   }
 
   /**
+   * @author Lucas Eiruff
+   *
    * Stop playing the current game, giving the user the option to save the game or to cancel
    * stopping the game. The method returns true if the game was successfully stopped (with or
    * without saving the game); returns false, if the current game was not stopped. In case there is
@@ -186,6 +325,11 @@ public class AppController implements Observer {
     return false;
   }
 
+  /**
+   * @author Lucas Eiruff
+   *
+   * Opens a prompt to exit the game, then ask to save the game, then exits the program
+   */
   public void exit() {
     if (gameController != null) {
       Alert alert = new Alert(AlertType.CONFIRMATION);
@@ -201,6 +345,12 @@ public class AppController implements Observer {
     // If the user did not cancel, the RoboRally application will exit
     // after the option to save the game
     if (gameController == null || stopGame()) {
+      if (roboRally.isHost) {
+        roboRally.server.stop();
+      }
+      if (roboRally.isClient) {
+        roboRally.client.stopConnection();
+      }
       Platform.exit();
     }
   }
@@ -209,10 +359,8 @@ public class AppController implements Observer {
     return gameController != null;
   }
 
-
   @Override
   public void update(Subject subject) {
-    // XXX do nothing for now
-  }
 
+  }
 }

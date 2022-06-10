@@ -77,18 +77,12 @@ public class SingleBoardLaser extends FieldAction {
 
   @Override
   public boolean doAction(GameController gameController, Space space) {
-    if (gameController.board.getPlayersNumber() == 1) // This is just temporary. Should figure out a way not to call this so much though.
+    Player player = space.getPlayer();
+    if (player == null) {
       return false;
-    List<Space> spaces = getSpacesInPath(gameController.board, space);
-    updateLaserSpaces(spaces);
-
-    Space lastSpace = spaces.get(spaces.size() - 1);
-    if (lastSpace.getPlayer() != null) {
-      // Only print if this is not a test board
-        System.out.println("Hit player: " + lastSpace.getPlayer().getName());
-      return true;
     }
 
-    return false;
+    player.setRebooting(true);
+    return true;
   }
 }

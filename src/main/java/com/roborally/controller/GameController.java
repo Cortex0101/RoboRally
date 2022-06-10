@@ -21,6 +21,7 @@
  */
 package com.roborally.controller;
 
+import com.roborally.RoboRally;
 import com.roborally.model.*;
 import org.jetbrains.annotations.NotNull;
 
@@ -35,6 +36,7 @@ public class GameController {
 
   final public Board board;
   private final RoboAI[] ai;
+  public RoboRally roboRally;
 
   public GameController(@NotNull Board board) {
     this.board = board;

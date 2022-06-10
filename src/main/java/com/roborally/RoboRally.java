@@ -24,6 +24,8 @@ package com.roborally;
 import com.roborally.controller.AppController;
 import com.roborally.controller.GameController;
 import com.roborally.model.SpriteSheet;
+import com.roborally.server.Client;
+import com.roborally.server.Server;
 import com.roborally.view.BoardView;
 import com.roborally.view.RoboRallyMenuBar;
 import com.roborally.view.SetupScreen;
@@ -47,6 +49,14 @@ public class RoboRally extends Application {
   private Scene primaryScene;
 
   private AppController appController;
+
+  public boolean isHost = false;
+  public boolean isClient = false;
+  public boolean isMultiplayer = false;
+  public Server server = null;
+  public Client client = null;
+  public int clientNum = 0;
+  public boolean readyToUpdateBoard = false;
 
   @Override
   public void start(Stage primaryStage) {

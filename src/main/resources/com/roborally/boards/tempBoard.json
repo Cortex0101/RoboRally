@@ -665,7 +665,7 @@
       "y": 0,
       "player": {
         "name": "Player1",
-        "color": "red",
+        "color": "0xff0000ff",
         "heading": "EAST",
         "AI": false,
         "commandCards": [
@@ -694,7 +694,7 @@
       "y": 2,
       "player": {
         "name": "AI1",
-        "color": "green",
+        "color": "0x008000ff",
         "heading": "EAST",
         "AI": true,
         "commandCards": [
@@ -723,7 +723,7 @@
       "y": 4,
       "player": {
         "name": "AI2",
-        "color": "blue",
+        "color": "0x0000ffff",
         "heading": "EAST",
         "AI": true,
         "commandCards": [
@@ -752,7 +752,7 @@
       "y": 5,
       "player": {
         "name": "AI3",
-        "color": "orange",
+        "color": "0xffa500ff",
         "heading": "EAST",
         "AI": true,
         "commandCards": [
