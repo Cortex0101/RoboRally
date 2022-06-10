@@ -350,7 +350,7 @@ public class SetupScreen {
         roboRally.isClient = true;
         roboRally.isMultiplayer = true;
         roboRally.client = new Client();
-        roboRally.client.startConnection("127.0.0.1", 6666);
+        roboRally.client.startConnection(hostPortField.getText(), 6666);
         roboRally.clientNum = Integer.parseInt(roboRally.client.post("GET_CLIENT_NUM"));
       }
 
