@@ -74,15 +74,15 @@ public class SetupScreen {
   HBox level1HBox = new HBox();
   RadioButton level1Button = new RadioButton("Easy");
   ImageView level1ImageView = new ImageView();
-  Image level1Image = new Image(IMAGES_PATH + "rallyTestImage.jpg");
+  Image level1Image = new Image(IMAGES_PATH + "riskyCrossing.png");
   HBox level2HBox = new HBox();
   RadioButton level2Button = new RadioButton("Medium");
   ImageView level2ImageView = new ImageView();
-  Image level2Image = new Image(IMAGES_PATH + "rallyTestImage.jpg");
+  Image level2Image = new Image(IMAGES_PATH + "passingLane.png");
   HBox level3HBox = new HBox();
   RadioButton level3Button = new RadioButton("Hard");
   ImageView level3ImageView = new ImageView();
-  Image level3Image = new Image(IMAGES_PATH + "rallyTestImage.jpg");
+  Image level3Image = new Image(IMAGES_PATH + "heavyArea.png");
   Separator levelSeparator = new Separator();
   Button playButton = new Button("Play");
 
