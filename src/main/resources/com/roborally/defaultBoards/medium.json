@@ -709,7 +709,14 @@
     },
     {
       "walls": ["WEST"],
-      "actions": [],
+      "actions": [
+        {
+          "CLASSNAME": "com.roborally.controller.SingleBoardLaserNonOrigin",
+          "INSTANCE": {
+            "heading": "EAST"
+          }
+        }
+      ],
       "x": 18,
       "y": 6
     },

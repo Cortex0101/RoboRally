@@ -24,7 +24,7 @@ public class BlueConveyorBelt extends FieldAction {
    *
    * @param gameController the gameController of the respective game
    * @param space          the space this action should be executed for
-   * @return true if the player landed on the field, false otherwise
+   * @return returns true if the player landed on the field, false otherwise
    */
   @Override
   public boolean doAction(@NotNull GameController gameController, @NotNull Space space) {

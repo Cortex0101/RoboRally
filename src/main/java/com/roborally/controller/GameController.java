@@ -27,11 +27,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-/**
- * ...
- *
- * @author Ekkart Kindler, ekki@dtu.dk
- */
 public class GameController {
 
   final public Board board;
@@ -53,6 +48,8 @@ public class GameController {
   }
 
   /**
+   * @author Lucaf Eiruff
+   *
    * Move current player to space, without accounting for movement rules.
    *
    * This method should be used for debugging only. To move players accounting for pushing and other
@@ -91,7 +88,13 @@ public class GameController {
     }
   }
 
-  // XXX: V2
+  /**
+   * @author Lucas Eiruff
+   *
+   * initiates the programming phase, and refills/replaces the command card registers if needed
+   *
+   * @param resetRegisters used to decide if the registers need to be reset
+   */
   public void startProgrammingPhase(boolean resetRegisters) {
     board.setPhase(Phase.PROGRAMMING);
     board.setCurrentPlayer(board.getPlayer(0));
@@ -145,7 +148,11 @@ public class GameController {
     return false;
   }
 
-  // XXX: V2
+  /**
+   * @author Lucas Eiruff
+   *
+   * ends the programming phase, and disables the users ability to move cards
+   */
   public void finishProgrammingPhase() {
     makeProgramFieldsInvisible();
     makeProgramFieldsVisible(0);
@@ -157,7 +164,11 @@ public class GameController {
     board.setStep(0);
   }
 
-  // XXX: V2
+  /**
+   * @author Lucas Eiruff
+   *
+   * sets a card as visible, for when the card is in use
+   */
   private void makeProgramFieldsVisible(int register) {
     if (register >= 0 && register < Player.NO_REGISTERS) {
       for (int i = 0; i < board.getPlayersNumber(); i++) {
@@ -168,7 +179,11 @@ public class GameController {
     }
   }
 
-  // XXX: V2
+  /**
+   * @author Lucas Eiruff
+   *
+   * sets a card as invisible, to avoid other players to see the card
+   */
   private void makeProgramFieldsInvisible() {
     for (int i = 0; i < board.getPlayersNumber(); i++) {
       Player player = board.getPlayer(i);
@@ -179,26 +194,32 @@ public class GameController {
     }
   }
 
-  // XXX: V2
+  /**
+   * @author Lucas Eiruff
+   *
+   * Executes all registers for all players
+   */
   public void executePrograms() {
     board.setStepMode(false);
     continuePrograms();
   }
 
-  // XXX: V2
+  /**
+   * @author Lucas Eiruff
+   *
+   * Executes a registers for a players
+   */
   public void executeStep() {
     board.setStepMode(true);
     continuePrograms();
   }
 
-  // XXX: V2
   private void continuePrograms() {
     do {
       executeNextStep();
     } while (board.getPhase() == Phase.ACTIVATION && !board.isStepMode());
   }
 
-  // XXX: V2
   private void executeNextStep() {
     Player currentPlayer = board.getCurrentPlayer();
     if (board.getPhase() == Phase.ACTIVATION && currentPlayer != null) {
@@ -314,14 +335,7 @@ public class GameController {
     if (other != null) {
       Space target = board.getNeighbour(space, heading);
       if (target != null) {
-        // XXX Note that there might be additional problems with
-        //     infinite recursion here (in some special cases)!
-        //     We will come back to that!
         moveToSpace(other, target, heading);
-
-        // Note that we do NOT embed the above statement in a try catch block, since
-        // the thrown exception is supposed to be passed on to the caller
-
         assert target.getPlayer() == null : target; // make sure target is free now
       } else {
         throw new ImpossibleMoveException(player, space, heading);
@@ -330,7 +344,13 @@ public class GameController {
     player.setSpace(space);
   }
 
-
+  /**
+   * @author Lucas Eiruff
+   *
+   * Moves player one field in the direction the player is facing.
+   *
+   * @param player the player using the card
+   */
   public void move1Forward(@NotNull Player player) {
     if (player.board == board) {
       Space space = player.getSpace();
@@ -353,30 +373,72 @@ public class GameController {
 
   }
 
+  /**
+   * @author Lucas Eiruff
+   *
+   * Moves player two field in the direction the player is facing.
+   *
+   * @param player the player using the card
+   */
   public void move2Forward(@NotNull Player player) {
     move1Forward(player);
     move1Forward(player);
   }
 
+  /**
+   * @author Lucas Eiruff
+   *
+   * Moves player three field in the direction the player is facing.
+   *
+   * @param player the player using the card
+   */
   public void move3Forward(@NotNull Player player) {
     move1Forward(player);
     move1Forward(player);
     move1Forward(player);
   }
 
+  /**
+   * @author Lucas Eiruff
+   *
+   * Turns the player to the right
+   *
+   * @param player the player using the card
+   */
   public void turnRight(@NotNull Player player) {
     player.setHeading(player.getHeading().next());
   }
 
+  /**
+   * @author Lucas Eiruff
+   *
+   * Turns the player to the left
+   *
+   * @param player the player using the card
+   */
   public void turnLeft(@NotNull Player player) {
     player.setHeading(player.getHeading().prev());
   }
 
+  /**
+   * @author Lucas Eiruff
+   *
+   * Turns the player to the around
+   *
+   * @param player the player using the card
+   */
   public void uTurn(@NotNull Player player) {
     turnLeft(player);
     turnLeft(player);
   }
 
+  /**
+   * @author Lucas Eiruff
+   *
+   * @param source the register where the card originated from
+   * @param target the register which the cards is being moved to
+   * @return true if the card can be moved to the target, return false otherwise
+   */
   public boolean moveCards(@NotNull CommandCardField source, @NotNull CommandCardField target) {
     CommandCard sourceCard = source.getCard();
     CommandCard targetCard = target.getCard();
@@ -389,6 +451,13 @@ public class GameController {
     }
   }
 
+  /**
+   * @author Lucas Eiruff
+   *
+   * Executes a command with multiple choice in how to execute the command card.
+   *
+   * @param command the choice made by the user in which command to use.
+   */
   public void executeCommandOptionAndContinue(Command command) {
     board.setPhase(Phase.ACTIVATION);
     executeCommand(board.getCurrentPlayer(), command);
