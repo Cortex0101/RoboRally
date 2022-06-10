@@ -30,9 +30,6 @@ public class PriorityAntenna extends FieldAction {
       playerDistances.remove(player);
       playerOrder.add(player);
     }
-
-    // TODO: Pass playerrorder to game controller
-
     return true;
   }
 }

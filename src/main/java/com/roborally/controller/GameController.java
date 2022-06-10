@@ -40,7 +40,7 @@ public class GameController {
 
   public void setWinner(Player player) {
     System.out.println("Player '" + player.getName() + "' wins!" );
-    notImplemented(); // TODO: do something when player wins!
+    ExitGameAfterVictory(roboRally.getAppController(), player.getName());
   }
 
   public void setAI(RoboAI roboAI, int i) {
@@ -488,9 +488,8 @@ public class GameController {
    * A method called when no corresponding controller operation is implemented yet. This should
    * eventually be removed.
    */
-  public void notImplemented() {
-    // XXX just for now to indicate that the actual method is not yet implemented
-    assert false;
+  public void ExitGameAfterVictory(AppController appController, String player) {
+    appController.endGame(player);
   }
 
 }
