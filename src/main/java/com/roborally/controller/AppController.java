@@ -293,6 +293,7 @@ public class AppController implements Observer {
     Board board = LoadBoard.loadBoard(boardLoaded);
     gameController = new GameController(Objects.requireNonNull(board));
     setAIPlayers(false);
+    gameController.roboRally = roboRally;
     gameController.startProgrammingPhase(board.resetRegisters);
     roboRally.createBoardView(gameController);
   }
