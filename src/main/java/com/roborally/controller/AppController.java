@@ -80,20 +80,11 @@ public class AppController implements Observer {
    */
   public void setGame() {
     if (roboRally.isHost) {
-      Board board = LoadBoard.loadBoard("tempSave");
-      gameController = new GameController(Objects.requireNonNull(board));
-      setAIPlayers(false);
-      gameController.startProgrammingPhase(board.resetRegisters);
-      roboRally.createBoardView(gameController);
+      startGame(loadBoard("tempSave"));
     } else if (roboRally.isClient) {
-      String jsonBoard = roboRally.client.post("GET_BOARD");
-      String ignore = roboRally.client.post("SUBTRACT_READY");
-      Board board = LoadBoard.loadBoardFromJson(jsonBoard);
-      gameController = new GameController(Objects.requireNonNull(board));
+      startGame(loadBoard(roboRally.client.post("GET_BOARD")));
+      roboRally.client.post("SUBTRACT_READY");
       gameController.roboRally = roboRally;
-      setAIPlayers(false);
-      gameController.startProgrammingPhase(board.resetRegisters);
-      roboRally.createBoardView(gameController);
     }
   }
 
@@ -104,6 +95,41 @@ public class AppController implements Observer {
    */
   public void saveGame(String name) {
     LoadBoard.saveBoard(gameController.board, name);
+  }
+
+  /**
+   * @author Lucas Eiruff
+   *
+   * Starts a new game with the board.
+   * @param board the board to start the new game with
+   */
+  public void startGame(Board board) {
+    gameController = new GameController(Objects.requireNonNull(board));
+    setAIPlayers(false);
+    gameController.roboRally = roboRally;
+    gameController.startProgrammingPhase(board.resetRegisters);
+    roboRally.createBoardView(gameController);
+  }
+
+  public Board loadBoard(String name) {
+    return LoadBoard.loadBoard(name);
+  }
+
+  /**
+   * @author Lucas Eiruff
+   *
+   * Prompts the user with a choice dialog
+   * The user choose on of the saved games in the boards folder.
+   *
+   * @return the name of the save game chosen by the user
+   */
+  public String getLoadNameFromUser() {
+    final List<String> savedGames = getFileNames(System.getProperty("user.dir") + "\\src\\main\\resources\\com\\roborally\\boards\\");
+    ChoiceDialog<String> dialog = new ChoiceDialog<>(savedGames.get(0), savedGames);
+    dialog.setTitle("Load game");
+    dialog.setHeaderText("Select game to be loaded");
+    Optional<String> boardToLoad = dialog.showAndWait();
+    return boardToLoad.orElseThrow();
   }
 
   /**
@@ -134,27 +160,6 @@ public class AppController implements Observer {
     Board board = LoadBoard.loadBoard(useTempBoard ? "tempBoard" : boardName);//LoadBoard.loadBoard(boardName);
     gameController = new GameController(Objects.requireNonNull(board));
     gameController.startProgrammingPhase(board.resetRegisters);
-  }
-
-  /**
-   * @author Lucas Eiruff
-   *
-   * Loads a the board from a .json file
-   */
-  public void loadGame() {
-    final List<String> savedGames = getFileNames(System.getProperty("user.dir") + "\\src\\main\\resources\\com\\roborally\\boards\\");
-    ChoiceDialog<String> dialog = new ChoiceDialog<>(savedGames.get(0), savedGames);
-    dialog.setTitle("Load game");
-    dialog.setHeaderText("Select game to be loaded");
-    Optional<String> boardToLoad = dialog.showAndWait();
-
-    String boardLoaded = boardToLoad.orElse("defaultboard");
-    Board board = LoadBoard.loadBoard(boardLoaded);
-    gameController = new GameController(Objects.requireNonNull(board));
-    setAIPlayers(false);
-    gameController.roboRally = roboRally;
-    gameController.startProgrammingPhase(board.resetRegisters);
-    roboRally.createBoardView(gameController);
   }
 
   /**
