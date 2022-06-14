@@ -181,12 +181,12 @@ public class GameController {
    * sets a card as visible, for when the card is in use
    */
   private void makeProgramFieldsVisible(int register) {
-    if (register >= 0 && register < Player.NO_REGISTERS) {
-      for (int i = 0; i < board.getPlayersNumber(); i++) {
-        Player player = board.getPlayer(i);
-        CommandCardField field = player.getProgramField(register);
-        field.setVisible(true);
-      }
+    if (register < 0 || register >= Player.NO_REGISTERS) {
+      return;
+    }
+
+    for (Player player : board.getPlayers()) {
+      player.getProgramField(register).setVisible(true);
     }
   }
 
@@ -196,10 +196,8 @@ public class GameController {
    * sets a card as invisible, to avoid other players to see the card
    */
   private void makeProgramFieldsInvisible() {
-    for (int i = 0; i < board.getPlayersNumber(); i++) {
-      Player player = board.getPlayer(i);
-      for (int j = 0; j < Player.NO_REGISTERS; j++) {
-        CommandCardField field = player.getProgramField(j);
+    for (Player player : board.getPlayers()) {
+      for (CommandCardField field : player.getProgram()) {
         field.setVisible(false);
       }
     }
