@@ -166,7 +166,7 @@ public class CardFieldView extends GridPane implements ViewObserver {
       if (t instanceof CardFieldView source) {
         CommandCardField cardField = source.field;
         // dont allow dragging on AI cards!
-        if (cardField.getCard() != null && cardField.player != null && !cardField.player.getIsAI()
+        if (cardField.getCard() != null && cardField.player != null && !cardField.player.isAI()
             && cardField.player.board.getPhase().equals(Phase.PROGRAMMING)) {
           Dragboard db = source.startDragAndDrop(TransferMode.MOVE);
           Image image = source.snapshot(null, null);

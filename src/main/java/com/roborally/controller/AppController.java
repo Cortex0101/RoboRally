@@ -215,7 +215,7 @@ public class AppController implements Observer {
   public void setAIPlayers(boolean fromNew) {
     Board board = gameController.board;
     for (int i = 0; i < board.getPlayersNumber(); i++) {
-      if (board.getPlayer(i).getIsAI()) {
+      if (board.getPlayer(i).isAI()) {
         gameController.setAI(new RoboAI(this, board.getPlayer(i), fromNew), i);
       }
     }

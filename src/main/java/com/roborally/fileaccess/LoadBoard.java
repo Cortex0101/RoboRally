@@ -15,7 +15,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import javafx.scene.paint.Color;
 
 /**
  * loads the board from a .json file
@@ -365,7 +364,7 @@ public class LoadBoard {
             spaceTemplate.player.name = space.getPlayer().getName();
             spaceTemplate.player.color = space.getPlayer().getColor();
             spaceTemplate.player.heading = space.getPlayer().getHeading();
-            spaceTemplate.player.AI = space.getPlayer().getIsAI();
+            spaceTemplate.player.AI = space.getPlayer().isAI();
 
             for (int k = 0; k < 8; k++) {
               CommandCard card = space.getPlayer().getCardField(k).getCard();

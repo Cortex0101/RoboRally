@@ -128,16 +128,28 @@ public class GameController {
     return new CommandCard(commands[random]);
   }
 
-
+  /**
+   * @author Lucas Eiruff
+   *
+   * Calculates and sets the program for each AI player
+   */
   private void setAIPrograms() {
-    for (int i = 0; i < board.getPlayersNumber(); i++) {
-      if (board.getPlayer(i).getIsAI()) {
-        setPlayerProgram(board.getPlayer(i), ai[i].findBestProgramToGetTo(
-            board.getCheckPoint(board.getPlayer(i).getLastCheckpoint() + 1)));
+    int i = 0;
+    for (Player player : board.getPlayers()) {
+      if (player.isAI()) {
+        setPlayerProgram(player, ai[i].findBestProgramToGetTo(board.getCheckPoint(player.getLastCheckpoint() + 1)));
+        ++i;
       }
     }
   }
 
+  /**
+   * @author Lucas Eiruff
+   *
+   * Determines if this board has any AI players
+   *
+   * @return true if board has any AI false otherwise
+   */
   private boolean hasAnyAI() {
     for (RoboAI i : ai) {
         if (i != null) {
@@ -360,7 +372,7 @@ public class GameController {
         try {
           moveToSpace(player, target, heading);
         } catch (ImpossibleMoveException e) {
-            if (!player.getIsAI()) // disable printing for AI players to avoid bloat
+            if (!player.isAI()) // disable printing for AI players to avoid bloat
               {
                 e.printStackTrace();
             } else {

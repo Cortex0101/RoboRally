@@ -190,7 +190,7 @@ public class Player extends Subject {
     this.lastCheckpoint = lastCheckpoint;
   }
 
-  public boolean getIsAI() {
+  public boolean isAI() {
     return isAI;
   }
 
