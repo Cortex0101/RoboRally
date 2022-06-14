@@ -33,7 +33,6 @@ import com.roborally.model.Board;
 import com.roborally.model.Player;
 
 import javafx.application.Platform;
-import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
@@ -42,8 +41,6 @@ import javafx.scene.control.TextInputDialog;
 
 import java.io.File;
 import java.util.*;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 
 public class AppController implements Observer {
   final private RoboRally roboRally;
@@ -137,28 +134,6 @@ public class AppController implements Observer {
     gameController.startProgrammingPhase(board.resetRegisters);
   }
 
-  // TODO: This method probably belongs in some client class
-  /**
-   * @author Lucas Eiruff
-   *
-   * Uploads the game state from the clients. The server responds "OK" if the update is received
-   */
-  public void uploadProgram() throws Exception {
-    if (roboRally.isClient) {
-      Board board = this.gameController.board;
-      final int playerNum = roboRally.clientNum - 1;
-      for (int i = 0; i < Player.NO_REGISTERS; i++) {
-        Player player = board.getPlayer(playerNum);
-        CommandCardField field = player.getProgramField(i);
-        String name = field.getCard().getName();
-        String response = roboRally.client.post("C " + playerNum + " " + i  + " " + name);
-        if (!response.equals("OK")) {
-          throw new Exception("Failed to update player program");
-        }
-      }
-    }
-  }
-
   /**
    * @author Lucas Eiruff
    *
@@ -212,16 +187,7 @@ public class AppController implements Observer {
    * @return true if the string is legal, false otherwise
    */
   private boolean checkForIllegalCharacters(String name) {
-    byte[] characters = name.getBytes();
-    for (int i = 0; i < characters.length; i++) {
-      if (!((characters[i] >= 65 && characters[i] <= 90) ||
-              (characters[i] >= 97 && characters[i] <= 122)) ||
-              characters[i] == 0){
-        System.out.println("error: invalid character");
-        return false;
-      }
-    }
-    return true;
+    return name.matches("[a-zA-Z]+");
   }
 
   /**
@@ -241,6 +207,25 @@ public class AppController implements Observer {
       }
     }
     return fileNames;
+  }
+
+  /**
+   * @author August Hjortholm
+   *
+   * Opens an information window showing which player has won, then exits the program
+   */
+  public void endGame(String player) {
+    if (gameController != null) {
+      Alert alert = new Alert(AlertType.INFORMATION);
+      alert.setTitle("Victory!");
+      alert.setContentText(player + " Has won!");
+      Optional<ButtonType> result = alert.showAndWait();
+
+      if (result.isEmpty() || result.get() != ButtonType.OK) {
+        return; // return without exiting the application
+      }
+    }
+    Platform.exit();
   }
 
   public void setAIPlayers(boolean fromNew) {
@@ -282,23 +267,26 @@ public class AppController implements Observer {
     }
   }
 
+  // TODO: This method probably belongs in some client class
   /**
-   * @author August Hjortholm
+   * @author Lucas Eiruff
    *
-   * Opens an information window showing which player has won, then exits the program
+   * Uploads the game state from the clients. The server responds "OK" if the update is received
    */
-  public void endGame(String player) {
-    if (gameController != null) {
-      Alert alert = new Alert(AlertType.INFORMATION);
-      alert.setTitle("Victory!");
-      alert.setContentText(player + " Has won!");
-      Optional<ButtonType> result = alert.showAndWait();
-
-      if (result.isEmpty() || result.get() != ButtonType.OK) {
-        return; // return without exiting the application
+  public void uploadProgram() throws Exception {
+    if (roboRally.isClient) {
+      Board board = this.gameController.board;
+      final int playerNum = roboRally.clientNum - 1;
+      for (int i = 0; i < Player.NO_REGISTERS; i++) {
+        Player player = board.getPlayer(playerNum);
+        CommandCardField field = player.getProgramField(i);
+        String name = field.getCard().getName();
+        String response = roboRally.client.post("C " + playerNum + " " + i  + " " + name);
+        if (!response.equals("OK")) {
+          throw new Exception("Failed to update player program");
+        }
       }
     }
-    Platform.exit();
   }
 
   public GameController getGameController() {
