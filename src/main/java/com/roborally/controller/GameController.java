@@ -278,7 +278,6 @@ public class GameController {
   }
 
   private void activateBoardElements() {
-    // Iterate over all board spaces
     for (int i = 0; i < board.width; i++) {
       for (int j = 0; j < board.height; j++) {
         Space space = board.getSpace(i, j);
@@ -289,7 +288,6 @@ public class GameController {
     }
   }
 
-  // XXX: V2
   private void executeCommand(@NotNull Player player, Command command) {
     if (player.board == board && command != null) {
       switch (command) {
