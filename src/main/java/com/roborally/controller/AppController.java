@@ -23,6 +23,7 @@ package com.roborally.controller;
 
 import com.roborally.fileaccess.LoadBoard;
 import com.roborally.model.CommandCardField;
+import com.roborally.view.DialogFacade;
 import com.roborally.view.SetupScreen;
 import designpatterns.observer.Observer;
 import designpatterns.observer.Subject;
@@ -166,20 +167,15 @@ public class AppController implements Observer {
    * @author Lucas Eiruff
    *
    * Stop playing the current game, giving the user the option to save the game or to cancel
-   * stopping the game. The method returns true if the game was successfully stopped (with or
-   * without saving the game); returns false, if the current game was not stopped. In case there is
-   * no current game, false is returned.
-   *
-   * @return true if the current game was stopped, false otherwise
+   * stopping the game.
    */
-  public boolean stopGame() {
-    if (gameController != null) {
-      saveGame(getSaveNameFromUser().orElse("temp"));
-      gameController = null;
-      roboRally.createBoardView(null);
-      return true;
-    }
-    return false;
+  public void stopGame() {
+    if (!isGameRunning())
+      return;
+
+    saveGame(getSaveNameFromUser().orElse("temp"));
+    gameController = null;
+    roboRally.createBoardView(null);
   }
 
   /**
@@ -219,15 +215,16 @@ public class AppController implements Observer {
    * Opens an information window showing which player has won, then exits the program
    */
   public void endGame(String player) {
-    if (gameController != null) {
-      Alert alert = new Alert(AlertType.INFORMATION);
-      alert.setTitle("Victory!");
-      alert.setContentText(player + " Has won!");
-      Optional<ButtonType> result = alert.showAndWait();
+    if (!isGameRunning())
+      return;
 
-      if (result.isEmpty() || result.get() != ButtonType.OK) {
-        return; // return without exiting the application
-      }
+    Alert alert = new Alert(AlertType.INFORMATION);
+    alert.setTitle("Victory!");
+    alert.setContentText(player + " Has won!");
+    Optional<ButtonType> result = alert.showAndWait();
+
+    if (result.isEmpty() || result.get() != ButtonType.OK) {
+      return; // return without exiting the application
     }
     Platform.exit();
   }
@@ -247,26 +244,22 @@ public class AppController implements Observer {
    * Opens a prompt to exit the game, then ask to save the game, then exits the program
    */
   public void exit() {
-    if (gameController != null) {
-      Alert alert = new Alert(AlertType.CONFIRMATION);
-      alert.setTitle("Exit RoboRally?");
-      alert.setContentText("Are you sure you want to exit RoboRally?");
-      Optional<ButtonType> result = alert.showAndWait();
+    if (!isGameRunning())
+      return;
 
-      if (result.isEmpty() || result.get() != ButtonType.OK) {
-        return; // return without exiting the application
-      }
+    if (DialogFacade.newConfirmationAlert("Exit RoboRally?",
+        "Are you sure you want to exit RoboRally?")) {
+      return;
     }
 
-    if (gameController == null || stopGame()) {
-      if (roboRally.isHost) {
-        roboRally.server.stop();
-      }
-      if (roboRally.isClient) {
-        roboRally.client.stopConnection();
-      }
-      Platform.exit();
+    stopGame();
+    if (roboRally.isHost) {
+      roboRally.server.stop();
     }
+    if (roboRally.isClient) {
+      roboRally.client.stopConnection();
+    }
+    Platform.exit();
   }
 
   // TODO: This method probably belongs in some client class
