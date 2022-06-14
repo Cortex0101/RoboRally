@@ -146,30 +146,12 @@ public class GameController {
   /**
    * @author Lucas Eiruff
    *
-   * Determines if this board has any AI players
-   *
-   * @return true if board has any AI false otherwise
-   */
-  private boolean hasAnyAI() {
-    for (RoboAI i : ai) {
-        if (i != null) {
-            return true;
-        }
-    }
-    return false;
-  }
-
-  /**
-   * @author Lucas Eiruff
-   *
    * ends the programming phase, and disables the users ability to move cards
    */
   public void finishProgrammingPhase() {
     makeProgramFieldsInvisible();
     makeProgramFieldsVisible(0);
-    if (hasAnyAI()) {
-      setAIPrograms();
-    }
+    setAIPrograms();
     board.setPhase(Phase.ACTIVATION);
     board.setCurrentPlayer(board.getPlayer(0));
     board.setStep(0);
