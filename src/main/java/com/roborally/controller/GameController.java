@@ -138,8 +138,8 @@ public class GameController {
     for (Player player : board.getPlayers()) {
       if (player.isAI()) {
         setPlayerProgram(player, ai[i].findBestProgramToGetTo(board.getCheckPoint(player.getLastCheckpoint() + 1)));
-        ++i;
       }
+      ++i;
     }
   }
 
