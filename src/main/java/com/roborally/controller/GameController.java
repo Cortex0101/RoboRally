@@ -83,10 +83,10 @@ public class GameController {
     board.setPhase(Phase.PROGRAMMING);
     board.setCurrentPlayer(board.getPlayer(0));
     board.setStep(0);
-
-      if (resetRegisters) {
-          resetRegisters();
-      }
+    if (resetRegisters) {
+      clearPlayerPrograms();
+      generatePlayerCards();
+    }
   }
 
   /**
@@ -94,36 +94,40 @@ public class GameController {
    *
    * Clears every players program
    */
-  private void clearPlayerPrograms() {
+  public void clearPlayerPrograms() {
     for (Player player : board.getPlayers()) {
-
-    }
-  }
-
-  private void resetRegisters() {
-    for (int i = 0; i < board.getPlayersNumber(); i++) {
-      Player player = board.getPlayer(i);
-      if (player != null) {
-        for (int j = 0; j < Player.NO_REGISTERS; j++) {
-          CommandCardField field = player.getProgramField(j);
-          field.setCard(null);
-          field.setVisible(true);
-        }
-        for (int j = 0; j < Player.NO_CARDS; j++) {
-          CommandCardField field = player.getCardField(j);
-          field.setCard(generateRandomCommandCard());
-          field.setVisible(true);
-        }
+      for (CommandCardField field : player.getProgram()) {
+        field.setCard(null);
+        field.setVisible(true); // TODO: We set this to true a bunch of places, but only make it invisible in makeProgramFieldsInvisible(). This bloats
       }
     }
   }
 
-  // XXX: V2
+  /**
+   * @author Lucas Eiruff
+   *
+   * Fills the 8 commandcards for each player with random command cards
+   */
+  public void generatePlayerCards() {
+    for (Player player : board.getPlayers()) {
+      for (CommandCardField field : player.getCards()) {
+        field.setCard(generateRandomCommandCard());
+        field.setVisible(true);
+      }
+    }
+  }
+
+  /**
+   * Generates and returns a random command card
+   *
+   * @return a random command card
+   */
   private CommandCard generateRandomCommandCard() {
     Command[] commands = Command.values();
     int random = (int) (Math.random() * commands.length);
     return new CommandCard(commands[random]);
   }
+
 
   private void setAIPrograms() {
     for (int i = 0; i < board.getPlayersNumber(); i++) {
@@ -151,9 +155,9 @@ public class GameController {
   public void finishProgrammingPhase() {
     makeProgramFieldsInvisible();
     makeProgramFieldsVisible(0);
-      if (hasAnyAI()) {
-          setAIPrograms();
-      }
+    if (hasAnyAI()) {
+      setAIPrograms();
+    }
     board.setPhase(Phase.ACTIVATION);
     board.setCurrentPlayer(board.getPlayer(0));
     board.setStep(0);
