@@ -95,7 +95,9 @@ public class GameController {
    * Clears every players program
    */
   private void clearPlayerPrograms() {
+    for (Player player : board.getPlayers()) {
 
+    }
   }
 
   private void resetRegisters() {

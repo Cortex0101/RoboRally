@@ -76,6 +76,14 @@ public class Player extends Subject {
     }
   }
 
+  public CommandCardField[] getCards() {
+    return cards;
+  }
+
+  public CommandCardField[] getProgram() {
+    return program;
+  }
+
   public String getName() {
     return name;
   }
