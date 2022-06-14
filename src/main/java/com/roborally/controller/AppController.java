@@ -34,11 +34,7 @@ import com.roborally.model.Board;
 import com.roborally.model.Player;
 
 import javafx.application.Platform;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceDialog;
-import javafx.scene.control.TextInputDialog;
 
 import java.io.File;
 import java.util.*;
@@ -98,6 +94,11 @@ public class AppController implements Observer {
     LoadBoard.saveBoard(gameController.board, name);
   }
 
+
+  public Board loadBoard(String name) {
+    return LoadBoard.loadBoard(name);
+  }
+
   /**
    * @author Lucas Eiruff
    *
@@ -110,10 +111,6 @@ public class AppController implements Observer {
     gameController.roboRally = roboRally;
     gameController.startProgrammingPhase(board.resetRegisters);
     roboRally.createBoardView(gameController);
-  }
-
-  public Board loadBoard(String name) {
-    return LoadBoard.loadBoard(name);
   }
 
   /**
@@ -141,14 +138,12 @@ public class AppController implements Observer {
    * The prompt will be prompted untill the user enters a valid name.
    * @return the string the user entered
    */
-  public Optional<String> getSaveNameFromUser() {
-    Optional<String> result;
+  public String getSaveNameFromUser() {
+    String result;
     do {
-      TextInputDialog dialog = new TextInputDialog();
-      dialog.setTitle("Save game");
-      dialog.setHeaderText("Type name of save file");
-      result = dialog.showAndWait();
-    } while (!checkForIllegalCharacters(result.orElse("mysave")));
+      result = DialogFacade.newTextInputDialog("Save game", "Type name of save file");
+    } while (!checkForIllegalCharacters(result));
+
     return result;
   }
 
@@ -173,7 +168,7 @@ public class AppController implements Observer {
     if (!isGameRunning())
       return;
 
-    saveGame(getSaveNameFromUser().orElse("temp"));
+    saveGame(getSaveNameFromUser());
     gameController = null;
     roboRally.createBoardView(null);
   }
@@ -218,14 +213,10 @@ public class AppController implements Observer {
     if (!isGameRunning())
       return;
 
-    Alert alert = new Alert(AlertType.INFORMATION);
-    alert.setTitle("Victory!");
-    alert.setContentText(player + " Has won!");
-    Optional<ButtonType> result = alert.showAndWait();
-
-    if (result.isEmpty() || result.get() != ButtonType.OK) {
-      return; // return without exiting the application
+    if (!DialogFacade.newInformationAlert("Victory!", player + "has won!")) {
+      return;
     }
+
     Platform.exit();
   }
 

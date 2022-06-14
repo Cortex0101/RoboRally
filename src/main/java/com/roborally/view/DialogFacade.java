@@ -5,13 +5,32 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
+import javafx.scene.control.TextInputDialog;
 
 public class DialogFacade {
-  public static boolean newConfirmationAlert(String title, String text) {
+  private static Alert newAlert(AlertType type, String title, String text) {
     Alert alert = new Alert(AlertType.CONFIRMATION);
     alert.setTitle(text);
     alert.setContentText(title);
+    return alert;
+  }
+
+  public static boolean newConfirmationAlert(String title, String text) {
+    Alert alert = newAlert(AlertType.CONFIRMATION, title, text);
     Optional<ButtonType> result = alert.showAndWait();
     return result.isEmpty() || !result.get().equals(ButtonType.OK);
+  }
+
+  public static boolean newInformationAlert(String title, String text) {
+    Alert alert = newAlert(AlertType.INFORMATION, title, text);
+    Optional<ButtonType> result = alert.showAndWait();
+    return result.isEmpty() || !result.get().equals(ButtonType.OK);
+  }
+
+  public static String newTextInputDialog(String title, String text) {
+    TextInputDialog dialog = new TextInputDialog();
+    dialog.setTitle(title);
+    dialog.setHeaderText(text);
+    return dialog.showAndWait().orElseThrow();
   }
 }
