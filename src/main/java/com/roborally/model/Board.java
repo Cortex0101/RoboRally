@@ -84,6 +84,10 @@ public class Board extends Subject {
     return this.checkPointSpaces.size();
   }
 
+  public List<Player> getPlayers() {
+    return players;
+  }
+
   public Space getCheckPoint(int num) {
     if (num <= getNumCheckpoints()) {
       for (Space space : checkPointSpaces) {

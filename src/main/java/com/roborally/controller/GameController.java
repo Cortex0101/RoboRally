@@ -48,12 +48,9 @@ public class GameController {
   }
 
   /**
-   * @author Lucaf Eiruff
+   * @author Lucas Eiruff
    *
    * Move current player to space, without accounting for movement rules.
-   *
-   * This method should be used for debugging only. To move players accounting for pushing and other
-   * game features use moveToSpace().
    *
    * @param space the space to which the current player should move
    */
@@ -90,6 +87,15 @@ public class GameController {
       if (resetRegisters) {
           resetRegisters();
       }
+  }
+
+  /**
+   * @author Lucas Eiruff
+   *
+   * Clears every players program
+   */
+  private void clearPlayerPrograms() {
+
   }
 
   private void resetRegisters() {
