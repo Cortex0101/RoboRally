@@ -76,28 +76,6 @@ public class AppController implements Observer {
     });
   }
 
-  // TODO: This method probably belongs in some client class
-  /**
-   * @author Lucas Eiruff
-   *
-   * Uploads the game state from the clients. The server responds "OK" if the update is received
-   */
-  public void uploadProgram() throws Exception {
-    if (roboRally.isClient) {
-      Board board = this.gameController.board;
-      final int playerNum = roboRally.clientNum - 1;
-      for (int i = 0; i < Player.NO_REGISTERS; i++) {
-        Player player = board.getPlayer(playerNum);
-        CommandCardField field = player.getProgramField(i);
-        String name = field.getCard().getName();
-        String response = roboRally.client.post("C " + playerNum + " " + i  + " " + name);
-        if (!response.equals("OK")) {
-          throw new Exception("Failed to update player program");
-        }
-      }
-    }
-  }
-
   /**
    * @author Lucas Eiruff
    *
@@ -131,46 +109,6 @@ public class AppController implements Observer {
     }
   }
 
-  public GameController getGameController() {
-    return gameController;
-  }
-
-  public void setGameController(GameController gameController) {
-    this.gameController = gameController;
-  }
-
-  /**
-   * @author Lucas Eiruff
-   *
-   * Instantiates a new game without a UI, used for testing and AI players
-   */
-  public void newGameWithoutUI(String boardName, boolean useTempBoard) {
-    Board board = LoadBoard.loadBoard(useTempBoard ? "tempBoard" : boardName);//LoadBoard.loadBoard(boardName);
-    gameController = new GameController(Objects.requireNonNull(board));
-    gameController.startProgrammingPhase(board.resetRegisters);
-  }
-
-  /**
-   * @author August Hjortholm
-   *
-   * checks a string for any characters not in the alphabet. this method is mainly to prevent issues when saving a game
-   *
-   * @param name the name of the file
-   * @return true if the string is legal, false otherwise
-   */
-  private boolean checkForIllegalCharacters(String name) {
-    byte[] characters = name.getBytes();
-    for (int i = 0; i < characters.length; i++) {
-      if (!((characters[i] >= 65 && characters[i] <= 90) ||
-              (characters[i] >= 97 && characters[i] <= 122)) ||
-              characters[i] == 0){
-        System.out.println("error: invalid character");
-        return false;
-      }
-    }
-    return true;
-  }
-
   /**
    * @author Lucas Eiruff
    *
@@ -191,30 +129,36 @@ public class AppController implements Observer {
   /**
    * @author Lucas Eiruff
    *
-   * returns all the names of the files saved in the boards folder
-   * @param directory the directory of the boards folder
-   * @return a list of all file names
+   * Instantiates a new game without a UI, used for testing and AI players
    */
-  private List<String> getFileNames(String directory) {
-    List<String> fileNames = new ArrayList<>();
-    File folder = new File(directory);
-    File[] listOfFiles = folder.listFiles();
-    for (File file : Objects.requireNonNull(listOfFiles)) {
-      if (file.isFile()) {
-        fileNames.add(file.getName().substring(0, file.getName().length() - 5));
-      }
-    }
-    return fileNames;
+  public void newGameWithoutUI(String boardName, boolean useTempBoard) {
+    Board board = LoadBoard.loadBoard(useTempBoard ? "tempBoard" : boardName);//LoadBoard.loadBoard(boardName);
+    gameController = new GameController(Objects.requireNonNull(board));
+    gameController.startProgrammingPhase(board.resetRegisters);
   }
 
-  public void setAIPlayers(boolean fromNew) {
-    Board board = gameController.board;
-    for (int i = 0; i < board.getPlayersNumber(); i++) {
-      if (board.getPlayer(i).getIsAI()) {
-        gameController.setAI(new RoboAI(this, board.getPlayer(i), fromNew), i);
+  // TODO: This method probably belongs in some client class
+  /**
+   * @author Lucas Eiruff
+   *
+   * Uploads the game state from the clients. The server responds "OK" if the update is received
+   */
+  public void uploadProgram() throws Exception {
+    if (roboRally.isClient) {
+      Board board = this.gameController.board;
+      final int playerNum = roboRally.clientNum - 1;
+      for (int i = 0; i < Player.NO_REGISTERS; i++) {
+        Player player = board.getPlayer(playerNum);
+        CommandCardField field = player.getProgramField(i);
+        String name = field.getCard().getName();
+        String response = roboRally.client.post("C " + playerNum + " " + i  + " " + name);
+        if (!response.equals("OK")) {
+          throw new Exception("Failed to update player program");
+        }
       }
     }
   }
+
   /**
    * @author Lucas Eiruff
    *
@@ -260,6 +204,55 @@ public class AppController implements Observer {
   }
 
   /**
+   * @author August Hjortholm
+   *
+   * checks a string for any characters not in the alphabet. this method is mainly to prevent issues when saving a game
+   *
+   * @param name the name of the file
+   * @return true if the string is legal, false otherwise
+   */
+  private boolean checkForIllegalCharacters(String name) {
+    byte[] characters = name.getBytes();
+    for (int i = 0; i < characters.length; i++) {
+      if (!((characters[i] >= 65 && characters[i] <= 90) ||
+              (characters[i] >= 97 && characters[i] <= 122)) ||
+              characters[i] == 0){
+        System.out.println("error: invalid character");
+        return false;
+      }
+    }
+    return true;
+  }
+
+  /**
+   * @author Lucas Eiruff
+   *
+   * returns all the names of the files saved in the boards folder
+   * @param directory the directory of the boards folder
+   * @return a list of all file names
+   */
+  private List<String> getFileNames(String directory) {
+    List<String> fileNames = new ArrayList<>();
+    File folder = new File(directory);
+    File[] listOfFiles = folder.listFiles();
+    for (File file : Objects.requireNonNull(listOfFiles)) {
+      if (file.isFile()) {
+        fileNames.add(file.getName().substring(0, file.getName().length() - 5));
+      }
+    }
+    return fileNames;
+  }
+
+  public void setAIPlayers(boolean fromNew) {
+    Board board = gameController.board;
+    for (int i = 0; i < board.getPlayersNumber(); i++) {
+      if (board.getPlayer(i).getIsAI()) {
+        gameController.setAI(new RoboAI(this, board.getPlayer(i), fromNew), i);
+      }
+    }
+  }
+
+  /**
    * @author Lucas Eiruff
    *
    * Opens a prompt to exit the game, then ask to save the game, then exits the program
@@ -288,6 +281,7 @@ public class AppController implements Observer {
       Platform.exit();
     }
   }
+
   /**
    * @author August Hjortholm
    *
@@ -305,6 +299,14 @@ public class AppController implements Observer {
       }
     }
     Platform.exit();
+  }
+
+  public GameController getGameController() {
+    return gameController;
+  }
+
+  public void setGameController(GameController gameController) {
+    this.gameController = gameController;
   }
 
   public boolean isGameRunning() {
