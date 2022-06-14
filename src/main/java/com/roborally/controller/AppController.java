@@ -33,9 +33,7 @@ import com.roborally.RoboRally;
 import com.roborally.model.Board;
 import com.roborally.model.Player;
 
-import java.util.stream.Collectors;
 import javafx.application.Platform;
-import javafx.scene.control.ChoiceDialog;
 
 import java.io.File;
 import java.util.*;
@@ -238,12 +236,13 @@ public class AppController implements Observer {
     }
 
     stopGame();
+
     if (roboRally.isHost) {
       roboRally.server.stop();
-    }
-    if (roboRally.isClient) {
+    } else if (roboRally.isClient) {
       roboRally.client.stopConnection();
     }
+
     Platform.exit();
   }
 
@@ -254,17 +253,18 @@ public class AppController implements Observer {
    * Uploads the game state from the clients. The server responds "OK" if the update is received
    */
   public void uploadProgram() throws Exception {
-    if (roboRally.isClient) {
-      Board board = this.gameController.board;
-      final int playerNum = roboRally.clientNum - 1;
-      for (int i = 0; i < Player.NO_REGISTERS; i++) {
-        Player player = board.getPlayer(playerNum);
-        CommandCardField field = player.getProgramField(i);
-        String name = field.getCard().getName();
-        String response = roboRally.client.post("C " + playerNum + " " + i  + " " + name);
-        if (!response.equals("OK")) {
-          throw new Exception("Failed to update player program");
-        }
+    if (!roboRally.isClient)
+      return;
+
+    Board board = this.gameController.board;
+    final int playerNum = roboRally.clientNum - 1;
+    for (int i = 0; i < Player.NO_REGISTERS; i++) {
+      Player player = board.getPlayer(playerNum);
+      CommandCardField field = player.getProgramField(i);
+      String name = field.getCard().getName();
+      String response = roboRally.client.post("C " + playerNum + " " + i  + " " + name);
+      if (!response.equals("OK")) {
+        throw new Exception("Failed to update player program");
       }
     }
   }
