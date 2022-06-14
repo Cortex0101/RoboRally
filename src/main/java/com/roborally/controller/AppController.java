@@ -33,6 +33,7 @@ import com.roborally.RoboRally;
 import com.roborally.model.Board;
 import com.roborally.model.Player;
 
+import java.util.stream.Collectors;
 import javafx.application.Platform;
 import javafx.scene.control.ChoiceDialog;
 
@@ -123,11 +124,7 @@ public class AppController implements Observer {
    */
   public String getLoadNameFromUser() {
     final List<String> savedGames = getFileNames(System.getProperty("user.dir") + "\\src\\main\\resources\\com\\roborally\\boards\\");
-    ChoiceDialog<String> dialog = new ChoiceDialog<>(savedGames.get(0), savedGames);
-    dialog.setTitle("Load game");
-    dialog.setHeaderText("Select game to be loaded");
-    Optional<String> boardToLoad = dialog.showAndWait();
-    return boardToLoad.orElseThrow();
+    return DialogFacade.newChoiceDialog(savedGames, "Load game", "Select game to be loaded");
   }
 
   /**
@@ -193,13 +190,10 @@ public class AppController implements Observer {
    * @return a list of all file names
    */
   private List<String> getFileNames(String directory) {
+    File[] fileArray = new File(directory).listFiles(File::isFile);
     List<String> fileNames = new ArrayList<>();
-    File folder = new File(directory);
-    File[] listOfFiles = folder.listFiles();
-    for (File file : Objects.requireNonNull(listOfFiles)) {
-      if (file.isFile()) {
-        fileNames.add(file.getName().substring(0, file.getName().length() - 5));
-      }
+    for (File file : Objects.requireNonNull(fileArray)) {
+      fileNames.add(file.getName().substring(0, file.getName().length() - 5));
     }
     return fileNames;
   }
