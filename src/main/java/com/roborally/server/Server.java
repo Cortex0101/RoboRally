@@ -108,7 +108,7 @@ public class Server {
       }
 
       if (message.equals("GET_BOARD")) {
-        roboRally.getAppController().storeGame();
+        roboRally.getAppController().saveGame("tempSave");
         String jsonBoard = LoadBoard.getBoardContent();
         out.print(jsonBoard);
         out.println();
@@ -128,7 +128,7 @@ public class Server {
           everyoneReady = true;
           roboRally.getAppController().getGameController().finishProgrammingPhase();
           roboRally.getAppController().getGameController().executePrograms();
-          roboRally.getAppController().storeGame();
+          roboRally.getAppController().saveGame("tempSave");
         }
         out.println("OK");
       }

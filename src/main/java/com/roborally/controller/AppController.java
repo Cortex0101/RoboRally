@@ -76,15 +76,6 @@ public class AppController implements Observer {
   /**
    * @author Lucas Eiruff
    *
-   * stores the game state in a temporary .json file
-   */
-  public void storeGame() {
-    LoadBoard.saveBoard(gameController.board, "tempSave");
-  }
-
-  /**
-   * @author Lucas Eiruff
-   *
    * Updates the game state on the hosts side.
    */
   public void setGame() {
@@ -111,7 +102,19 @@ public class AppController implements Observer {
    *
    * Saves the game state into a .json file
    */
-  public void saveGame() {
+  public void saveGame(String name) {
+    LoadBoard.saveBoard(gameController.board, name);
+  }
+
+  /**
+   * @author Lucas Eiruff
+   *
+   * Prompts the user with a text input dialog.
+   * The user should enter a save game name.
+   * The prompt will be prompted untill the user enters a valid name.
+   * @return the string the user entered
+   */
+  public Optional<String> getSaveNameFromUser() {
     Optional<String> result;
     do {
       TextInputDialog dialog = new TextInputDialog();
@@ -119,8 +122,7 @@ public class AppController implements Observer {
       dialog.setHeaderText("Type name of save file");
       result = dialog.showAndWait();
     } while (!checkForIllegalCharacters(result.orElse("mysave")));
-
-    LoadBoard.saveBoard(gameController.board, result.orElse("mysave"));
+    return result;
   }
 
   /**
@@ -168,8 +170,7 @@ public class AppController implements Observer {
   public boolean stopGame() {
     if (gameController != null) {
 
-      // here we save the game (without asking the user).
-      saveGame();
+      saveGame(getSaveNameFromUser().orElse("temp"));
 
       gameController = null;
       roboRally.createBoardView(null);
