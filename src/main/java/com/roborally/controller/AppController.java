@@ -57,6 +57,7 @@ public class AppController implements Observer {
   public AppController(RoboRally roboRally) {
     this.roboRally = roboRally;
   }
+
   /**
    * @author Lucas Eiruff
    *
@@ -66,31 +67,11 @@ public class AppController implements Observer {
     SetupScreen setupScreen = new SetupScreen(roboRally);
     roboRally.setScene(setupScreen.getScene());
 
+    // TODO: The server should communicate with the client directly somehow, instead of having this mouse event be the trigger.
     roboRally.getPrimaryScene().setOnMouseMoved(e -> {
       if (roboRally.readyToUpdateBoard) {
         gameController.roboRally.readyToUpdateBoard = false;
         setGame();
-      }
-    });
-
-    roboRally.getPrimaryScene().setOnKeyPressed(new EventHandler<KeyEvent>() {
-      @Override
-      public void handle(KeyEvent event) {
-        if (event.getCode() == KeyCode.S) {
-          storeGame();
-          event.consume();
-        }
-        if (event.getCode() == KeyCode.L) {
-          setGame();
-          event.consume();
-        }
-        if (event.getCode() == KeyCode.U) {
-          try {
-            uploadProgram();
-          } catch (Exception e) {
-            e.printStackTrace();
-          }
-        }
       }
     });
   }
