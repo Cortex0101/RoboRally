@@ -157,7 +157,7 @@ public class AppController implements Observer {
    * Instantiates a new game without a UI, used for testing and AI players
    */
   public void newGameWithoutUI(String boardName, boolean useTempBoard) {
-    Board board = LoadBoard.loadBoard(useTempBoard ? "tempBoard" : boardName);//LoadBoard.loadBoard(boardName);
+    Board board = loadBoard(useTempBoard ? "tempBoard" : boardName);
     gameController = new GameController(Objects.requireNonNull(board));
     gameController.startProgrammingPhase(board.resetRegisters);
   }
@@ -174,9 +174,7 @@ public class AppController implements Observer {
    */
   public boolean stopGame() {
     if (gameController != null) {
-
       saveGame(getSaveNameFromUser().orElse("temp"));
-
       gameController = null;
       roboRally.createBoardView(null);
       return true;
@@ -260,8 +258,6 @@ public class AppController implements Observer {
       }
     }
 
-    // If the user did not cancel, the RoboRally application will exit
-    // after the option to save the game
     if (gameController == null || stopGame()) {
       if (roboRally.isHost) {
         roboRally.server.stop();
@@ -308,7 +304,5 @@ public class AppController implements Observer {
   }
 
   @Override
-  public void update(Subject subject) {
-
-  }
+  public void update(Subject subject) {}
 }
