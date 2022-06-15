@@ -64,14 +64,6 @@ public class GameController {
     board.setStep(board.getStep() + 1);
   }
 
-  private void setPlayerProgram(Player player, List<CommandCard> cards) {
-    for (int i = 0; i < Player.NO_REGISTERS; i++) {
-      CommandCardField field = player.getProgramField(i);
-      field.setCard(cards.get(i));
-      field.setVisible(true);
-    }
-  }
-
   /**
    * @author Lucas Eiruff
    *
@@ -100,6 +92,14 @@ public class GameController {
         field.setCard(null);
         field.setVisible(true); // TODO: We set this to true a bunch of places, but only make it invisible in makeProgramFieldsInvisible(). This bloats
       }
+    }
+  }
+
+  private void setPlayerProgram(Player player, List<CommandCard> cards) {
+    for (int i = 0; i < Player.NO_REGISTERS; i++) {
+      CommandCardField field = player.getProgramField(i);
+      field.setCard(cards.get(i));
+      field.setVisible(true);
     }
   }
 
