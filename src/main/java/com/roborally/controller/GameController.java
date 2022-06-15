@@ -151,7 +151,8 @@ public class GameController {
   public void finishProgrammingPhase() {
     makeProgramFieldsInvisible();
     makeProgramFieldsVisible(0);
-    setAIPrograms();
+    if (board.getPlayersNumber() > 1) // AI boards consists of only 1 player, and their program has already been set.
+      setAIPrograms();
     board.setPhase(Phase.ACTIVATION);
     board.setCurrentPlayer(board.getPlayer(0));
     board.setStep(0);
@@ -211,51 +212,44 @@ public class GameController {
     } while (board.getPhase() == Phase.ACTIVATION && !board.isStepMode());
   }
 
-  private void executeNextStep() {
-    Player currentPlayer = board.getCurrentPlayer();
-    if (board.getPhase() == Phase.ACTIVATION && currentPlayer != null) {
-      int step = board.getStep();
-      if (step >= 0 && step < Player.NO_REGISTERS) {
-        if (!currentPlayer.isRebooting()) {
-          CommandCard card = currentPlayer.getProgramField(step).getCard();
-          if (card != null) {
-            Command command = card.command;
-            if (command.isInteractive()) {
-              board.setPhase(Phase.PLAYER_INTERACTION);
-              return;
-            }
-            executeCommand(currentPlayer, command);
-          }
+  private void executeRegister(Player player, int register) {
+    if (!player.isRebooting()) {
+      CommandCard card = board.getCurrentPlayer().getProgramField(register).getCard();
+      if (card != null) {
+        Command command = card.command;
+        if (command.isInteractive()) {
+          board.setPhase(Phase.PLAYER_INTERACTION);
+          return;
         }
-        int nextPlayerNumber = board.getPlayerNumber(currentPlayer) + 1;
-        if (nextPlayerNumber < board.getPlayersNumber()) {
-          //
-          board.setCurrentPlayer(board.getPlayer(nextPlayerNumber));
-        } else {
-          step++;
-          if (step < Player.NO_REGISTERS) {
-            makeProgramFieldsVisible(step);
-            board.setStep(step);
-            //
-            board.setCurrentPlayer(board.getPlayer(0));
-            activateBoardElements();
-          } else {
-            startProgrammingPhase(true);
-            activateBoardElements();
-            for (int i = 0; i < board.getPlayersNumber(); i++) {
-              if (board.getPlayer(i).isRebooting()) {
-                board.getPlayer(i).reboot(this);
-              }
-            }
-          }
-        }
-      } else {
-        // this should not happen
-        assert false;
+        executeCommand(board.getCurrentPlayer(), command);
       }
+    }
+  }
+
+  private void executeNextStep() {
+    int step = board.getStep();
+    Player currentPlayer = board.getCurrentPlayer();
+
+    executeRegister(currentPlayer, board.getStep());
+
+    if (!board.lastPlayerIsCurrent()) {
+      board.setNextPlayerAsCurrent();
+      return;
+    }
+
+    if (++step < Player.NO_REGISTERS) {
+      makeProgramFieldsVisible(step);
+      board.setStep(step);
+      board.setCurrentPlayer(board.getPlayer(0));
+      activateBoardElements();
     } else {
-      // this should not happen
-      assert false;
+      startProgrammingPhase(true);
+      activateBoardElements();
+      for (Player player : board.getPlayers()) {
+        if (player.isRebooting()) {
+          player.reboot(this);
+        }
+      }
     }
   }
 
@@ -279,9 +273,7 @@ public class GameController {
         case RIGHT -> this.turnRight(player);
         case LEFT -> this.turnLeft(player);
         case U_TURN -> this.uTurn(player);
-        default -> {
-        }
-        // DO NOTHING (for now)
+        default -> {}
       }
     }
   }
@@ -310,8 +302,8 @@ public class GameController {
 
   void moveToSpace(@NotNull Player player, @NotNull Space space, @NotNull Heading heading)
       throws ImpossibleMoveException {
-    assert board.getNeighbour(player.getSpace(), heading)
-        == space; // make sure the move to here is possible in principle
+    assert board.getNeighbour(player.getSpace(), heading) == space;
+
     if (player.getSpace().getWalls().contains(player.getHeading()) ||
         space.getWalls().contains(player.getHeading().next().next())) {
       throw new ImpossibleMoveException(player, space, heading,
@@ -350,12 +342,11 @@ public class GameController {
         try {
           moveToSpace(player, target, heading);
         } catch (ImpossibleMoveException e) {
-            if (!player.isAI()) // disable printing for AI players to avoid bloat
-              {
-                e.printStackTrace();
-            } else {
-              e.player.setHeading(e.player.getHeading()); // quirky workaround. If theres nothing here the stacktracke gets printed...
-            }
+          if (!player.isAI()) {
+            e.printStackTrace();
+          } else {
+            e.player.setHeading(e.player.getHeading()); // quirky workaround. If theres nothing here the stacktracke gets printed...
+          }
         }
       }
     }
@@ -480,5 +471,4 @@ public class GameController {
   public void ExitGameAfterVictory(AppController appController, String player) {
     appController.endGame(player);
   }
-
 }

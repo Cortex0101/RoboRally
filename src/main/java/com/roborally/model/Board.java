@@ -176,6 +176,14 @@ public class Board extends Subject {
     }
   }
 
+  public boolean lastPlayerIsCurrent() {
+    return this.players.indexOf(current) == this.players.size() - 1;
+  }
+
+  public void setNextPlayerAsCurrent() {
+    setCurrentPlayer(getPlayer(getPlayerNumber(current) + 1));
+  }
+
   public Phase getPhase() {
     return phase;
   }
