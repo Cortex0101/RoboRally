@@ -18,14 +18,11 @@ import java.util.stream.Collectors;
 
 /**
  * loads the board from a .json file
- *
- * @author Ekkart Kindler, ekki@dtu.dk
  */
 public class LoadBoard {
-
-  private static final String BOARDSFOLDER =
-      System.getProperty("user.dir") + "\\src\\main\\resources\\com\\roborally\\boards";
-  private static final String DEFAULTBOARDSFOLDER = System.getProperty("user.dir") + "\\src\\main\\resources\\com\\roborally\\defaultBoards";
+  private static final String RESOURCE_FOLDER_PATH = System.getProperty("user.dir") + "\\src\\main\\resources";
+  private static final String SAVED_BOARDS_PATH = RESOURCE_FOLDER_PATH + "\\com\\roborally\\boards";
+  private static final String DEFAULT_BOARDS_PATH = RESOURCE_FOLDER_PATH + "\\com\\roborally\\defaultBoards";
   private static final String DEFAULTBOARD = "defaultboard";
   private static final String JSON_EXT = "json";
 
@@ -94,7 +91,7 @@ public class LoadBoard {
 
     InputStream inputStream;
     try {
-      inputStream = new FileInputStream(DEFAULTBOARDSFOLDER + "\\" + boardname + "." + JSON_EXT);
+      inputStream = new FileInputStream(DEFAULT_BOARDS_PATH + "\\" + boardname + "." + JSON_EXT);
     } catch (FileNotFoundException fileNotFoundException) {
       fileNotFoundException.printStackTrace();
       return new Board(8, 8); // Returns a default 8x8 board - do something else in the future
@@ -162,7 +159,7 @@ public class LoadBoard {
   public static String getBoardContent(String boardgames) {
     InputStream inputStream = null;
     try {
-      inputStream = new FileInputStream(BOARDSFOLDER + "\\" + boardgames + "." + JSON_EXT);
+      inputStream = new FileInputStream(SAVED_BOARDS_PATH + "\\" + boardgames + "." + JSON_EXT);
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -253,7 +250,7 @@ public class LoadBoard {
 
     InputStream inputStream;
     try {
-      inputStream = new FileInputStream(BOARDSFOLDER + "\\" + boardname + "." + JSON_EXT);
+      inputStream = new FileInputStream(SAVED_BOARDS_PATH + "\\" + boardname + "." + JSON_EXT);
     } catch (FileNotFoundException fileNotFoundException) {
       fileNotFoundException.printStackTrace();
       return new Board(8, 8); // Returns a default 8x8 board - do something else in the future
@@ -404,7 +401,7 @@ public class LoadBoard {
       }
     }
 
-    String filename = BOARDSFOLDER + "\\" + name + "." + JSON_EXT;
+    String filename = SAVED_BOARDS_PATH + "\\" + name + "." + JSON_EXT;
 
     GsonBuilder simpleBuilder = new GsonBuilder().
         registerTypeAdapter(FieldAction.class, new Adapter<FieldAction>()).
