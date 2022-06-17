@@ -70,7 +70,7 @@ public class Client {
   }
 
   //This method is for testing purposes only. it starts the game as a client by default
-  public static void main(String argvs[]) throws InterruptedException {
+  public static void main(String[] argvs) throws InterruptedException {
     Client client1 = new Client();
     client1.startConnection("127.0.0.1", 6666);
     //String reponse1 = client1.post("exit");

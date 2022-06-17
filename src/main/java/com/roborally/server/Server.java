@@ -17,7 +17,7 @@ import java.util.List;
 public class Server {
 
   private ServerSocket serverSocket;
-  private List<ClientHandler> clientHandlerList = new ArrayList<>();
+  private final List<ClientHandler> clientHandlerList = new ArrayList<>();
   public RoboRally roboRally;
   private int playersReady = 0;
   private boolean everyoneReady = false;
@@ -59,7 +59,7 @@ public class Server {
 
   private class ClientHandler extends Thread {
 
-    private Socket clientSocket;
+    private final Socket clientSocket;
     private PrintWriter out;
     private BufferedReader in;
     private boolean connected = true;

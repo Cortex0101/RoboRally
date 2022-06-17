@@ -15,8 +15,8 @@ public class SpriteSheet {
   private final int frameHeight;
   private double spaceWidth = 0.0;
   private double spaceHeight = 0.0;
-  private Rectangle2D[][] frames;
-  private Map<String, Pair<Integer, Integer>> frameMap = new HashMap<>();
+  private final Rectangle2D[][] frames;
+  private final Map<String, Pair<Integer, Integer>> frameMap = new HashMap<>();
 
   /**
    * @author Lucas Eiruff
