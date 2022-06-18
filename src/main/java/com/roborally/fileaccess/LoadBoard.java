@@ -255,32 +255,30 @@ public class LoadBoard {
       Space space = result.getSpace(spaceTemplate.x, spaceTemplate.y);
       copyWallsAndFieldActions(spaceTemplate, space);
 
-        if (spaceTemplate.player != null) {
-          Player player = new Player(result, spaceTemplate.player.color,
-              spaceTemplate.player.name, space);
-          player.setHeading(spaceTemplate.player.heading);
-          player.setIsAI(spaceTemplate.player.AI);
-          space.setPlayer(player);
-          for (int i = 0; i < spaceTemplate.player.commandCards.size(); i++) {
-            if (spaceTemplate.player.commandCards.get(i) != null) {
-              player.getCardField(i)
-                  .setCard(new CommandCard(spaceTemplate.player.commandCards.get(i)));
-              result.resetRegisters = false;
-            } else {
-              player.getCardField(i).setCard(null);
-            }
-          }
-          for (int i = 0; i < spaceTemplate.player.commandCardsInRegisters.size(); i++) {
-            if (spaceTemplate.player.commandCardsInRegisters.get(i) != null) {
-              player.getProgramField(i)
-                  .setCard(new CommandCard(
-                      spaceTemplate.player.commandCardsInRegisters.get(i)));
-            } else {
-              player.getProgramField(i).setCard(null);
-            }
-          }
-          result.addPlayer(player);
+      if (spaceTemplate.player == null)
+        continue;
+
+      Player player = createPlayerFromTemplate(space, spaceTemplate.player);
+
+      for (int i = 0; i < spaceTemplate.player.commandCards.size(); i++) {
+        if (spaceTemplate.player.commandCards.get(i) != null) {
+          player.getCardField(i)
+              .setCard(new CommandCard(spaceTemplate.player.commandCards.get(i)));
+          result.resetRegisters = false;
+        } else {
+          player.getCardField(i).setCard(null);
         }
+      }
+      for (int i = 0; i < spaceTemplate.player.commandCardsInRegisters.size(); i++) {
+        if (spaceTemplate.player.commandCardsInRegisters.get(i) != null) {
+          player.getProgramField(i)
+              .setCard(new CommandCard(
+                  spaceTemplate.player.commandCardsInRegisters.get(i)));
+        } else {
+          player.getProgramField(i).setCard(null);
+        }
+      }
+      result.addPlayer(player);
     }
     return result;
   }
@@ -310,6 +308,14 @@ public class LoadBoard {
         to.board.addCheckPoint(to);
       }
     }
+  }
+
+  private static Player createPlayerFromTemplate(Space startingSpace, PlayerTemplate playerTemplate) {
+    Player player = new Player(startingSpace.board, playerTemplate.color, playerTemplate.name, startingSpace);
+    player.setHeading(playerTemplate.heading);
+    player.setIsAI(playerTemplate.AI);
+    startingSpace.setPlayer(player);
+    return player;
   }
 
   /**
