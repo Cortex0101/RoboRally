@@ -75,6 +75,7 @@ public class RoboRally extends Application {
     stage.setOnCloseRequest(
         e -> {
           e.consume();
+          System.out.println("test");
           appController.exit();
         });
     stage.setResizable(false);

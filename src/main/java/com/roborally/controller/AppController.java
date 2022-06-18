@@ -227,8 +227,10 @@ public class AppController implements Observer {
    * Opens a prompt to exit the game, then ask to save the game, then exits the program
    */
   public void exit() {
-    if (!isGameRunning())
+    if (!isGameRunning()) {
+      Platform.exit();
       return;
+    }
 
     if (DialogFacade.newConfirmationAlert("Exit RoboRally?",
         "Are you sure you want to exit RoboRally?")) {
