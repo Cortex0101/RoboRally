@@ -190,8 +190,6 @@ public class PlayerView extends Tab implements ViewObserver {
         switch (player.board.getPhase()) {
           case INITIALISATION -> {
             finishButton.setDisable(true);
-            // XXX just to make sure that there is a way for the player to get
-            //     from the initialization phase to the programming phase somehow!
             executeButton.setDisable(false);
             stepButton.setDisable(true);
           }
@@ -211,15 +209,12 @@ public class PlayerView extends Tab implements ViewObserver {
             stepButton.setDisable(true);
           }
         }
-
-
       } else {
         if (!programPane.getChildren().contains(playerInteractionPanel)) {
           programPane.getChildren().remove(buttonPanel);
           programPane.add(playerInteractionPanel, Player.NO_REGISTERS, 0);
         }
         playerInteractionPanel.getChildren().clear();
-
         if (player.board.getCurrentPlayer() == player) {
           Command command = player.getProgramField(player.board.getStep()).getCard().command;
           if (command.isInteractive()) {

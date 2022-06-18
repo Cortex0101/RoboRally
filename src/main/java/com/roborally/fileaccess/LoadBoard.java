@@ -248,18 +248,12 @@ public class LoadBoard {
    */
   public static Board loadBoard(String boardname) {
     BoardTemplate template = loadBoardTemplate(getBoardAsInputStream(boardname));
+
     Board result = new Board(template.width, template.height, boardname);
+
     for (SpaceTemplate spaceTemplate : template.spaces) {
       Space space = result.getSpace(spaceTemplate.x, spaceTemplate.y);
-      if (space != null) {
-        space.getActions().addAll(spaceTemplate.actions);
-        space.getWalls().addAll(spaceTemplate.walls);
-
-        for (FieldAction fieldAction : space.getActions()) {
-          if (fieldAction.getClass().getName().equals("com.roborally.controller.CheckPoint")) {
-            result.addCheckPoint(space);
-          }
-        }
+      copyWallsAndFieldActions(spaceTemplate, space);
 
         if (spaceTemplate.player != null) {
           Player player = new Player(result, spaceTemplate.player.color,
@@ -287,8 +281,6 @@ public class LoadBoard {
           }
           result.addPlayer(player);
         }
-
-      }
     }
     return result;
   }
@@ -308,6 +300,16 @@ public class LoadBoard {
     Gson gson = simpleBuilder.create();
     JsonReader reader = gson.newJsonReader(Objects.requireNonNull(inputStreamReader));
     return gson.fromJson(reader, BoardTemplate.class);
+  }
+
+  private static void copyWallsAndFieldActions(SpaceTemplate from, Space to) {
+    to.getActions().addAll(from.actions);
+    to.getWalls().addAll(from.walls);
+    for (FieldAction fieldAction : to.getActions()) {
+      if (fieldAction.getClass().getName().equals("com.roborally.controller.CheckPoint")) {
+        to.board.addCheckPoint(to);
+      }
+    }
   }
 
   /**
