@@ -14,6 +14,7 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -240,92 +241,73 @@ public class LoadBoard {
    *
    * loads a .json file, then convert it into a playable board
    *
+   * We dont check if the board name is valid, as this has been done before calling this method.
+   *
    * @param boardname the name of the file
    * @return the board which was generated from the .json file
    */
   public static Board loadBoard(String boardname) {
-    if (boardname == null) {
-      boardname = DEFAULTBOARD;
-    }
+    BoardTemplate template = loadBoardTemplate(getBoardAsInputStream(boardname));
+    Board result = new Board(template.width, template.height, boardname);
+    for (SpaceTemplate spaceTemplate : template.spaces) {
+      Space space = result.getSpace(spaceTemplate.x, spaceTemplate.y);
+      if (space != null) {
+        space.getActions().addAll(spaceTemplate.actions);
+        space.getWalls().addAll(spaceTemplate.walls);
 
-    InputStream inputStream;
+        for (FieldAction fieldAction : space.getActions()) {
+          if (fieldAction.getClass().getName().equals("com.roborally.controller.CheckPoint")) {
+            result.addCheckPoint(space);
+          }
+        }
+
+        if (spaceTemplate.player != null) {
+          Player player = new Player(result, spaceTemplate.player.color,
+              spaceTemplate.player.name, space);
+          player.setHeading(spaceTemplate.player.heading);
+          player.setIsAI(spaceTemplate.player.AI);
+          space.setPlayer(player);
+          for (int i = 0; i < spaceTemplate.player.commandCards.size(); i++) {
+            if (spaceTemplate.player.commandCards.get(i) != null) {
+              player.getCardField(i)
+                  .setCard(new CommandCard(spaceTemplate.player.commandCards.get(i)));
+              result.resetRegisters = false;
+            } else {
+              player.getCardField(i).setCard(null);
+            }
+          }
+          for (int i = 0; i < spaceTemplate.player.commandCardsInRegisters.size(); i++) {
+            if (spaceTemplate.player.commandCardsInRegisters.get(i) != null) {
+              player.getProgramField(i)
+                  .setCard(new CommandCard(
+                      spaceTemplate.player.commandCardsInRegisters.get(i)));
+            } else {
+              player.getProgramField(i).setCard(null);
+            }
+          }
+          result.addPlayer(player);
+        }
+
+      }
+    }
+    return result;
+  }
+
+  private static InputStreamReader getBoardAsInputStream(String boardname) {
     try {
-      inputStream = new FileInputStream(SAVED_BOARDS_PATH + "\\" + boardname + "." + JSON_EXT);
+      InputStream inputStream = new FileInputStream(SAVED_BOARDS_PATH + "\\" + boardname + "." + JSON_EXT);
+      return new InputStreamReader(Objects.requireNonNull(inputStream));
     } catch (FileNotFoundException fileNotFoundException) {
       fileNotFoundException.printStackTrace();
-      return new Board(8, 8); // Returns a default 8x8 board - do something else in the future
+      return null;
     }
+  }
 
-    // In simple cases, we can create a Gson object with new Gson():
-    GsonBuilder simpleBuilder = new GsonBuilder().
-        registerTypeAdapter(FieldAction.class, new Adapter<FieldAction>());
+  private static BoardTemplate loadBoardTemplate(InputStreamReader inputStreamReader) {
+    GsonBuilder simpleBuilder = new GsonBuilder().registerTypeAdapter(FieldAction.class, new Adapter<FieldAction>());
     Gson gson = simpleBuilder.create();
-
-    Board result;
-    // FileReader fileReader = null;
-    JsonReader reader = null;
-    try {
-      // fileReader = new FileReader(filename);
-      reader = gson.newJsonReader(new InputStreamReader(inputStream));
-      BoardTemplate template = gson.fromJson(reader, BoardTemplate.class);
-
-      result = new Board(template.width, template.height, boardname);
-      for (SpaceTemplate spaceTemplate : template.spaces) {
-        Space space = result.getSpace(spaceTemplate.x, spaceTemplate.y);
-        if (space != null) {
-          space.getActions().addAll(spaceTemplate.actions);
-          space.getWalls().addAll(spaceTemplate.walls);
-
-          for (FieldAction fieldAction : space.getActions()) {
-            if (fieldAction.getClass().getName().equals("com.roborally.controller.CheckPoint")) {
-              result.addCheckPoint(space);
-            }
-          }
-
-          if (spaceTemplate.player != null) {
-            Player player = new Player(result, spaceTemplate.player.color,
-                spaceTemplate.player.name, space);
-            player.setHeading(spaceTemplate.player.heading);
-            player.setIsAI(spaceTemplate.player.AI);
-            space.setPlayer(player);
-            for (int i = 0; i < spaceTemplate.player.commandCards.size(); i++) {
-                if (spaceTemplate.player.commandCards.get(i) != null) {
-                    player.getCardField(i)
-                            .setCard(new CommandCard(spaceTemplate.player.commandCards.get(i)));
-                    result.resetRegisters = false;
-                } else {
-                    player.getCardField(i).setCard(null);
-                }
-            }
-            for (int i = 0; i < spaceTemplate.player.commandCardsInRegisters.size(); i++) {
-                if (spaceTemplate.player.commandCardsInRegisters.get(i) != null) {
-                    player.getProgramField(i)
-                            .setCard(new CommandCard(
-                                    spaceTemplate.player.commandCardsInRegisters.get(i)));
-                } else {
-                    player.getProgramField(i).setCard(null);
-                }
-            }
-            result.addPlayer(player);
-          }
-        }
-      }
-      reader.close();
-      return result;
-    } catch (IOException e1) {
-      try {
-        reader.close();
-        inputStream = null;
-      } catch (IOException ignored) {
-      }
-      if (inputStream != null) {
-        try {
-          inputStream.close();
-        } catch (IOException ignored) {
-        }
-      }
-    }
-    return null;
+    JsonReader reader = gson.newJsonReader(Objects.requireNonNull(inputStreamReader));
+    return gson.fromJson(reader, BoardTemplate.class);
   }
 
   /**
