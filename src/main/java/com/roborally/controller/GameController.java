@@ -270,9 +270,9 @@ public class GameController {
         case MOVE1 -> this.move1Forward(player);
         case MOVE2 -> this.move2Forward(player);
         case MOVE3 -> this.move3Forward(player);
-        case RIGHT -> new PlayerTurnRightCommand(player).execute(this);
-        case LEFT -> new PlayerTurnLeftCommand(player).execute(this);
-        case U_TURN -> new PlayerUTurnCommand(player).execute(this);
+        case RIGHT -> new PlayerTurnRightCommand(board.getPlayers(), player).execute(this);
+        case LEFT -> new PlayerTurnLeftCommand(board.getPlayers(), player).execute(this);
+        case U_TURN -> new PlayerUTurnCommand(board.getPlayers(), player).execute(this);
         default -> {}
       }
     }

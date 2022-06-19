@@ -1,6 +1,7 @@
 package com.roborally.model;
 
 import com.roborally.controller.GameController;
+import java.util.List;
 
 /**
  * @author Lucas Eiruff
@@ -11,25 +12,37 @@ import com.roborally.controller.GameController;
  * its subclasses. The subclasses implementation of execute is expected to class backup at some
  * point, to store the previous state of the player, such that the actions performed can be
  * undone via the undo method later.
+ *
+ * We store lists of each player and their previous headings and spaces as many of the commands
+ * may alter the positions / direction of other players.
+ *
+ * For example when a player MOVE2's into another player, he will move that player two spaces aswell
+ * without the other player itself having executed any command.
  */
 public abstract class PlayerMovementCommand {
-  public Player player;
+  protected List<Player> players;
+  protected Player initiator; // player that is executing the move
 
-  private Heading prevPlayerHeading;
-  private Space prevPlayerSpace;
+  private List<Heading> prevPlayerHeadings;
+  private List<Space> prevPlayerSpaces;
 
-  PlayerMovementCommand(Player player) {
-    this.player = player;
+  PlayerMovementCommand(List<Player> players, Player initiator) {
+    this.players = players;
+    this.initiator = initiator;
   }
 
   void backup() {
-    this.prevPlayerHeading = player.getHeading();
-    this.prevPlayerSpace = player.getSpace();
+    for (Player player : players) {
+      this.prevPlayerHeadings.add(player.getHeading());
+      this.prevPlayerSpaces.add(player.getSpace());
+    }
   }
 
   public void undo() {
-    player.setHeading(prevPlayerHeading);
-    player.setSpace(prevPlayerSpace);
+    for (int i = 0; i < players.size(); i++) {
+      players.get(i).setHeading(prevPlayerHeadings.get(i));
+      players.get(i).setSpace(prevPlayerSpaces.get(i));
+    }
   }
 
   public abstract void execute(GameController gameController);
