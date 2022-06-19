@@ -1,6 +1,7 @@
 package com.roborally.model;
 
 import com.roborally.controller.GameController;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,8 +24,8 @@ public abstract class PlayerMovementCommand {
   protected List<Player> players;
   protected Player initiator; // player that is executing the move
 
-  private List<Heading> prevPlayerHeadings;
-  private List<Space> prevPlayerSpaces;
+  private List<Heading> prevPlayerHeadings = new ArrayList<>();
+  private List<Space> prevPlayerSpaces = new ArrayList<>();
 
   PlayerMovementCommand(List<Player> players, Player initiator) {
     this.players = players;

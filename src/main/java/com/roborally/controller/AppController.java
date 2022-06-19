@@ -37,6 +37,7 @@ import javafx.application.Platform;
 
 import java.io.File;
 import java.util.*;
+import javafx.scene.input.KeyCode;
 
 public class AppController implements Observer {
   final private RoboRally roboRally;
@@ -65,6 +66,12 @@ public class AppController implements Observer {
       if (roboRally.readyToUpdateBoard) {
         gameController.roboRally.readyToUpdateBoard = false;
         setGame();
+      }
+    });
+
+    roboRally.getPrimaryScene().setOnKeyPressed(keyEvent -> {
+      if (keyEvent.getCode() == KeyCode.SPACE) {
+        Objects.requireNonNull(this.gameController.commandHistory.pop()).undo();
       }
     });
   }

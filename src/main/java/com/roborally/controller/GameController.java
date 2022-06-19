@@ -23,6 +23,12 @@ package com.roborally.controller;
 
 import com.roborally.RoboRally;
 import com.roborally.model.*;
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.LinkedList;
+import java.util.PriorityQueue;
+import java.util.Queue;
+import java.util.Stack;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -264,15 +270,35 @@ public class GameController {
     }
   }
 
+  public Stack<PlayerMovementCommand> commandHistory = new Stack<>();
+
   private void executeCommand(@NotNull Player player, Command command) {
     if (player.board == board && command != null) {
       switch (command) {
-        case MOVE1 -> new PlayerMove1Command(board.getPlayers(), player).execute(this);
-        case MOVE2 -> new PlayerMove2Command(board.getPlayers(), player).execute(this);
-        case MOVE3 -> new PlayerMove3Command(board.getPlayers(), player).execute(this);
-        case RIGHT -> new PlayerTurnRightCommand(board.getPlayers(), player).execute(this);
-        case LEFT -> new PlayerTurnLeftCommand(board.getPlayers(), player).execute(this);
-        case U_TURN -> new PlayerUTurnCommand(board.getPlayers(), player).execute(this);
+        case MOVE1 -> {
+          commandHistory.push(new PlayerMove1Command(board.getPlayers(), player));
+          commandHistory.peek().execute(this);
+        }
+        case MOVE2 -> {
+          commandHistory.push(new PlayerMove2Command(board.getPlayers(), player));
+          commandHistory.peek().execute(this);
+        }
+        case MOVE3 -> {
+          commandHistory.push(new PlayerMove3Command(board.getPlayers(), player));
+          commandHistory.peek().execute(this);
+        }
+        case RIGHT -> {
+          commandHistory.push(new PlayerTurnRightCommand(board.getPlayers(), player));
+          commandHistory.peek().execute(this);
+        }
+        case LEFT -> {
+          commandHistory.push(new PlayerTurnLeftCommand(board.getPlayers(), player));
+          commandHistory.peek().execute(this);
+        }
+        case U_TURN -> {
+          commandHistory.push(new PlayerUTurnCommand(board.getPlayers(), player));
+          commandHistory.peek().execute(this);
+        }
         default -> {}
       }
     }

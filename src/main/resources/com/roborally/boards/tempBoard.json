@@ -715,64 +715,6 @@
           null
         ]
       }
-    },
-    {
-      "walls": [],
-      "actions": [],
-      "x": 1,
-      "y": 4,
-      "player": {
-        "name": "AI2",
-        "color": "0x0000ffff",
-        "heading": "EAST",
-        "AI": true,
-        "commandCards": [
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null
-        ],
-        "commandCardsInRegisters": [
-          null,
-          null,
-          null,
-          null,
-          null
-        ]
-      }
-    },
-    {
-      "walls": [],
-      "actions": [],
-      "x": 1,
-      "y": 5,
-      "player": {
-        "name": "AI3",
-        "color": "0xffa500ff",
-        "heading": "EAST",
-        "AI": true,
-        "commandCards": [
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null
-        ],
-        "commandCardsInRegisters": [
-          null,
-          null,
-          null,
-          null,
-          null
-        ]
-      }
     }
   ]
 }
