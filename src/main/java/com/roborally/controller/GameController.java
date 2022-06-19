@@ -272,7 +272,7 @@ public class GameController {
         case MOVE3 -> this.move3Forward(player);
         case RIGHT -> new PlayerTurnRightCommand(player).execute(this);
         case LEFT -> new PlayerTurnLeftCommand(player).execute(this);
-        case U_TURN -> this.uTurn(player);
+        case U_TURN -> new PlayerUTurnCommand(player).execute(this);
         default -> {}
       }
     }
