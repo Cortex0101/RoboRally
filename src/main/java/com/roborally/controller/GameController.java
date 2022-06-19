@@ -267,9 +267,9 @@ public class GameController {
   private void executeCommand(@NotNull Player player, Command command) {
     if (player.board == board && command != null) {
       switch (command) {
-        case MOVE1 -> this.move1Forward(player);
-        case MOVE2 -> this.move2Forward(player);
-        case MOVE3 -> this.move3Forward(player);
+        case MOVE1 -> new PlayerMove1Command(board.getPlayers(), player).execute(this);
+        case MOVE2 -> new PlayerMove2Command(board.getPlayers(), player).execute(this);
+        case MOVE3 -> new PlayerMove3Command(board.getPlayers(), player).execute(this);
         case RIGHT -> new PlayerTurnRightCommand(board.getPlayers(), player).execute(this);
         case LEFT -> new PlayerTurnLeftCommand(board.getPlayers(), player).execute(this);
         case U_TURN -> new PlayerUTurnCommand(board.getPlayers(), player).execute(this);
