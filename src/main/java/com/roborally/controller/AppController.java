@@ -177,6 +177,9 @@ public class AppController implements Observer {
    * @return true if the string is legal, false otherwise
    */
   private boolean checkForIllegalCharacters(String name) {
+    if (name.isEmpty())
+      return true; // allow empty name
+
     return name.matches("[a-zA-Z]+");
   }
 
