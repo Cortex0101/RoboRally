@@ -299,11 +299,8 @@ public class GameController {
     }
   }
 
-
-  void moveToSpace(@NotNull Player player, @NotNull Space space, @NotNull Heading heading)
+  private void throwIfPlayerCollidesWithWall(@NotNull Player player, @NotNull Space space, @NotNull Heading heading)
       throws ImpossibleMoveException {
-    assert board.getNeighbour(player.getSpace(), heading) == space;
-
     if (player.getSpace().getWalls().contains(player.getHeading()) ||
         space.getWalls().contains(player.getHeading().next().next())) {
       throw new ImpossibleMoveException(player, space, heading,
@@ -312,6 +309,13 @@ public class GameController {
               + ")" +
               " hit wall at " + "(" + space.x + ", " + space.y + ")");
     }
+  }
+
+  public void moveToSpace(@NotNull Player player, @NotNull Space space, @NotNull Heading heading)
+      throws ImpossibleMoveException {
+    assert board.getNeighbour(player.getSpace(), heading) == space;
+    throwIfPlayerCollidesWithWall(player, space, heading);
+
     Player other = space.getPlayer();
     if (other != null) {
       Space target = board.getNeighbour(space, heading);
