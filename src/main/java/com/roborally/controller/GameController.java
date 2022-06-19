@@ -337,24 +337,16 @@ public class GameController {
    * @param player the player using the card
    */
   public void move1Forward(@NotNull Player player) {
-    if (player.board == board) {
-      Space space = player.getSpace();
-      Heading heading = player.getHeading();
+    if (player.board != board)
+      return;
 
-      Space target = board.getNeighbour(space, heading);
-      if (target != null) {
-        try {
-          moveToSpace(player, target, heading);
-        } catch (ImpossibleMoveException e) {
-          if (!player.isAI()) {
-            e.printStackTrace();
-          } else {
-            e.player.setHeading(e.player.getHeading()); // quirky workaround. If theres nothing here the stacktracke gets printed...
-          }
-        }
-      }
-    }
+    Space target = board.getNeighbour(player.getSpace(), player.getHeading());
+    if (target == null)
+      return;
 
+    try {
+      moveToSpace(player, target, player.getHeading());
+    } catch (ImpossibleMoveException ignore) {}
   }
 
   /**
