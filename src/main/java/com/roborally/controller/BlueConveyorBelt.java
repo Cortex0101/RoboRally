@@ -29,7 +29,7 @@ public class BlueConveyorBelt extends FieldAction {
   @Override
   public boolean doAction(@NotNull GameController gameController, @NotNull Space space) {
     Player player = space.getPlayer();
-    if (player == null) {
+    if (player == null || player.movedByBlueConveyorThisTurn) {
       return false;
     }
 
@@ -37,6 +37,7 @@ public class BlueConveyorBelt extends FieldAction {
     player.setHeading(heading);
     gameController.move2Forward(player);
     player.setHeading(originalPlayerHeading);
+    player.movedByBlueConveyorThisTurn = true;
     return true;
   }
 

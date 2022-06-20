@@ -57,6 +57,9 @@ public class Player extends Subject {
   private final CommandCardField[] program;
   private final CommandCardField[] cards;
 
+  public boolean movedByBlueConveyorThisTurn = false;
+  public boolean movedByGreenConveyorThisTurn = false;
+
   public Player(@NotNull Board board, String color, @NotNull String name, Space startingSpace) {
     this.startingSpace = startingSpace;
     this.board = board;

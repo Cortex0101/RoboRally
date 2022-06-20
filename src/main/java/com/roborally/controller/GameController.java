@@ -268,6 +268,20 @@ public class GameController {
         }
       }
     }
+    resetPlayersMoveBlockers();
+  }
+
+  /**
+   * As players should only be moved once by a conveyor belt each activation, boolean variables
+   * are set upon movement in the Player class.
+   *
+   * This method will set all of them to false and should be called after each activation phase.
+   */
+  private void resetPlayersMoveBlockers() {
+    for (Player player : board.getPlayers()) {
+      player.movedByGreenConveyorThisTurn = false;
+      player.movedByBlueConveyorThisTurn = false;
+    }
   }
 
   public Stack<PlayerMovementCommand> commandHistory = new Stack<>();
