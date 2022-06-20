@@ -180,60 +180,22 @@ public class LoadBoard {
    * @return the board which was generated from the .json string
    */
   public static Board loadBoardFromJson(String json) {
-    GsonBuilder simpleBuilder = new GsonBuilder().
-        registerTypeAdapter(FieldAction.class, new Adapter<FieldAction>());
-    Gson gson = simpleBuilder.create();
-    Board result;
+    BoardTemplate template = loadBoardTemplate(json);
+    Board result = new Board(template.width, template.height, "temp");
 
-    try {
-      BoardTemplate template = gson.fromJson(json, BoardTemplate.class);
+    for (SpaceTemplate spaceTemplate : template.spaces) {
+      Space space = result.getSpace(spaceTemplate.x, spaceTemplate.y);
+      copyWallsAndFieldActions(spaceTemplate, space);
 
-      result = new Board(template.width, template.height, "tempSave");
-      for (SpaceTemplate spaceTemplate : template.spaces) {
-        Space space = result.getSpace(spaceTemplate.x, spaceTemplate.y);
-        if (space != null) {
-          space.getActions().addAll(spaceTemplate.actions);
-          space.getWalls().addAll(spaceTemplate.walls);
+      if (spaceTemplate.player == null)
+        continue;
 
-          for (FieldAction fieldAction : space.getActions()) {
-            if (fieldAction.getClass().getName().equals("com.roborally.controller.CheckPoint")) {
-              result.addCheckPoint(space);
-            }
-          }
-
-          if (spaceTemplate.player != null) {
-            Player player = new Player(result, spaceTemplate.player.color,
-                spaceTemplate.player.name, space);
-            player.setHeading(spaceTemplate.player.heading);
-            player.setIsAI(spaceTemplate.player.AI);
-            space.setPlayer(player);
-            for (int i = 0; i < spaceTemplate.player.commandCards.size(); i++) {
-              if (spaceTemplate.player.commandCards.get(i) != null) {
-                player.getCardField(i)
-                    .setCard(new CommandCard(spaceTemplate.player.commandCards.get(i)));
-                result.resetRegisters = false;
-              } else {
-                player.getCardField(i).setCard(null);
-              }
-            }
-            for (int i = 0; i < spaceTemplate.player.commandCardsInRegisters.size(); i++) {
-              if (spaceTemplate.player.commandCardsInRegisters.get(i) != null) {
-                player.getProgramField(i)
-                    .setCard(new CommandCard(
-                        spaceTemplate.player.commandCardsInRegisters.get(i)));
-              } else {
-                player.getProgramField(i).setCard(null);
-              }
-            }
-            result.addPlayer(player);
-          }
-        }
-      }
-      return result;
-    } catch (Exception ignored) {
-
+      Player player = createPlayerFromTemplate(space, spaceTemplate.player);
+      setCardFields(spaceTemplate.player.commandCards, player, result);
+      setCommandFields(spaceTemplate.player.commandCardsInRegisters, player);
+      result.addPlayer(player);
     }
-    return null;
+    return result;
   }
 
   /**
@@ -246,7 +208,7 @@ public class LoadBoard {
    * @param boardname the name of the file
    * @return the board which was generated from the .json file
    */
-  public static Board loadBoard(String boardname) {
+  public static Board loadBoardFromFile(String boardname) {
     BoardTemplate template = loadBoardTemplate(getBoardAsInputStream(boardname));
 
     Board result = new Board(template.width, template.height, boardname);
@@ -304,6 +266,12 @@ public class LoadBoard {
     Gson gson = simpleBuilder.create();
     JsonReader reader = gson.newJsonReader(Objects.requireNonNull(inputStreamReader));
     return gson.fromJson(reader, BoardTemplate.class);
+  }
+
+  private static BoardTemplate loadBoardTemplate(String json) {
+    GsonBuilder simpleBuilder = new GsonBuilder().registerTypeAdapter(FieldAction.class, new Adapter<FieldAction>());
+    Gson gson = simpleBuilder.create();
+    return gson.fromJson(json, BoardTemplate.class);
   }
 
   private static void copyWallsAndFieldActions(SpaceTemplate from, Space to) {

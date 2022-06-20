@@ -102,7 +102,7 @@ public class AppController implements Observer {
 
 
   public Board loadBoard(String name) {
-    return LoadBoard.loadBoard(name);
+    return LoadBoard.loadBoardFromFile(name);
   }
 
   /**
