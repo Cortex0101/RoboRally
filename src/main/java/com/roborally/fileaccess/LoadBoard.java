@@ -259,28 +259,34 @@ public class LoadBoard {
         continue;
 
       Player player = createPlayerFromTemplate(space, spaceTemplate.player);
-
-      for (int i = 0; i < spaceTemplate.player.commandCards.size(); i++) {
-        if (spaceTemplate.player.commandCards.get(i) != null) {
-          player.getCardField(i)
-              .setCard(new CommandCard(spaceTemplate.player.commandCards.get(i)));
-          result.resetRegisters = false;
-        } else {
-          player.getCardField(i).setCard(null);
-        }
-      }
-      for (int i = 0; i < spaceTemplate.player.commandCardsInRegisters.size(); i++) {
-        if (spaceTemplate.player.commandCardsInRegisters.get(i) != null) {
-          player.getProgramField(i)
-              .setCard(new CommandCard(
-                  spaceTemplate.player.commandCardsInRegisters.get(i)));
-        } else {
-          player.getProgramField(i).setCard(null);
-        }
-      }
+      setCardFields(spaceTemplate.player.commandCards, player, result);
+      setCommandFields(spaceTemplate.player.commandCardsInRegisters, player);
       result.addPlayer(player);
     }
     return result;
+  }
+
+  private static void setCardFields(List<Command> commands, Player player, Board board) {
+    for (int i = 0; i < commands.size(); i++) {
+      if (commands.get(i) == null) {
+        player.getCardField(i).setCard(null);
+        continue;
+      }
+
+      player.getCardField(i).setCard(new CommandCard(commands.get(i)));
+      board.resetRegisters = false; // don't reset registers if the robot has been loaded with a program.
+    }
+  }
+
+  private static void setCommandFields(List<Command> commands, Player player) {
+    for (int i = 0; i < commands.size(); i++) {
+      if (commands.get(i) == null) {
+        player.getProgramField(i).setCard(null);
+        continue;
+      }
+
+      player.getProgramField(i).setCard(new CommandCard(commands.get(i)));
+    }
   }
 
   private static InputStreamReader getBoardAsInputStream(String boardname) {

@@ -662,28 +662,28 @@
       "walls": [],
       "actions": [],
       "x": 1,
-      "y": 0,
+      "y": 1,
       "player": {
         "name": "Player1",
         "color": "0xff0000ff",
-        "heading": "EAST",
+        "heading": "SOUTH",
         "AI": false,
         "commandCards": [
           null,
           null,
           null,
           null,
+          "OPTION_LEFT_RIGHT",
           null,
-          null,
-          null,
-          null
+          "LEFT",
+          "MOVE1"
         ],
         "commandCardsInRegisters": [
-          null,
-          null,
-          null,
-          null,
-          null
+          "RIGHT",
+          "MOVE3",
+          "MOVE2",
+          "U_TURN",
+          "MOVE1"
         ]
       }
     },
@@ -691,28 +691,28 @@
       "walls": [],
       "actions": [],
       "x": 0,
-      "y": 2,
+      "y": 1,
       "player": {
         "name": "AI1",
         "color": "0x008000ff",
-        "heading": "EAST",
+        "heading": "NORTH",
         "AI": true,
         "commandCards": [
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null
+          "MOVE1",
+          "MOVE1",
+          "OPTION_LEFT_RIGHT",
+          "OPTION_LEFT_RIGHT",
+          "LEFT",
+          "MOVE2",
+          "MOVE1",
+          "LEFT"
         ],
         "commandCardsInRegisters": [
-          null,
-          null,
-          null,
-          null,
-          null
+          "LEFT",
+          "MOVE1",
+          "LEFT",
+          "MOVE1",
+          "LEFT"
         ]
       }
     },
@@ -724,53 +724,53 @@
       "player": {
         "name": "AI2",
         "color": "0x0000ffff",
-        "heading": "EAST",
+        "heading": "WEST",
         "AI": true,
         "commandCards": [
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null
+          "OPTION_LEFT_RIGHT",
+          "RIGHT",
+          "RIGHT",
+          "LEFT",
+          "OPTION_LEFT_RIGHT",
+          "OPTION_LEFT_RIGHT",
+          "MOVE3",
+          "LEFT"
         ],
         "commandCardsInRegisters": [
-          null,
-          null,
-          null,
-          null,
-          null
+          "RIGHT",
+          "RIGHT",
+          "MOVE3",
+          "LEFT",
+          "RIGHT"
         ]
       }
     },
     {
       "walls": [],
       "actions": [],
-      "x": 1,
+      "x": 12,
       "y": 5,
       "player": {
         "name": "AI3",
         "color": "0xffa500ff",
-        "heading": "EAST",
+        "heading": "WEST",
         "AI": true,
         "commandCards": [
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null
+          "U_TURN",
+          "LEFT",
+          "MOVE2",
+          "MOVE2",
+          "LEFT",
+          "LEFT",
+          "OPTION_LEFT_RIGHT",
+          "MOVE1"
         ],
         "commandCardsInRegisters": [
-          null,
-          null,
-          null,
-          null,
-          null
+          "U_TURN",
+          "MOVE2",
+          "MOVE2",
+          "MOVE1",
+          "LEFT"
         ]
       }
     }
