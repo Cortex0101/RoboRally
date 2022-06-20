@@ -1,7 +1,6 @@
 package com.roborally.server;
 
 import com.roborally.RoboRally;
-import com.roborally.StartRoboRally;
 import com.roborally.fileaccess.LoadBoard;
 import com.roborally.model.Command;
 import com.roborally.model.CommandCard;
@@ -23,11 +22,10 @@ public class Server {
   private boolean everyoneReady = false;
 
   /**
-   * @author Lucas Eiruff
-   *
-   * Creates a game which can be joined and starts a connection
-   *
    * @param port
+   * @author Lucas Eiruff
+   * <p>
+   * Creates a game which can be joined and starts a connection
    */
   public void start(int port) {
     try {
@@ -46,7 +44,7 @@ public class Server {
 
   /**
    * @author Lucas Eiruff
-   *
+   * <p>
    * Closes the connection of the server
    */
   public void stop() {
@@ -70,10 +68,9 @@ public class Server {
 
     /**
      * @author Lucas Eiruff
-     *
-     * Updates the hosts game according to the clients updates,
-     * and updates the clients of the game state when apropriate
-     *
+     * <p>
+     * Updates the hosts game according to the clients updates, and updates the clients of the game
+     * state when apropriate
      */
     public void run() {
       try {
@@ -95,11 +92,10 @@ public class Server {
     }
 
     /**
-     * @author Lucas Eiruff
-     *
-     * Processes the message sent by clients
-     *
      * @param message the message sent by the client
+     * @author Lucas Eiruff
+     * <p>
+     * Processes the message sent by clients
      */
     private void processMessage(String message) {
       if (message.equals("exit")) {
@@ -151,27 +147,13 @@ public class Server {
         System.out.println(card[3]);
         if (card.length > 4) {
           switch (card[3] + " " + card[4]) {
-            case "Move 1" -> {
-              command = Command.MOVE1;
-            }
-            case "Move 2" -> {
-              command = Command.MOVE2;
-            }
-            case "Move 3" -> {
-              command = Command.MOVE3;
-            }
-            case "Turn Right" -> {
-              command = Command.RIGHT;
-            }
-            case "Turn Left" -> {
-              command = Command.LEFT;
-            }
-            case "Left OR" -> {
-              command = Command.OPTION_LEFT_RIGHT;
-            }
-            default -> {
-              command = Command.U_TURN;
-            }
+            case "Move 1" -> command = Command.MOVE1;
+            case "Move 2" -> command = Command.MOVE2;
+            case "Move 3" -> command = Command.MOVE3;
+            case "Turn Right" -> command = Command.RIGHT;
+            case "Turn Left" -> command = Command.LEFT;
+            case "Left OR" -> command = Command.OPTION_LEFT_RIGHT;
+            default -> command = Command.U_TURN;
           }
           roboRally.getAppController().getGameController().board.getPlayer(
                   Integer.parseInt(card[1])).getProgramField(Integer.parseInt(card[2]))

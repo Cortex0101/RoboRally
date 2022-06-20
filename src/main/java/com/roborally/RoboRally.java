@@ -58,7 +58,7 @@ public class RoboRally extends Application {
 
   /**
    * @author Lucas Eiruff
-   *
+   * <p>
    * Generates a window with the game.
    */
   @Override

@@ -32,79 +32,81 @@ import javafx.scene.paint.Color;
 import javafx.util.Pair;
 
 public class SetupScreen {
-  final String IMAGES_PATH = System.getProperty("user.dir") + "\\src\\main\\resources\\com\\roborally\\images\\";
 
-  HBox twoColumn = new HBox();
+  final String IMAGES_PATH =
+      System.getProperty("user.dir") + "\\src\\main\\resources\\com\\roborally\\images\\";
 
-  VBox leftColumn = new VBox();
-  Label playersLabel = new Label("Players");
-  Slider playerSlider = new Slider(2, 6, 4);
-  Separator leftSliderSeparator = new Separator();
-  Label namesLabel = new Label("Names");
-  VBox namesVBox = new VBox();
-  HBox name1HBox = new HBox();
-  ColorPicker name1ColorPicker = new ColorPicker();
-  TextField name1TextField = new TextField();
-  HBox name2HBox = new HBox();
-  ColorPicker name2ColorPicker = new ColorPicker();
-  TextField name2TextField = new TextField();
-  HBox name3HBox = new HBox();
-  ColorPicker name3ColorPicker = new ColorPicker();
-  TextField name3TextField = new TextField();
-  HBox name4HBox = new HBox();
-  ColorPicker name4ColorPicker = new ColorPicker();
-  TextField name4TextField = new TextField();
-  HBox name5HBox = new HBox();
-  ColorPicker name5ColorPicker = new ColorPicker();
-  TextField name5TextField = new TextField();
-  HBox name6HBox = new HBox();
-  ColorPicker name6ColorPicker = new ColorPicker();
-  TextField name6TextField = new TextField();
-  Separator nameSeparator = new Separator();
-  Button backButton = new Button("Back");
+  final HBox twoColumn = new HBox();
 
-  Separator twoColumnSeparator = new Separator(Orientation.VERTICAL);
+  final VBox leftColumn = new VBox();
+  final Label playersLabel = new Label("Players");
+  final Slider playerSlider = new Slider(2, 6, 4);
+  final Separator leftSliderSeparator = new Separator();
+  final Label namesLabel = new Label("Names");
+  final VBox namesVBox = new VBox();
+  final HBox name1HBox = new HBox();
+  final ColorPicker name1ColorPicker = new ColorPicker();
+  final TextField name1TextField = new TextField();
+  final HBox name2HBox = new HBox();
+  final ColorPicker name2ColorPicker = new ColorPicker();
+  final TextField name2TextField = new TextField();
+  final HBox name3HBox = new HBox();
+  final ColorPicker name3ColorPicker = new ColorPicker();
+  final TextField name3TextField = new TextField();
+  final HBox name4HBox = new HBox();
+  final ColorPicker name4ColorPicker = new ColorPicker();
+  final TextField name4TextField = new TextField();
+  final HBox name5HBox = new HBox();
+  final ColorPicker name5ColorPicker = new ColorPicker();
+  final TextField name5TextField = new TextField();
+  final HBox name6HBox = new HBox();
+  final ColorPicker name6ColorPicker = new ColorPicker();
+  final TextField name6TextField = new TextField();
+  final Separator nameSeparator = new Separator();
+  final Button backButton = new Button("Back");
 
-  VBox rightColumn = new VBox();
-  Label AILabel = new Label("AI");
-  Slider AISlider = new Slider(0, 5, 3);
-  Separator rightSliderSeparator = new Separator();
-  Label levelLabel = new Label("Level");
-  VBox levelVBox = new VBox();
-  HBox level1HBox = new HBox();
-  RadioButton level1Button = new RadioButton("Easy");
-  ImageView level1ImageView = new ImageView();
-  Image level1Image = new Image(IMAGES_PATH + "riskyCrossing.png");
-  HBox level2HBox = new HBox();
-  RadioButton level2Button = new RadioButton("Medium");
-  ImageView level2ImageView = new ImageView();
-  Image level2Image = new Image(IMAGES_PATH + "passingLane.png");
-  HBox level3HBox = new HBox();
-  RadioButton level3Button = new RadioButton("Hard");
-  ImageView level3ImageView = new ImageView();
-  Image level3Image = new Image(IMAGES_PATH + "heavyArea.png");
-  Separator levelSeparator = new Separator();
-  Button playButton = new Button("Play");
+  final Separator twoColumnSeparator = new Separator(Orientation.VERTICAL);
 
-  ToggleGroup toggleGroup = new ToggleGroup();
+  final VBox rightColumn = new VBox();
+  final Label AILabel = new Label("AI");
+  final Slider AISlider = new Slider(0, 5, 3);
+  final Separator rightSliderSeparator = new Separator();
+  final Label levelLabel = new Label("Level");
+  final VBox levelVBox = new VBox();
+  final HBox level1HBox = new HBox();
+  final RadioButton level1Button = new RadioButton("Easy");
+  final ImageView level1ImageView = new ImageView();
+  final Image level1Image = new Image(IMAGES_PATH + "riskyCrossing.png");
+  final HBox level2HBox = new HBox();
+  final RadioButton level2Button = new RadioButton("Medium");
+  final ImageView level2ImageView = new ImageView();
+  final Image level2Image = new Image(IMAGES_PATH + "passingLane.png");
+  final HBox level3HBox = new HBox();
+  final RadioButton level3Button = new RadioButton("Hard");
+  final ImageView level3ImageView = new ImageView();
+  final Image level3Image = new Image(IMAGES_PATH + "heavyArea.png");
+  final Separator levelSeparator = new Separator();
+  final Button playButton = new Button("Play");
+
+  final ToggleGroup toggleGroup = new ToggleGroup();
 
 
-  RadioButton singleplayerButton = new RadioButton("Single");
-  RadioButton hostButton = new RadioButton("Host");
-  RadioButton clientButton = new RadioButton("Client");
-  ToggleGroup onlineGroup = new ToggleGroup();
-  HBox onlineHBox = new HBox();
+  final RadioButton singleplayerButton = new RadioButton("Single");
+  final RadioButton hostButton = new RadioButton("Host");
+  final RadioButton clientButton = new RadioButton("Client");
+  final ToggleGroup onlineGroup = new ToggleGroup();
+  final HBox onlineHBox = new HBox();
 
-  TextField hostPortField = new TextField();
+  final TextField hostPortField = new TextField();
 
-  List<Pair<ColorPicker, TextField>> playerMenuItems;
+  final List<Pair<ColorPicker, TextField>> playerMenuItems;
 
   boolean isHost = false;
   boolean isClient = false;
 
-  Scene scene;
+  final Scene scene;
 
-  RoboRally roboRally;
+  final RoboRally roboRally;
 
   private void disableAll() {
     playerSlider.setDisable(true);
@@ -276,14 +278,17 @@ public class SetupScreen {
     level3ImageView.setImage(level3Image);
     levelSeparator.setPrefWidth(200.0);
     playButton.setPrefSize(360, 140);
-    
+
     onlineHBox.getChildren().addAll(singleplayerButton, hostButton, clientButton);
     onlineHBox.setMinSize(onlineHBox.getPrefWidth(), 24.0);
 
     twoColumn.getChildren().addAll(leftColumn, twoColumnSeparator, rightColumn);
 
-    leftColumn.getChildren().addAll(playersLabel, playerSlider, leftSliderSeparator, namesLabel, namesVBox, nameSeparator, onlineHBox, backButton);
-    namesVBox.getChildren().addAll(name1HBox, name2HBox, name3HBox, name4HBox, name5HBox, name6HBox);
+    leftColumn.getChildren()
+        .addAll(playersLabel, playerSlider, leftSliderSeparator, namesLabel, namesVBox,
+            nameSeparator, onlineHBox, backButton);
+    namesVBox.getChildren()
+        .addAll(name1HBox, name2HBox, name3HBox, name4HBox, name5HBox, name6HBox);
     name1HBox.getChildren().addAll(name1ColorPicker, name1TextField);
     name2HBox.getChildren().addAll(name2ColorPicker, name2TextField);
     name3HBox.getChildren().addAll(name3ColorPicker, name3TextField);
@@ -291,7 +296,9 @@ public class SetupScreen {
     name5HBox.getChildren().addAll(name5ColorPicker, name5TextField);
     name6HBox.getChildren().addAll(name6ColorPicker, name6TextField);
 
-    rightColumn.getChildren().addAll(AILabel, AISlider, rightSliderSeparator, levelLabel, levelVBox, levelSeparator, hostPortField, playButton);
+    rightColumn.getChildren()
+        .addAll(AILabel, AISlider, rightSliderSeparator, levelLabel, levelVBox, levelSeparator,
+            hostPortField, playButton);
     levelVBox.getChildren().addAll(level1HBox, level2HBox, level3HBox);
     level1HBox.getChildren().addAll(level1Button, level1ImageView);
     level2HBox.getChildren().addAll(level2Button, level2ImageView);
@@ -309,7 +316,7 @@ public class SetupScreen {
 
     setSliderCallbacks();
     updatePlayerMenu((int) playerSlider.getValue());
-    
+
     singleplayerButton.setToggleGroup(onlineGroup);
     hostButton.setToggleGroup(onlineGroup);
     clientButton.setToggleGroup(onlineGroup);
@@ -351,16 +358,19 @@ public class SetupScreen {
         roboRally.clientNum = Integer.parseInt(roboRally.client.post("GET_CLIENT_NUM"));
       }
 
-      BoardConfig boardConfig = new BoardConfig((int) playerSlider.getValue(), (int) AISlider.getValue());
+      BoardConfig boardConfig = new BoardConfig((int) playerSlider.getValue(),
+          (int) AISlider.getValue());
       for (int i = 0; i < playerSlider.getValue(); i++) {
-        boardConfig.playerNames[i] = playerMenuItems.get(i).getValue().getText().isEmpty() ? playerMenuItems.get(i).getValue()
-            .getPromptText() : playerMenuItems.get(i).getValue().getText();
+        boardConfig.playerNames[i] =
+            playerMenuItems.get(i).getValue().getText().isEmpty() ? playerMenuItems.get(i)
+                .getValue()
+                .getPromptText() : playerMenuItems.get(i).getValue().getText();
         boardConfig.playerColors[i] = Arrays.asList(name1ColorPicker.getValue().toString(),
-                name2ColorPicker.getValue().toString(),
-                name3ColorPicker.getValue().toString(),
-                name4ColorPicker.getValue().toString(),
-                name5ColorPicker.getValue().toString(),
-                name6ColorPicker.getValue().toString()).get(i);
+            name2ColorPicker.getValue().toString(),
+            name3ColorPicker.getValue().toString(),
+            name4ColorPicker.getValue().toString(),
+            name5ColorPicker.getValue().toString(),
+            name6ColorPicker.getValue().toString()).get(i);
       }
 
       DefaultBoard selectedBoard;
@@ -383,7 +393,8 @@ public class SetupScreen {
         String jsonBoard = roboRally.client.post("GET_BOARD");
         board = LoadBoard.loadBoardFromJson(jsonBoard);
       }
-      roboRally.getAppController().setGameController(new GameController(Objects.requireNonNull(board)));
+      roboRally.getAppController()
+          .setGameController(new GameController(Objects.requireNonNull(board)));
       roboRally.getAppController().getGameController().roboRally = roboRally;
       roboRally.getAppController().setAIPlayers(true);
       roboRally.getAppController().getGameController().startProgrammingPhase(board.resetRegisters);
@@ -393,7 +404,7 @@ public class SetupScreen {
 
   /**
    * @author Lucas Eiruff
-   *
+   * <p>
    * Creates a slider to choose amount of players/AI
    */
   private void setSliderCallbacks() {
@@ -423,11 +434,11 @@ public class SetupScreen {
       }
     }
 
-    final int aiBegin = (int)(playerSlider.getValue() - AISlider.getValue());
+    final int aiBegin = (int) (playerSlider.getValue() - AISlider.getValue());
     int playerNum = 1;
     int aiNum = 1;
     for (int i = 0; i < 6; i++) {
-      if (i >= playerCount ) {
+      if (i >= playerCount) {
         playerMenuItems.get(i).getValue().setPromptText("");
       } else {
         if (i < aiBegin) {

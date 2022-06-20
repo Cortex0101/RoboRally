@@ -2,8 +2,11 @@ package com.roborally.controller;
 
 import com.roborally.model.Player;
 import com.roborally.model.Space;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class PriorityAntenna extends FieldAction {
 
@@ -12,9 +15,9 @@ public class PriorityAntenna extends FieldAction {
     Map<Player, Double> playerDistances = new HashMap<>(); // Associate a player with a distance from the antenna.
     for (int i = 0; i < gameController.board.getPlayersNumber(); i++) {
       Player player = gameController.board.getPlayer(i);
-        if (player.getSpace() == null) {
-            return false;
-        }
+      if (player.getSpace() == null) {
+        return false;
+      }
       int[] playerPos = new int[]{player.getSpace().x, player.getSpace().y};
       int[] antennaPos = new int[]{space.x, space.y};
       int deltaX = Math.abs(playerPos[0] - antennaPos[0]);

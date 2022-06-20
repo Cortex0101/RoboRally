@@ -4,6 +4,7 @@ import com.roborally.controller.GameController;
 import java.util.List;
 
 public class PlayerTurnRightCommand extends PlayerMovementCommand {
+
   public PlayerTurnRightCommand(List<Player> players, Player initiator) {
     super(players, initiator);
   }

@@ -21,9 +21,12 @@
  */
 package com.roborally.view;
 
-import designpatterns.observer.Subject;
 import com.roborally.controller.GameController;
-import com.roborally.model.*;
+import com.roborally.model.Command;
+import com.roborally.model.CommandCardField;
+import com.roborally.model.Phase;
+import com.roborally.model.Player;
+import designpatterns.observer.Subject;
 import java.util.Timer;
 import java.util.TimerTask;
 import javafx.geometry.Pos;

@@ -9,7 +9,9 @@
       "y": 0
     },
     {
-      "walls": ["EAST"],
+      "walls": [
+        "EAST"
+      ],
       "actions": [],
       "x": 2,
       "y": 0
@@ -52,13 +54,17 @@
       "y": 0
     },
     {
-      "walls": ["NORTH"],
+      "walls": [
+        "NORTH"
+      ],
       "actions": [],
       "x": 1,
       "y": 1
     },
     {
-      "walls": ["EAST"],
+      "walls": [
+        "EAST"
+      ],
       "actions": [],
       "x": 3,
       "y": 1
@@ -259,13 +265,18 @@
       "y": 1
     },
     {
-      "walls": ["EAST", "NORTH"],
+      "walls": [
+        "EAST",
+        "NORTH"
+      ],
       "actions": [],
       "x": 2,
       "y": 2
     },
     {
-      "walls": ["EAST"],
+      "walls": [
+        "EAST"
+      ],
       "actions": [],
       "x": 3,
       "y": 2
@@ -349,7 +360,9 @@
       "y": 2
     },
     {
-      "walls": ["EAST"],
+      "walls": [
+        "EAST"
+      ],
       "actions": [],
       "x": 3,
       "y": 3
@@ -381,7 +394,10 @@
       "y": 3
     },
     {
-      "walls": ["NORTH", "EAST"],
+      "walls": [
+        "NORTH",
+        "EAST"
+      ],
       "actions": [],
       "x": 9,
       "y": 3
@@ -413,20 +429,24 @@
       "y": 3
     },
     {
-      "walls": ["WEST"],
+      "walls": [
+        "WEST"
+      ],
       "actions": [
         {
-        "CLASSNAME": "com.roborally.controller.SingleBoardLaser",
-        "INSTANCE": {
-          "heading": "WEST"
+          "CLASSNAME": "com.roborally.controller.SingleBoardLaser",
+          "INSTANCE": {
+            "heading": "WEST"
+          }
         }
-      }
       ],
       "x": 16,
       "y": 3
     },
     {
-      "walls": ["EAST"],
+      "walls": [
+        "EAST"
+      ],
       "actions": [
         {
           "CLASSNAME": "com.roborally.controller.SingleBoardLaserNonOrigin",
@@ -439,7 +459,9 @@
       "y": 3
     },
     {
-      "walls": ["NORTH"],
+      "walls": [
+        "NORTH"
+      ],
       "actions": [
         {
           "CLASSNAME": "com.roborally.controller.SingleBoardLaser",
@@ -471,7 +493,9 @@
       "y": 4
     },
     {
-      "walls": ["EAST"],
+      "walls": [
+        "EAST"
+      ],
       "actions": [],
       "x": 2,
       "y": 4
@@ -516,7 +540,9 @@
       "y": 4
     },
     {
-      "walls": ["SOUTH"],
+      "walls": [
+        "SOUTH"
+      ],
       "actions": [
         {
           "CLASSNAME": "com.roborally.controller.SingleBoardLaserNonOrigin",
@@ -548,7 +574,9 @@
       "y": 5
     },
     {
-      "walls": ["EAST"],
+      "walls": [
+        "EAST"
+      ],
       "actions": [],
       "x": 2,
       "y": 5
@@ -593,7 +621,9 @@
       "y": 5
     },
     {
-      "walls": ["NORTH"],
+      "walls": [
+        "NORTH"
+      ],
       "actions": [
         {
           "CLASSNAME": "com.roborally.controller.SingleBoardLaserNonOrigin",
@@ -632,13 +662,19 @@
       "y": 6
     },
     {
-      "walls": ["WEST", "SOUTH"],
+      "walls": [
+        "WEST",
+        "SOUTH"
+      ],
       "actions": [],
       "x": 6,
       "y": 6
     },
     {
-      "walls": ["EAST", "SOUTH"],
+      "walls": [
+        "EAST",
+        "SOUTH"
+      ],
       "actions": [],
       "x": 9,
       "y": 6
@@ -657,7 +693,9 @@
       "y": 6
     },
     {
-      "walls": ["WEST"],
+      "walls": [
+        "WEST"
+      ],
       "actions": [],
       "x": 12,
       "y": 6
@@ -676,7 +714,9 @@
       "y": 6
     },
     {
-      "walls": ["SOUTH"],
+      "walls": [
+        "SOUTH"
+      ],
       "actions": [
         {
           "CLASSNAME": "com.roborally.controller.SingleBoardLaser",
@@ -708,7 +748,9 @@
       "y": 6
     },
     {
-      "walls": ["WEST"],
+      "walls": [
+        "WEST"
+      ],
       "actions": [
         {
           "CLASSNAME": "com.roborally.controller.SingleBoardLaserNonOrigin",
@@ -721,7 +763,9 @@
       "y": 6
     },
     {
-      "walls": ["EAST"],
+      "walls": [
+        "EAST"
+      ],
       "actions": [
         {
           "CLASSNAME": "com.roborally.controller.SingleBoardLaser",
@@ -747,7 +791,10 @@
       "y": 6
     },
     {
-      "walls": ["EAST", "SOUTH"],
+      "walls": [
+        "EAST",
+        "SOUTH"
+      ],
       "actions": [],
       "x": 2,
       "y": 7
@@ -766,7 +813,9 @@
       "y": 7
     },
     {
-      "walls": ["WEST"],
+      "walls": [
+        "WEST"
+      ],
       "actions": [],
       "x": 12,
       "y": 7
@@ -811,7 +860,9 @@
       "y": 7
     },
     {
-      "walls": ["SOUTH"],
+      "walls": [
+        "SOUTH"
+      ],
       "actions": [],
       "x": 1,
       "y": 8
@@ -895,7 +946,9 @@
       "y": 8
     },
     {
-      "walls": ["WEST"],
+      "walls": [
+        "WEST"
+      ],
       "actions": [],
       "x": 12,
       "y": 8
@@ -1018,7 +1071,9 @@
       "y": 8
     },
     {
-      "walls": ["EAST"],
+      "walls": [
+        "EAST"
+      ],
       "actions": [],
       "x": 2,
       "y": 9

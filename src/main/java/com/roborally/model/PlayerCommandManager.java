@@ -5,6 +5,7 @@ import java.util.Deque;
 import java.util.LinkedList;
 
 public class PlayerCommandManager {
+
   private final Deque<PlayerMovementCommand> undoStack = new LinkedList<>();
   private final Deque<PlayerMovementCommand> redoStack = new LinkedList<>();
   private final GameController gameController;
@@ -19,8 +20,9 @@ public class PlayerCommandManager {
   }
 
   public void undoLast() {
-    if (undoStack.isEmpty())
+    if (undoStack.isEmpty()) {
       return;
+    }
 
     PlayerMovementCommand prevCommand = undoStack.pollLast();
     redoStack.offerLast(prevCommand);
@@ -28,8 +30,9 @@ public class PlayerCommandManager {
   }
 
   public void redoLast() {
-    if (redoStack.isEmpty())
+    if (redoStack.isEmpty()) {
       return;
+    }
 
     PlayerMovementCommand prevCommand = redoStack.pollLast();
     undoStack.offerLast(prevCommand);

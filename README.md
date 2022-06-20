@@ -5,10 +5,11 @@
 <div align="center">
 
 ![alt text](https://github.com/Cortex0101/RoboRally/blob/main/src/main/resources/com/roborally/images/PlayingGame.png)
-  
+
 </div>
 
-An implementation of the board game [Roborally](https://www.fgbradleys.com/rules/rules4/Robo%20Rally%20-%20rules.pdf). 
+An implementation of the board
+game [Roborally](https://www.fgbradleys.com/rules/rules4/Robo%20Rally%20-%20rules.pdf).
 
 ### Built With
 

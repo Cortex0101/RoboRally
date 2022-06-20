@@ -21,15 +21,14 @@
  */
 package com.roborally.model;
 
+import static com.roborally.model.Phase.INITIALISATION;
+
 import com.roborally.controller.CheckPoint;
 import com.roborally.controller.FieldAction;
 import designpatterns.observer.Subject;
-import org.jetbrains.annotations.NotNull;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.roborally.model.Phase.INITIALISATION;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Defines the properties of the board
@@ -143,11 +142,10 @@ public class Board extends Subject {
   }
 
   /**
-   * @author Lucas Eiruff
-   *
-   * This method is used for the AI to generate a copy of the board with itself only
-   *
    * @param player the only player that should be on the board
+   * @author Lucas Eiruff
+   * <p>
+   * This method is used for the AI to generate a copy of the board with itself only
    */
   public void addSinglePlayer(@NotNull Player player) {
     if (player.board == this) {
@@ -226,15 +224,14 @@ public class Board extends Subject {
   }
 
   /**
-   * @author Lucas Eiruff
-   *
-   * Returns the neighbour of the given space of the board in the given heading. The neighbour is
-   * returned only, if it can be reached from the given space (no walls or obstacles in either of
-   * the involved spaces); otherwise, null will be returned.
-   *
    * @param space   the space for which the neighbour should be computed
    * @param heading the heading of the neighbour
    * @return the space in the given direction; null if there is no (reachable) neighbour
+   * @author Lucas Eiruff
+   * <p>
+   * Returns the neighbour of the given space of the board in the given heading. The neighbour is
+   * returned only, if it can be reached from the given space (no walls or obstacles in either of
+   * the involved spaces); otherwise, null will be returned.
    */
   public Space getNeighbour(@NotNull Space space, @NotNull Heading heading) {
     int x = space.x;
@@ -250,14 +247,13 @@ public class Board extends Subject {
   }
 
   /**
-   * @author Lucas Eiruff
-   *
-   * Calculates the distance between two spaces on the board. The distance is calculated not as a
-   * diagonal, but the horizontal + vertical distance.
-   *
    * @param space1 the first space
    * @param space2 the second space
    * @return the sum of the vertical and horizontal difference between the spaces
+   * @author Lucas Eiruff
+   * <p>
+   * Calculates the distance between two spaces on the board. The distance is calculated not as a
+   * diagonal, but the horizontal + vertical distance.
    */
   public int getDistanceBetweenSpaces(@NotNull Space space1, @NotNull Space space2) {
     return Math.abs(space1.x - space2.x) + Math.abs(space1.y - space2.y);

@@ -21,10 +21,10 @@
  */
 package com.roborally.view;
 
-import designpatterns.observer.Subject;
 import com.roborally.controller.GameController;
 import com.roborally.model.Board;
 import com.roborally.model.Player;
+import designpatterns.observer.Subject;
 import javafx.scene.control.TabPane;
 
 /**
@@ -35,7 +35,7 @@ import javafx.scene.control.TabPane;
 public class PlayersView extends TabPane implements ViewObserver {
 
   private final Board board;
-  GameController gameController;
+  final GameController gameController;
 
   public PlayersView(GameController gameController) {
     this.gameController = gameController;

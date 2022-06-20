@@ -4,13 +4,23 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+import com.roborally.controller.FieldAction;
 import com.roborally.fileaccess.model.BoardTemplate;
 import com.roborally.fileaccess.model.PlayerTemplate;
 import com.roborally.fileaccess.model.SpaceTemplate;
-import com.roborally.controller.FieldAction;
-import com.roborally.model.*;
-
-import java.io.*;
+import com.roborally.model.Board;
+import com.roborally.model.Command;
+import com.roborally.model.CommandCard;
+import com.roborally.model.Heading;
+import com.roborally.model.Player;
+import com.roborally.model.Space;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,17 +31,21 @@ import java.util.stream.Collectors;
  * loads the board from a .json file
  */
 public class LoadBoard {
-  private static final String RESOURCE_FOLDER_PATH = System.getProperty("user.dir") + "\\src\\main\\resources";
+
+  private static final String RESOURCE_FOLDER_PATH =
+      System.getProperty("user.dir") + "\\src\\main\\resources";
   private static final String SAVED_BOARDS_PATH = RESOURCE_FOLDER_PATH + "\\com\\roborally\\boards";
-  private static final String DEFAULT_BOARDS_PATH = RESOURCE_FOLDER_PATH + "\\com\\roborally\\defaultBoards";
+  private static final String DEFAULT_BOARDS_PATH =
+      RESOURCE_FOLDER_PATH + "\\com\\roborally\\defaultBoards";
   private static final String DEFAULTBOARD = "defaultboard";
   private static final String JSON_EXT = "json";
 
   public static class BoardConfig {
-    public int playerNumber;
-    public int AINumber;
-    public String[] playerNames = new String[playerNumber];
-    public String[] playerColors = new String[playerNumber];
+
+    public final int playerNumber;
+    public final int AINumber;
+    public String[] playerNames;
+    public String[] playerColors;
 
     public BoardConfig(int playerNumber, int AINumber) {
       this.playerNumber = playerNumber;
@@ -48,13 +62,12 @@ public class LoadBoard {
   }
 
   /**
-   * @author Lucas Eiruff
-   *
-   * loads a default board. called when no board has been chosen as an alternative
-   *
-   * @param boardConfig the settings of the board, like the player amount
+   * @param boardConfig  the settings of the board, like the player amount
    * @param defaultBoard the default board used
    * @return the board which was loaded from the default board file
+   * @author Lucas Eiruff
+   * <p>
+   * loads a default board. called when no board has been chosen as an alternative
    */
   public static Board loadDefaultBoard(BoardConfig boardConfig, DefaultBoard defaultBoard) {
     String boardname = null;
@@ -123,9 +136,11 @@ public class LoadBoard {
         }
       }
       for (int i = 0; i < boardConfig.playerNumber; ++i) {
-        Player player = new Player(result, boardConfig.playerColors[i], boardConfig.playerNames[i], result.getSpace(playerStartingPositions[i][0], playerStartingPositions[i][1]));
+        Player player = new Player(result, boardConfig.playerColors[i], boardConfig.playerNames[i],
+            result.getSpace(playerStartingPositions[i][0], playerStartingPositions[i][1]));
         player.setIsAI(i >= (boardConfig.playerNumber - boardConfig.AINumber));
-        result.getSpace(playerStartingPositions[i][0], playerStartingPositions[i][1]).setPlayer(player);
+        result.getSpace(playerStartingPositions[i][0], playerStartingPositions[i][1])
+            .setPlayer(player);
         switch (boardname) {
           case "easy" -> player.setHeading(Heading.EAST);
           case "medium" -> player.setHeading(Heading.EAST);
@@ -172,12 +187,11 @@ public class LoadBoard {
   }
 
   /**
-   * @author Lucas Eiruff
-   *
-   * generates a board from a string, which has the format of the .json files
-   *
    * @param json the information of the .json file
    * @return the board which was generated from the .json string
+   * @author Lucas Eiruff
+   * <p>
+   * generates a board from a string, which has the format of the .json files
    */
   public static Board loadBoardFromJson(String json) {
     BoardTemplate template = loadBoardTemplate(json);
@@ -187,8 +201,9 @@ public class LoadBoard {
       Space space = result.getSpace(spaceTemplate.x, spaceTemplate.y);
       copyWallsAndFieldActions(spaceTemplate, space);
 
-      if (spaceTemplate.player == null)
+      if (spaceTemplate.player == null) {
         continue;
+      }
 
       Player player = createPlayerFromTemplate(space, spaceTemplate.player);
       setCardFields(spaceTemplate.player.commandCards, player, result);
@@ -199,14 +214,13 @@ public class LoadBoard {
   }
 
   /**
-   * @author Lucas Eiruff
-   *
-   * loads a .json file, then convert it into a playable board
-   *
-   * We dont check if the board name is valid, as this has been done before calling this method.
-   *
    * @param boardname the name of the file
    * @return the board which was generated from the .json file
+   * @author Lucas Eiruff
+   * <p>
+   * loads a .json file, then convert it into a playable board
+   * <p>
+   * We dont check if the board name is valid, as this has been done before calling this method.
    */
   public static Board loadBoardFromFile(String boardname) {
     BoardTemplate template = loadBoardTemplate(getBoardAsInputStream(boardname));
@@ -217,8 +231,9 @@ public class LoadBoard {
       Space space = result.getSpace(spaceTemplate.x, spaceTemplate.y);
       copyWallsAndFieldActions(spaceTemplate, space);
 
-      if (spaceTemplate.player == null)
+      if (spaceTemplate.player == null) {
         continue;
+      }
 
       Player player = createPlayerFromTemplate(space, spaceTemplate.player);
       setCardFields(spaceTemplate.player.commandCards, player, result);
@@ -253,7 +268,8 @@ public class LoadBoard {
 
   private static InputStreamReader getBoardAsInputStream(String boardname) {
     try {
-      InputStream inputStream = new FileInputStream(SAVED_BOARDS_PATH + "\\" + boardname + "." + JSON_EXT);
+      InputStream inputStream = new FileInputStream(
+          SAVED_BOARDS_PATH + "\\" + boardname + "." + JSON_EXT);
       return new InputStreamReader(Objects.requireNonNull(inputStream));
     } catch (FileNotFoundException fileNotFoundException) {
       fileNotFoundException.printStackTrace();
@@ -262,14 +278,16 @@ public class LoadBoard {
   }
 
   private static BoardTemplate loadBoardTemplate(InputStreamReader inputStreamReader) {
-    GsonBuilder simpleBuilder = new GsonBuilder().registerTypeAdapter(FieldAction.class, new Adapter<FieldAction>());
+    GsonBuilder simpleBuilder = new GsonBuilder().registerTypeAdapter(FieldAction.class,
+        new Adapter<FieldAction>());
     Gson gson = simpleBuilder.create();
     JsonReader reader = gson.newJsonReader(Objects.requireNonNull(inputStreamReader));
     return gson.fromJson(reader, BoardTemplate.class);
   }
 
   private static BoardTemplate loadBoardTemplate(String json) {
-    GsonBuilder simpleBuilder = new GsonBuilder().registerTypeAdapter(FieldAction.class, new Adapter<FieldAction>());
+    GsonBuilder simpleBuilder = new GsonBuilder().registerTypeAdapter(FieldAction.class,
+        new Adapter<FieldAction>());
     Gson gson = simpleBuilder.create();
     return gson.fromJson(json, BoardTemplate.class);
   }
@@ -284,8 +302,10 @@ public class LoadBoard {
     }
   }
 
-  private static Player createPlayerFromTemplate(Space startingSpace, PlayerTemplate playerTemplate) {
-    Player player = new Player(startingSpace.board, playerTemplate.color, playerTemplate.name, startingSpace);
+  private static Player createPlayerFromTemplate(Space startingSpace,
+      PlayerTemplate playerTemplate) {
+    Player player = new Player(startingSpace.board, playerTemplate.color, playerTemplate.name,
+        startingSpace);
     player.setHeading(playerTemplate.heading);
     player.setIsAI(playerTemplate.AI);
     startingSpace.setPlayer(player);
@@ -293,12 +313,11 @@ public class LoadBoard {
   }
 
   /**
-   * @author Lucas Eiruff
-   *
-   * Saves the game state in a .json file
-   *
    * @param board The board which is to be stored in the file
-   * @param name The name of the file
+   * @param name  The name of the file
+   * @author Lucas Eiruff
+   * <p>
+   * Saves the game state in a .json file
    */
   public static void saveBoard(Board board, String name) {
     BoardTemplate template = new BoardTemplate();
@@ -329,25 +348,24 @@ public class LoadBoard {
 
             for (int k = 0; k < 8; k++) {
               CommandCard card = space.getPlayer().getCardField(k).getCard();
-                if (card != null) {
-                    spaceTemplate.player.commandCards.add(card.command);
-                } else {
-                    spaceTemplate.player.commandCards.add(null);
-                }
+              if (card != null) {
+                spaceTemplate.player.commandCards.add(card.command);
+              } else {
+                spaceTemplate.player.commandCards.add(null);
+              }
             }
             for (int l = 0; l < 5; l++) {
               CommandCard card = space.getPlayer().getProgramField(l).getCard();
-                if (card != null) {
-                    spaceTemplate.player.commandCardsInRegisters.add(card.command);
-                } else {
-                    spaceTemplate.player.commandCardsInRegisters.add(null);
-                }
+              if (card != null) {
+                spaceTemplate.player.commandCardsInRegisters.add(card.command);
+              } else {
+                spaceTemplate.player.commandCardsInRegisters.add(null);
+              }
             }
           }
           if (!isPlayerSpace) {
             template.spaces.add(spaceTemplate);
-          }
-          else {
+          } else {
             playerSpaces.add(spaceTemplate);
             isPlayerSpace = false;
           }

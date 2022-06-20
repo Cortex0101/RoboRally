@@ -22,7 +22,9 @@
 package com.roborally.view;
 
 import com.roborally.controller.AppController;
-import javafx.scene.control.*;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 
 /**
  * Generates a Menu bar to start, stop, load or save a game of Roborally
@@ -56,11 +58,13 @@ public class RoboRallyMenuBar extends MenuBar {
     controlMenu.getItems().add(stopGame);
 
     saveGame = new MenuItem("Save Game");
-    saveGame.setOnAction(e -> this.appController.saveGame(this.appController.getSaveNameFromUser()));
+    saveGame.setOnAction(
+        e -> this.appController.saveGame(this.appController.getSaveNameFromUser()));
     controlMenu.getItems().add(saveGame);
 
     loadGame = new MenuItem("Load Game");
-    loadGame.setOnAction(e -> this.appController.startGame(this.appController.loadBoard(this.appController.getLoadNameFromUser())));
+    loadGame.setOnAction(e -> this.appController.startGame(
+        this.appController.loadBoard(this.appController.getLoadNameFromUser())));
     controlMenu.getItems().add(loadGame);
 
     MenuItem exitApp = new MenuItem("Exit");

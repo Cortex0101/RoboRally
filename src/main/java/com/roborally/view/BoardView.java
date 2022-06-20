@@ -21,11 +21,11 @@
  */
 package com.roborally.view;
 
-import designpatterns.observer.Subject;
 import com.roborally.controller.GameController;
 import com.roborally.model.Board;
 import com.roborally.model.Phase;
 import com.roborally.model.Space;
+import designpatterns.observer.Subject;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;

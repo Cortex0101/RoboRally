@@ -22,16 +22,23 @@
 package com.roborally.controller;
 
 import com.roborally.RoboRally;
-import com.roborally.model.*;
-import java.util.ArrayDeque;
-import java.util.Deque;
-import java.util.LinkedList;
-import java.util.PriorityQueue;
-import java.util.Queue;
-import java.util.Stack;
-import org.jetbrains.annotations.NotNull;
-
+import com.roborally.model.Board;
+import com.roborally.model.Command;
+import com.roborally.model.CommandCard;
+import com.roborally.model.CommandCardField;
+import com.roborally.model.Heading;
+import com.roborally.model.Phase;
+import com.roborally.model.Player;
+import com.roborally.model.PlayerCommandManager;
+import com.roborally.model.PlayerMove1Command;
+import com.roborally.model.PlayerMove2Command;
+import com.roborally.model.PlayerMove3Command;
+import com.roborally.model.PlayerTurnLeftCommand;
+import com.roborally.model.PlayerTurnRightCommand;
+import com.roborally.model.PlayerUTurnCommand;
+import com.roborally.model.Space;
 import java.util.List;
+import org.jetbrains.annotations.NotNull;
 
 public class GameController {
 
@@ -46,7 +53,7 @@ public class GameController {
   }
 
   public void setWinner(Player player) {
-    System.out.println("Player '" + player.getName() + "' wins!" );
+    System.out.println("Player '" + player.getName() + "' wins!");
     ExitGameAfterVictory(roboRally.getAppController(), player.getName());
   }
 
@@ -55,11 +62,10 @@ public class GameController {
   }
 
   /**
-   * @author Lucas Eiruff
-   *
-   * Move current player to space, without accounting for movement rules.
-   *
    * @param space the space to which the current player should move
+   * @author Lucas Eiruff
+   * <p>
+   * Move current player to space, without accounting for movement rules.
    */
   public void moveCurrentPlayerToSpace(@NotNull Space space) {
     if (space.getPlayer() != null) {
@@ -72,11 +78,10 @@ public class GameController {
   }
 
   /**
-   * @author Lucas Eiruff
-   *
-   * initiates the programming phase, and refills/replaces the command card registers if needed
-   *
    * @param resetRegisters used to decide if the registers need to be reset
+   * @author Lucas Eiruff
+   * <p>
+   * initiates the programming phase, and refills/replaces the command card registers if needed
    */
   public void startProgrammingPhase(boolean resetRegisters) {
     board.setPhase(Phase.PROGRAMMING);
@@ -90,14 +95,15 @@ public class GameController {
 
   /**
    * @author Lucas Eiruff
-   *
+   * <p>
    * Clears every players program
    */
   public void clearPlayerPrograms() {
     for (Player player : board.getPlayers()) {
       for (CommandCardField field : player.getProgram()) {
         field.setCard(null);
-        field.setVisible(true); // TODO: We set this to true a bunch of places, but only make it invisible in makeProgramFieldsInvisible(). This bloats
+        field.setVisible(
+            true); // TODO: We set this to true a bunch of places, but only make it invisible in makeProgramFieldsInvisible(). This bloats
       }
     }
   }
@@ -112,7 +118,7 @@ public class GameController {
 
   /**
    * @author Lucas Eiruff
-   *
+   * <p>
    * Fills the 8 commandcards for each player with random command cards
    */
   public void generatePlayerCards() {
@@ -137,14 +143,15 @@ public class GameController {
 
   /**
    * @author Lucas Eiruff
-   *
+   * <p>
    * Calculates and sets the program for each AI player
    */
   private void setAIPrograms() {
     int i = 0;
     for (Player player : board.getPlayers()) {
       if (player.isAI()) {
-        setPlayerProgram(player, ai[i].findBestProgramToGetTo(board.getCheckPoint(player.getLastCheckpoint() + 1)));
+        setPlayerProgram(player,
+            ai[i].findBestProgramToGetTo(board.getCheckPoint(player.getLastCheckpoint() + 1)));
       }
       ++i;
     }
@@ -152,14 +159,17 @@ public class GameController {
 
   /**
    * @author Lucas Eiruff
-   *
+   * <p>
    * ends the programming phase, and disables the users ability to move cards
    */
   public void finishProgrammingPhase() {
     makeProgramFieldsInvisible();
     makeProgramFieldsVisible(0);
-    if (board.getPlayersNumber() > 1) // AI boards consists of only 1 player, and their program has already been set.
+    if (board.getPlayersNumber()
+        > 1) // AI boards consists of only 1 player, and their program has already been set.
+    {
       setAIPrograms();
+    }
     board.setPhase(Phase.ACTIVATION);
     board.setCurrentPlayer(board.getPlayer(0));
     board.setStep(0);
@@ -167,7 +177,7 @@ public class GameController {
 
   /**
    * @author Lucas Eiruff
-   *
+   * <p>
    * sets a card as visible, for when the card is in use
    */
   private void makeProgramFieldsVisible(int register) {
@@ -182,7 +192,7 @@ public class GameController {
 
   /**
    * @author Lucas Eiruff
-   *
+   * <p>
    * sets a card as invisible, to avoid other players to see the card
    */
   private void makeProgramFieldsInvisible() {
@@ -195,7 +205,7 @@ public class GameController {
 
   /**
    * @author Lucas Eiruff
-   *
+   * <p>
    * Executes all registers for all players
    */
   public void executePrograms() {
@@ -205,7 +215,7 @@ public class GameController {
 
   /**
    * @author Lucas Eiruff
-   *
+   * <p>
    * Executes a registers for a players
    */
   public void executeStep() {
@@ -273,9 +283,9 @@ public class GameController {
   }
 
   /**
-   * As players should only be moved once by a conveyor belt each activation, boolean variables
-   * are set upon movement in the Player class.
-   *
+   * As players should only be moved once by a conveyor belt each activation, boolean variables are
+   * set upon movement in the Player class.
+   * <p>
    * This method will set all of them to false and should be called after each activation phase.
    */
   private void resetPlayersMoveBlockers() {
@@ -288,25 +298,14 @@ public class GameController {
   private void executeCommand(@NotNull Player player, Command command) {
     if (player.board == board && command != null) {
       switch (command) {
-        case MOVE1 -> {
-          playerCommandManager.executeCommand(new PlayerMove1Command(board.getPlayers(), player));
+        case MOVE1 -> playerCommandManager.executeCommand(new PlayerMove1Command(board.getPlayers(), player));
+        case MOVE2 -> playerCommandManager.executeCommand(new PlayerMove2Command(board.getPlayers(), player));
+        case MOVE3 -> playerCommandManager.executeCommand(new PlayerMove3Command(board.getPlayers(), player));
+        case RIGHT -> playerCommandManager.executeCommand(new PlayerTurnRightCommand(board.getPlayers(), player));
+        case LEFT -> playerCommandManager.executeCommand(new PlayerTurnLeftCommand(board.getPlayers(), player));
+        case U_TURN -> playerCommandManager.executeCommand(new PlayerUTurnCommand(board.getPlayers(), player));
+        default -> {
         }
-        case MOVE2 -> {
-          playerCommandManager.executeCommand(new PlayerMove2Command(board.getPlayers(), player));
-        }
-        case MOVE3 -> {
-          playerCommandManager.executeCommand(new PlayerMove3Command(board.getPlayers(), player));
-        }
-        case RIGHT -> {
-          playerCommandManager.executeCommand(new PlayerTurnRightCommand(board.getPlayers(), player));
-        }
-        case LEFT -> {
-          playerCommandManager.executeCommand(new PlayerTurnLeftCommand(board.getPlayers(), player));
-        }
-        case U_TURN -> {
-          playerCommandManager.executeCommand(new PlayerUTurnCommand(board.getPlayers(), player));
-        }
-        default -> {}
       }
     }
   }
@@ -332,7 +331,8 @@ public class GameController {
     }
   }
 
-  private void throwIfPlayerCollidesWithWall(@NotNull Player player, @NotNull Space space, @NotNull Heading heading)
+  private void throwIfPlayerCollidesWithWall(@NotNull Player player, @NotNull Space space,
+      @NotNull Heading heading)
       throws ImpossibleMoveException {
     if (player.getSpace().getWalls().contains(player.getHeading()) ||
         space.getWalls().contains(player.getHeading().next().next())) {
@@ -363,31 +363,32 @@ public class GameController {
   }
 
   /**
-   * @author Lucas Eiruff
-   *
-   * Moves player one field in the direction the player is facing.
-   *
    * @param player the player using the card
+   * @author Lucas Eiruff
+   * <p>
+   * Moves player one field in the direction the player is facing.
    */
   public void move1Forward(@NotNull Player player) {
-    if (player.board != board)
+    if (player.board != board) {
       return;
+    }
 
     Space target = board.getNeighbour(player.getSpace(), player.getHeading());
-    if (target == null)
+    if (target == null) {
       return;
+    }
 
     try {
       moveToSpace(player, target, player.getHeading());
-    } catch (ImpossibleMoveException ignore) {}
+    } catch (ImpossibleMoveException ignore) {
+    }
   }
 
   /**
-   * @author Lucas Eiruff
-   *
-   * Moves player two field in the direction the player is facing.
-   *
    * @param player the player using the card
+   * @author Lucas Eiruff
+   * <p>
+   * Moves player two field in the direction the player is facing.
    */
   public void move2Forward(@NotNull Player player) {
     move1Forward(player);
@@ -395,11 +396,10 @@ public class GameController {
   }
 
   /**
-   * @author Lucas Eiruff
-   *
-   * Moves player three field in the direction the player is facing.
-   *
    * @param player the player using the card
+   * @author Lucas Eiruff
+   * <p>
+   * Moves player three field in the direction the player is facing.
    */
   public void move3Forward(@NotNull Player player) {
     move1Forward(player);
@@ -408,33 +408,30 @@ public class GameController {
   }
 
   /**
-   * @author Lucas Eiruff
-   *
-   * Turns the player to the right
-   *
    * @param player the player using the card
+   * @author Lucas Eiruff
+   * <p>
+   * Turns the player to the right
    */
   public void turnRight(@NotNull Player player) {
     player.setHeading(player.getHeading().next());
   }
 
   /**
-   * @author Lucas Eiruff
-   *
-   * Turns the player to the left
-   *
    * @param player the player using the card
+   * @author Lucas Eiruff
+   * <p>
+   * Turns the player to the left
    */
   public void turnLeft(@NotNull Player player) {
     player.setHeading(player.getHeading().prev());
   }
 
   /**
-   * @author Lucas Eiruff
-   *
-   * Turns the player to the around
-   *
    * @param player the player using the card
+   * @author Lucas Eiruff
+   * <p>
+   * Turns the player to the around
    */
   public void uTurn(@NotNull Player player) {
     turnLeft(player);
@@ -442,11 +439,10 @@ public class GameController {
   }
 
   /**
-   * @author Lucas Eiruff
-   *
    * @param source The register where the card originated from
    * @param target The register which the cards is being moved to
    * @return True if the card can be moved to the target, return false otherwise
+   * @author Lucas Eiruff
    */
   public boolean moveCards(@NotNull CommandCardField source, @NotNull CommandCardField target) {
     CommandCard sourceCard = source.getCard();
@@ -461,11 +457,10 @@ public class GameController {
   }
 
   /**
-   * @author Lucas Eiruff
-   *
-   * Executes a command with multiple choice in how to execute the command card.
-   *
    * @param command The choice made by the user in which command to use.
+   * @author Lucas Eiruff
+   * <p>
+   * Executes a command with multiple choice in how to execute the command card.
    */
   public void executeCommandOptionAndContinue(Command command) {
     board.setPhase(Phase.ACTIVATION);

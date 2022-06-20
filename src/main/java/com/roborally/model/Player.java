@@ -21,13 +21,12 @@
  */
 package com.roborally.model;
 
+import static com.roborally.model.Heading.SOUTH;
+
 import com.roborally.controller.GameController;
 import designpatterns.observer.Subject;
-import org.jetbrains.annotations.NotNull;
-
 import java.util.Arrays;
-
-import static com.roborally.model.Heading.SOUTH;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Defines the properties of a player

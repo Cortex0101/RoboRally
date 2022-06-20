@@ -12,13 +12,12 @@ public class CheckPoint extends FieldAction {
   private Heading heading;
 
   /**
-   * @author Lucas Eiruff
-   *
-   * Checks if the player has landed on the previous checkpoint, then
-   *
    * @param gameController The gameController of the respective game
    * @param space          The space this action should be executed for
    * @return Returns true if the player landed on the field, false otherwise
+   * @author Lucas Eiruff
+   * <p>
+   * Checks if the player has landed on the previous checkpoint, then
    */
   @Override
   public boolean doAction(GameController gameController, Space space) {
@@ -30,10 +29,11 @@ public class CheckPoint extends FieldAction {
     if (player.getLastCheckpoint() + 1 == getCheckpointNum()) {
       player.setLastCheckpoint(getCheckpointNum());
       if (player.getLastCheckpoint() == gameController.board.getNumCheckpoints()) {
-      if (gameController.board.getPlayersNumber() != 1) { // Only print text if this is the non AI board.
-        gameController.setWinner(player);
-        return true;
-      }
+        if (gameController.board.getPlayersNumber()
+            != 1) { // Only print text if this is the non AI board.
+          gameController.setWinner(player);
+          return true;
+        }
       }
     }
 
