@@ -70,8 +70,10 @@ public class AppController implements Observer {
     });
 
     roboRally.getPrimaryScene().setOnKeyPressed(keyEvent -> {
-      if (keyEvent.getCode() == KeyCode.SPACE) {
-        Objects.requireNonNull(this.gameController.commandHistory.pop()).undo();
+      if (keyEvent.getCode() == KeyCode.Z && keyEvent.isShiftDown()) {
+        this.gameController.playerCommandManager.redoLast();
+      } else if (keyEvent.getCode() == KeyCode.Z) {
+        this.gameController.playerCommandManager.undoLast();
       }
     });
   }

@@ -272,32 +272,28 @@ public class GameController {
 
   public Stack<PlayerMovementCommand> commandHistory = new Stack<>();
 
+  public PlayerCommandManager playerCommandManager = new PlayerCommandManager(this);
+
   private void executeCommand(@NotNull Player player, Command command) {
     if (player.board == board && command != null) {
       switch (command) {
         case MOVE1 -> {
-          commandHistory.push(new PlayerMove1Command(board.getPlayers(), player));
-          commandHistory.peek().execute(this);
+          playerCommandManager.executeCommand(new PlayerMove1Command(board.getPlayers(), player));
         }
         case MOVE2 -> {
-          commandHistory.push(new PlayerMove2Command(board.getPlayers(), player));
-          commandHistory.peek().execute(this);
+          playerCommandManager.executeCommand(new PlayerMove2Command(board.getPlayers(), player));
         }
         case MOVE3 -> {
-          commandHistory.push(new PlayerMove3Command(board.getPlayers(), player));
-          commandHistory.peek().execute(this);
+          playerCommandManager.executeCommand(new PlayerMove3Command(board.getPlayers(), player));
         }
         case RIGHT -> {
-          commandHistory.push(new PlayerTurnRightCommand(board.getPlayers(), player));
-          commandHistory.peek().execute(this);
+          playerCommandManager.executeCommand(new PlayerTurnRightCommand(board.getPlayers(), player));
         }
         case LEFT -> {
-          commandHistory.push(new PlayerTurnLeftCommand(board.getPlayers(), player));
-          commandHistory.peek().execute(this);
+          playerCommandManager.executeCommand(new PlayerTurnLeftCommand(board.getPlayers(), player));
         }
         case U_TURN -> {
-          commandHistory.push(new PlayerUTurnCommand(board.getPlayers(), player));
-          commandHistory.peek().execute(this);
+          playerCommandManager.executeCommand(new PlayerUTurnCommand(board.getPlayers(), player));
         }
         default -> {}
       }
