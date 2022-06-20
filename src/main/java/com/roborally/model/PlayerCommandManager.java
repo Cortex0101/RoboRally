@@ -24,7 +24,7 @@ public class PlayerCommandManager {
 
     PlayerMovementCommand prevCommand = undoStack.pollLast();
     redoStack.offerLast(prevCommand);
-    prevCommand.execute(gameController);
+    prevCommand.undo();
   }
 
   public void redoLast() {

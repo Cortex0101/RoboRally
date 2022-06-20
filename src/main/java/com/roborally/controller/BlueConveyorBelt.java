@@ -2,6 +2,7 @@ package com.roborally.controller;
 
 import com.roborally.model.Heading;
 import com.roborally.model.Player;
+import com.roborally.model.PlayerMove2Command;
 import com.roborally.model.Space;
 import org.jetbrains.annotations.NotNull;
 
@@ -35,7 +36,8 @@ public class BlueConveyorBelt extends FieldAction {
 
     Heading originalPlayerHeading = player.getHeading();
     player.setHeading(heading);
-    gameController.move2Forward(player);
+    gameController.playerCommandManager.executeCommand(new PlayerMove2Command(gameController.board.getPlayers(), player));
+    //gameController.move2Forward(player);
     player.setHeading(originalPlayerHeading);
     player.movedByBlueConveyorThisTurn = true;
     return true;

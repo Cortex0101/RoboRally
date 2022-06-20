@@ -35,6 +35,7 @@ import java.util.List;
 
 public class GameController {
 
+  final public PlayerCommandManager playerCommandManager = new PlayerCommandManager(this);
   final public Board board;
   private final RoboAI[] ai;
   public RoboRally roboRally;
@@ -283,10 +284,6 @@ public class GameController {
       player.movedByBlueConveyorThisTurn = false;
     }
   }
-
-  public Stack<PlayerMovementCommand> commandHistory = new Stack<>();
-
-  public PlayerCommandManager playerCommandManager = new PlayerCommandManager(this);
 
   private void executeCommand(@NotNull Player player, Command command) {
     if (player.board == board && command != null) {
