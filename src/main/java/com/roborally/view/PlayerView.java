@@ -26,6 +26,7 @@ import com.roborally.model.Command;
 import com.roborally.model.CommandCardField;
 import com.roborally.model.Phase;
 import com.roborally.model.Player;
+import com.roborally.model.PlayerCommandManager;
 import designpatterns.observer.Subject;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -146,6 +147,29 @@ public class PlayerView extends Tab implements ViewObserver {
         cardsPane.add(cardViews[i], i, 0);
       }
     }
+
+    VBox undoRedoPanel = new VBox();
+    Button undoButton = new Button("Undo");
+    Button redoButton = new Button("Redo");
+    undoRedoPanel.getChildren().addAll(undoButton, redoButton);
+    programPane.add(undoRedoPanel, Player.NO_REGISTERS + 1, 0);
+
+    undoButton.setDisable(false);
+    redoButton.setDisable(true);
+
+    undoButton.setOnAction(e -> {
+      PlayerCommandManager commandManager = gameController.playerCommandManager;
+      commandManager.undoLast();
+      undoButton.setDisable(!commandManager.hasUndoesLeft());
+      redoButton.setDisable(!commandManager.hasRedoesLeft());
+    });
+
+    redoButton.setOnAction(e -> {
+      PlayerCommandManager commandManager = gameController.playerCommandManager;
+      commandManager.redoLast();
+      undoButton.setDisable(!commandManager.hasUndoesLeft());
+      redoButton.setDisable(!commandManager.hasRedoesLeft());
+    });
 
     top.getChildren().add(programLabel);
     top.getChildren().add(programPane);

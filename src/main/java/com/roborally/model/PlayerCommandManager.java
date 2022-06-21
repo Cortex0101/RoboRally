@@ -39,4 +39,11 @@ public class PlayerCommandManager {
     prevCommand.execute(gameController);
   }
 
+  public boolean hasRedoesLeft() {
+    return !redoStack.isEmpty();
+  }
+
+  public boolean hasUndoesLeft() {
+    return !undoStack.isEmpty();
+  }
 }
