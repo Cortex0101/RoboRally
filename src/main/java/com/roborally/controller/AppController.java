@@ -23,6 +23,8 @@ package com.roborally.controller;
 
 import com.roborally.RoboRally;
 import com.roborally.fileaccess.LoadBoard;
+import com.roborally.fileaccess.LoadBoard.BoardConfig;
+import com.roborally.fileaccess.LoadBoard.DefaultBoard;
 import com.roborally.model.Board;
 import com.roborally.model.CommandCardField;
 import com.roborally.model.Player;
@@ -156,6 +158,17 @@ public class AppController implements Observer {
    */
   public void newGameWithoutUI(String boardName, boolean useTempBoard) {
     Board board = loadBoard(useTempBoard ? "tempBoard" : boardName);
+    gameController = new GameController(Objects.requireNonNull(board));
+    gameController.startProgrammingPhase(board.resetRegisters);
+  }
+
+  public void newGameWithTestBoard() {
+    BoardConfig config = new BoardConfig(2, 0);
+    config.playerNames[0] = "player1";
+    config.playerNames[1] = "player2";
+    config.playerColors[0] = "red";
+    config.playerColors[1] = "blue";
+    Board board = LoadBoard.loadDefaultBoard(config, DefaultBoard.test);
     gameController = new GameController(Objects.requireNonNull(board));
     gameController.startProgrammingPhase(board.resetRegisters);
   }

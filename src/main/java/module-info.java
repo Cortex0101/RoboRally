@@ -10,5 +10,6 @@ module com.roborally {
   opens com.roborally.controller to com.google.gson;
   exports com.roborally;
   exports com.roborally.fileaccess.model to com.google.gson;
-  exports com.roborally.model to com.google.gson;
+  exports com.roborally.controller;
+  exports com.roborally.model;
 }
