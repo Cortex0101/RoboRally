@@ -21,13 +21,12 @@
  */
 package com.roborally.model;
 
+import static com.roborally.model.Heading.SOUTH;
+
 import com.roborally.controller.GameController;
 import designpatterns.observer.Subject;
-import org.jetbrains.annotations.NotNull;
-
 import java.util.Arrays;
-
-import static com.roborally.model.Heading.SOUTH;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Defines the properties of a player
@@ -56,6 +55,9 @@ public class Player extends Subject {
 
   private final CommandCardField[] program;
   private final CommandCardField[] cards;
+
+  public boolean movedByBlueConveyorThisTurn = false;
+  public boolean movedByGreenConveyorThisTurn = false;
 
   public Player(@NotNull Board board, String color, @NotNull String name, Space startingSpace) {
     this.startingSpace = startingSpace;

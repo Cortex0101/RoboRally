@@ -66,13 +66,13 @@ public class Itertools {
       int k;
       for (int i = 1; i < nfact; i++) {
         m = n - 1;
-          while (temp[m - 1] > temp[m]) {
-              m--;
-          }
+        while (temp[m - 1] > temp[m]) {
+          m--;
+        }
         k = n;
-          while (temp[m - 1] > temp[k - 1]) {
-              k--;
-          }
+        while (temp[m - 1] > temp[k - 1]) {
+          k--;
+        }
         int swapVar;
         //swap m and k
         swapVar = temp[m - 1];
@@ -120,13 +120,13 @@ public class Itertools {
 
     public static int[] generateNextPermutation(int[] temp, int n) {
       int m = n - 1;
-        while (temp[m - 1] > temp[m]) {
-            m--;
-        }
+      while (temp[m - 1] > temp[m]) {
+        m--;
+      }
       int k = n;
-        while (temp[m - 1] > temp[k - 1]) {
-            k--;
-        }
+      while (temp[m - 1] > temp[k - 1]) {
+        k--;
+      }
       int swapVar;
       //swap m and k
       swapVar = temp[m - 1];
@@ -372,9 +372,9 @@ public class Itertools {
       @Override
       public boolean hasNext() {
         index++;
-          while (index < data.size() && !selectors.get(index)) {
-              index++;
-          }
+        while (index < data.size() && !selectors.get(index)) {
+          index++;
+        }
         return index < data.size();
       }
 
@@ -426,9 +426,9 @@ public class Itertools {
       @Override
       public boolean hasNext() {
         index++;
-          while (index < list.size() && !predicate.pred(list.get(index))) {
-              index++;
-          }
+        while (index < list.size() && !predicate.pred(list.get(index))) {
+          index++;
+        }
         return index < list.size();
       }
 
@@ -447,9 +447,9 @@ public class Itertools {
       @Override
       public boolean hasNext() {
         index++;
-          while (index < list.size() && predicate.pred(list.get(index))) {
-              index++;
-          }
+        while (index < list.size() && predicate.pred(list.get(index))) {
+          index++;
+        }
         return index < list.size();
       }
 
@@ -535,9 +535,9 @@ public class Itertools {
     int smallest = lists[0].size();
     for (List<T> list :
         lists) {
-        if (list.size() < smallest) {
-            smallest = list.size();
-        }
+      if (list.size() < smallest) {
+        smallest = list.size();
+      }
     }
     int finalSmallest = smallest;
     return () -> new Iterator<>() {
@@ -567,9 +567,9 @@ public class Itertools {
     int largest = lists[0].size();
     for (List<T> list :
         lists) {
-        if (list.size() > largest) {
-            largest = list.size();
-        }
+      if (list.size() > largest) {
+        largest = list.size();
+      }
     }
     int finalLargest = largest;
     return () -> new Iterator<>() {
@@ -586,11 +586,11 @@ public class Itertools {
         List<T> temp = new ArrayList<>();
         for (List<T> list :
             lists) {
-            if (index < list.size()) {
-                temp.add(list.get(index));
-            } else {
-                temp.add(fillValue);
-            }
+          if (index < list.size()) {
+            temp.add(list.get(index));
+          } else {
+            temp.add(fillValue);
+          }
         }
         return temp;
       }
@@ -623,11 +623,11 @@ public class Itertools {
 
       @Override
       public List<T> next() {
-          if (index == 0) {
-              presentProduct = initProduct;
-          } else {
-              PermutationGenerator.generateNextProduct(presentProduct, max);
-          }
+        if (index == 0) {
+          presentProduct = initProduct;
+        } else {
+          PermutationGenerator.generateNextProduct(presentProduct, max);
+        }
         List<T> result = new ArrayList<>();
         for (int i = 0; i < presentProduct.length; i++) {
           result.add(lists[i].get(presentProduct[i] - 1));

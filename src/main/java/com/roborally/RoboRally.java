@@ -58,7 +58,7 @@ public class RoboRally extends Application {
 
   /**
    * @author Lucas Eiruff
-   *
+   * <p>
    * Generates a window with the game.
    */
   @Override
@@ -75,6 +75,7 @@ public class RoboRally extends Application {
     stage.setOnCloseRequest(
         e -> {
           e.consume();
+          System.out.println("test");
           appController.exit();
         });
     stage.setResizable(false);

@@ -21,9 +21,13 @@
  */
 package com.roborally.view;
 
-import designpatterns.observer.Subject;
 import com.roborally.controller.GameController;
-import com.roborally.model.*;
+import com.roborally.model.Command;
+import com.roborally.model.CommandCardField;
+import com.roborally.model.Phase;
+import com.roborally.model.Player;
+import com.roborally.model.PlayerCommandManager;
+import designpatterns.observer.Subject;
 import java.util.Timer;
 import java.util.TimerTask;
 import javafx.geometry.Pos;
@@ -144,6 +148,29 @@ public class PlayerView extends Tab implements ViewObserver {
       }
     }
 
+    VBox undoRedoPanel = new VBox();
+    Button undoButton = new Button("Undo");
+    Button redoButton = new Button("Redo");
+    undoRedoPanel.getChildren().addAll(undoButton, redoButton);
+    programPane.add(undoRedoPanel, Player.NO_REGISTERS + 1, 0);
+
+    undoButton.setDisable(false);
+    redoButton.setDisable(true);
+
+    undoButton.setOnAction(e -> {
+      PlayerCommandManager commandManager = gameController.playerCommandManager;
+      commandManager.undoLast();
+      undoButton.setDisable(!commandManager.hasUndoesLeft());
+      redoButton.setDisable(!commandManager.hasRedoesLeft());
+    });
+
+    redoButton.setOnAction(e -> {
+      PlayerCommandManager commandManager = gameController.playerCommandManager;
+      commandManager.redoLast();
+      undoButton.setDisable(!commandManager.hasUndoesLeft());
+      redoButton.setDisable(!commandManager.hasRedoesLeft());
+    });
+
     top.getChildren().add(programLabel);
     top.getChildren().add(programPane);
     top.getChildren().add(cardsLabel);
@@ -190,8 +217,6 @@ public class PlayerView extends Tab implements ViewObserver {
         switch (player.board.getPhase()) {
           case INITIALISATION -> {
             finishButton.setDisable(true);
-            // XXX just to make sure that there is a way for the player to get
-            //     from the initialization phase to the programming phase somehow!
             executeButton.setDisable(false);
             stepButton.setDisable(true);
           }
@@ -211,15 +236,12 @@ public class PlayerView extends Tab implements ViewObserver {
             stepButton.setDisable(true);
           }
         }
-
-
       } else {
         if (!programPane.getChildren().contains(playerInteractionPanel)) {
           programPane.getChildren().remove(buttonPanel);
           programPane.add(playerInteractionPanel, Player.NO_REGISTERS, 0);
         }
         playerInteractionPanel.getChildren().clear();
-
         if (player.board.getCurrentPlayer() == player) {
           Command command = player.getProgramField(player.board.getStep()).getCard().command;
           if (command.isInteractive()) {

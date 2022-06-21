@@ -4,36 +4,48 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+import com.roborally.controller.FieldAction;
 import com.roborally.fileaccess.model.BoardTemplate;
 import com.roborally.fileaccess.model.PlayerTemplate;
 import com.roborally.fileaccess.model.SpaceTemplate;
-import com.roborally.controller.FieldAction;
-import com.roborally.model.*;
-
-import java.io.*;
+import com.roborally.model.Board;
+import com.roborally.model.Command;
+import com.roborally.model.CommandCard;
+import com.roborally.model.Heading;
+import com.roborally.model.Player;
+import com.roborally.model.Space;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
  * loads the board from a .json file
- *
- * @author Ekkart Kindler, ekki@dtu.dk
  */
 public class LoadBoard {
 
-  private static final String BOARDSFOLDER =
-      System.getProperty("user.dir") + "\\src\\main\\resources\\com\\roborally\\boards";
-  private static final String DEFAULTBOARDSFOLDER = System.getProperty("user.dir") + "\\src\\main\\resources\\com\\roborally\\defaultBoards";
+  private static final String RESOURCE_FOLDER_PATH =
+      System.getProperty("user.dir") + "\\src\\main\\resources";
+  private static final String SAVED_BOARDS_PATH = RESOURCE_FOLDER_PATH + "\\com\\roborally\\boards";
+  private static final String DEFAULT_BOARDS_PATH =
+      RESOURCE_FOLDER_PATH + "\\com\\roborally\\defaultBoards";
   private static final String DEFAULTBOARD = "defaultboard";
   private static final String JSON_EXT = "json";
 
   public static class BoardConfig {
-    public int playerNumber;
-    public int AINumber;
-    public String[] playerNames = new String[playerNumber];
-    public String[] playerColors = new String[playerNumber];
+
+    public final int playerNumber;
+    public final int AINumber;
+    public String[] playerNames;
+    public String[] playerColors;
 
     public BoardConfig(int playerNumber, int AINumber) {
       this.playerNumber = playerNumber;
@@ -50,13 +62,12 @@ public class LoadBoard {
   }
 
   /**
-   * @author Lucas Eiruff
-   *
-   * loads a default board. called when no board has been chosen as an alternative
-   *
-   * @param boardConfig the settings of the board, like the player amount
+   * @param boardConfig  the settings of the board, like the player amount
    * @param defaultBoard the default board used
    * @return the board which was loaded from the default board file
+   * @author Lucas Eiruff
+   * <p>
+   * loads a default board. called when no board has been chosen as an alternative
    */
   public static Board loadDefaultBoard(BoardConfig boardConfig, DefaultBoard defaultBoard) {
     String boardname = null;
@@ -94,7 +105,7 @@ public class LoadBoard {
 
     InputStream inputStream;
     try {
-      inputStream = new FileInputStream(DEFAULTBOARDSFOLDER + "\\" + boardname + "." + JSON_EXT);
+      inputStream = new FileInputStream(DEFAULT_BOARDS_PATH + "\\" + boardname + "." + JSON_EXT);
     } catch (FileNotFoundException fileNotFoundException) {
       fileNotFoundException.printStackTrace();
       return new Board(8, 8); // Returns a default 8x8 board - do something else in the future
@@ -125,9 +136,11 @@ public class LoadBoard {
         }
       }
       for (int i = 0; i < boardConfig.playerNumber; ++i) {
-        Player player = new Player(result, boardConfig.playerColors[i], boardConfig.playerNames[i], result.getSpace(playerStartingPositions[i][0], playerStartingPositions[i][1]));
+        Player player = new Player(result, boardConfig.playerColors[i], boardConfig.playerNames[i],
+            result.getSpace(playerStartingPositions[i][0], playerStartingPositions[i][1]));
         player.setIsAI(i >= (boardConfig.playerNumber - boardConfig.AINumber));
-        result.getSpace(playerStartingPositions[i][0], playerStartingPositions[i][1]).setPlayer(player);
+        result.getSpace(playerStartingPositions[i][0], playerStartingPositions[i][1])
+            .setPlayer(player);
         switch (boardname) {
           case "easy" -> player.setHeading(Heading.EAST);
           case "medium" -> player.setHeading(Heading.EAST);
@@ -162,7 +175,7 @@ public class LoadBoard {
   public static String getBoardContent(String boardgames) {
     InputStream inputStream = null;
     try {
-      inputStream = new FileInputStream(BOARDSFOLDER + "\\" + boardgames + "." + JSON_EXT);
+      inputStream = new FileInputStream(SAVED_BOARDS_PATH + "\\" + boardgames + "." + JSON_EXT);
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -174,170 +187,137 @@ public class LoadBoard {
   }
 
   /**
-   * @author Lucas Eiruff
-   *
-   * generates a board from a string, which has the format of the .json files
-   *
    * @param json the information of the .json file
    * @return the board which was generated from the .json string
+   * @author Lucas Eiruff
+   * <p>
+   * generates a board from a string, which has the format of the .json files
    */
   public static Board loadBoardFromJson(String json) {
-    GsonBuilder simpleBuilder = new GsonBuilder().
-        registerTypeAdapter(FieldAction.class, new Adapter<FieldAction>());
-    Gson gson = simpleBuilder.create();
-    Board result;
+    BoardTemplate template = loadBoardTemplate(json);
+    Board result = new Board(template.width, template.height, "temp");
 
-    try {
-      BoardTemplate template = gson.fromJson(json, BoardTemplate.class);
+    for (SpaceTemplate spaceTemplate : template.spaces) {
+      Space space = result.getSpace(spaceTemplate.x, spaceTemplate.y);
+      copyWallsAndFieldActions(spaceTemplate, space);
 
-      result = new Board(template.width, template.height, "tempSave");
-      for (SpaceTemplate spaceTemplate : template.spaces) {
-        Space space = result.getSpace(spaceTemplate.x, spaceTemplate.y);
-        if (space != null) {
-          space.getActions().addAll(spaceTemplate.actions);
-          space.getWalls().addAll(spaceTemplate.walls);
-
-          for (FieldAction fieldAction : space.getActions()) {
-            if (fieldAction.getClass().getName().equals("com.roborally.controller.CheckPoint")) {
-              result.addCheckPoint(space);
-            }
-          }
-
-          if (spaceTemplate.player != null) {
-            Player player = new Player(result, spaceTemplate.player.color,
-                spaceTemplate.player.name, space);
-            player.setHeading(spaceTemplate.player.heading);
-            player.setIsAI(spaceTemplate.player.AI);
-            space.setPlayer(player);
-            for (int i = 0; i < spaceTemplate.player.commandCards.size(); i++) {
-              if (spaceTemplate.player.commandCards.get(i) != null) {
-                player.getCardField(i)
-                    .setCard(new CommandCard(spaceTemplate.player.commandCards.get(i)));
-                result.resetRegisters = false;
-              } else {
-                player.getCardField(i).setCard(null);
-              }
-            }
-            for (int i = 0; i < spaceTemplate.player.commandCardsInRegisters.size(); i++) {
-              if (spaceTemplate.player.commandCardsInRegisters.get(i) != null) {
-                player.getProgramField(i)
-                    .setCard(new CommandCard(
-                        spaceTemplate.player.commandCardsInRegisters.get(i)));
-              } else {
-                player.getProgramField(i).setCard(null);
-              }
-            }
-            result.addPlayer(player);
-          }
-        }
+      if (spaceTemplate.player == null) {
+        continue;
       }
-      return result;
-    } catch (Exception ignored) {
 
+      Player player = createPlayerFromTemplate(space, spaceTemplate.player);
+      setCardFields(spaceTemplate.player.commandCards, player, result);
+      setCommandFields(spaceTemplate.player.commandCardsInRegisters, player);
+      result.addPlayer(player);
     }
-    return null;
+    return result;
   }
 
   /**
-   * @author Lucas Eiruff
-   *
-   * loads a .json file, then convert it into a playable board
-   *
    * @param boardname the name of the file
    * @return the board which was generated from the .json file
+   * @author Lucas Eiruff
+   * <p>
+   * loads a .json file, then convert it into a playable board
+   * <p>
+   * We dont check if the board name is valid, as this has been done before calling this method.
    */
-  public static Board loadBoard(String boardname) {
-    if (boardname == null) {
-      boardname = DEFAULTBOARD;
-    }
+  public static Board loadBoardFromFile(String boardname) {
+    BoardTemplate template = loadBoardTemplate(getBoardAsInputStream(boardname));
 
-    InputStream inputStream;
+    Board result = new Board(template.width, template.height, boardname);
+
+    for (SpaceTemplate spaceTemplate : template.spaces) {
+      Space space = result.getSpace(spaceTemplate.x, spaceTemplate.y);
+      copyWallsAndFieldActions(spaceTemplate, space);
+
+      if (spaceTemplate.player == null) {
+        continue;
+      }
+
+      Player player = createPlayerFromTemplate(space, spaceTemplate.player);
+      setCardFields(spaceTemplate.player.commandCards, player, result);
+      setCommandFields(spaceTemplate.player.commandCardsInRegisters, player);
+      result.addPlayer(player);
+    }
+    return result;
+  }
+
+  private static void setCardFields(List<Command> commands, Player player, Board board) {
+    for (int i = 0; i < commands.size(); i++) {
+      if (commands.get(i) == null) {
+        player.getCardField(i).setCard(null);
+        continue;
+      }
+
+      player.getCardField(i).setCard(new CommandCard(commands.get(i)));
+      board.resetRegisters = false; // don't reset registers if the robot has been loaded with a program.
+    }
+  }
+
+  private static void setCommandFields(List<Command> commands, Player player) {
+    for (int i = 0; i < commands.size(); i++) {
+      if (commands.get(i) == null) {
+        player.getProgramField(i).setCard(null);
+        continue;
+      }
+
+      player.getProgramField(i).setCard(new CommandCard(commands.get(i)));
+    }
+  }
+
+  private static InputStreamReader getBoardAsInputStream(String boardname) {
     try {
-      inputStream = new FileInputStream(BOARDSFOLDER + "\\" + boardname + "." + JSON_EXT);
+      InputStream inputStream = new FileInputStream(
+          SAVED_BOARDS_PATH + "\\" + boardname + "." + JSON_EXT);
+      return new InputStreamReader(Objects.requireNonNull(inputStream));
     } catch (FileNotFoundException fileNotFoundException) {
       fileNotFoundException.printStackTrace();
-      return new Board(8, 8); // Returns a default 8x8 board - do something else in the future
+      return null;
     }
+  }
 
-    // In simple cases, we can create a Gson object with new Gson():
-    GsonBuilder simpleBuilder = new GsonBuilder().
-        registerTypeAdapter(FieldAction.class, new Adapter<FieldAction>());
+  private static BoardTemplate loadBoardTemplate(InputStreamReader inputStreamReader) {
+    GsonBuilder simpleBuilder = new GsonBuilder().registerTypeAdapter(FieldAction.class,
+        new Adapter<FieldAction>());
     Gson gson = simpleBuilder.create();
+    JsonReader reader = gson.newJsonReader(Objects.requireNonNull(inputStreamReader));
+    return gson.fromJson(reader, BoardTemplate.class);
+  }
 
-    Board result;
-    // FileReader fileReader = null;
-    JsonReader reader = null;
-    try {
-      // fileReader = new FileReader(filename);
-      reader = gson.newJsonReader(new InputStreamReader(inputStream));
-      BoardTemplate template = gson.fromJson(reader, BoardTemplate.class);
+  private static BoardTemplate loadBoardTemplate(String json) {
+    GsonBuilder simpleBuilder = new GsonBuilder().registerTypeAdapter(FieldAction.class,
+        new Adapter<FieldAction>());
+    Gson gson = simpleBuilder.create();
+    return gson.fromJson(json, BoardTemplate.class);
+  }
 
-      result = new Board(template.width, template.height, boardname);
-      for (SpaceTemplate spaceTemplate : template.spaces) {
-        Space space = result.getSpace(spaceTemplate.x, spaceTemplate.y);
-        if (space != null) {
-          space.getActions().addAll(spaceTemplate.actions);
-          space.getWalls().addAll(spaceTemplate.walls);
-
-          for (FieldAction fieldAction : space.getActions()) {
-            if (fieldAction.getClass().getName().equals("com.roborally.controller.CheckPoint")) {
-              result.addCheckPoint(space);
-            }
-          }
-
-          if (spaceTemplate.player != null) {
-            Player player = new Player(result, spaceTemplate.player.color,
-                spaceTemplate.player.name, space);
-            player.setHeading(spaceTemplate.player.heading);
-            player.setIsAI(spaceTemplate.player.AI);
-            space.setPlayer(player);
-            for (int i = 0; i < spaceTemplate.player.commandCards.size(); i++) {
-                if (spaceTemplate.player.commandCards.get(i) != null) {
-                    player.getCardField(i)
-                            .setCard(new CommandCard(spaceTemplate.player.commandCards.get(i)));
-                    result.resetRegisters = false;
-                } else {
-                    player.getCardField(i).setCard(null);
-                }
-            }
-            for (int i = 0; i < spaceTemplate.player.commandCardsInRegisters.size(); i++) {
-                if (spaceTemplate.player.commandCardsInRegisters.get(i) != null) {
-                    player.getProgramField(i)
-                            .setCard(new CommandCard(
-                                    spaceTemplate.player.commandCardsInRegisters.get(i)));
-                } else {
-                    player.getProgramField(i).setCard(null);
-                }
-            }
-            result.addPlayer(player);
-          }
-        }
-      }
-      reader.close();
-      return result;
-    } catch (IOException e1) {
-      try {
-        reader.close();
-        inputStream = null;
-      } catch (IOException ignored) {
-      }
-      if (inputStream != null) {
-        try {
-          inputStream.close();
-        } catch (IOException ignored) {
-        }
+  private static void copyWallsAndFieldActions(SpaceTemplate from, Space to) {
+    to.getActions().addAll(from.actions);
+    to.getWalls().addAll(from.walls);
+    for (FieldAction fieldAction : to.getActions()) {
+      if (fieldAction.getClass().getName().equals("com.roborally.controller.CheckPoint")) {
+        to.board.addCheckPoint(to);
       }
     }
-    return null;
+  }
+
+  private static Player createPlayerFromTemplate(Space startingSpace,
+      PlayerTemplate playerTemplate) {
+    Player player = new Player(startingSpace.board, playerTemplate.color, playerTemplate.name,
+        startingSpace);
+    player.setHeading(playerTemplate.heading);
+    player.setIsAI(playerTemplate.AI);
+    startingSpace.setPlayer(player);
+    return player;
   }
 
   /**
-   * @author Lucas Eiruff
-   *
-   * Saves the game state in a .json file
-   *
    * @param board The board which is to be stored in the file
-   * @param name The name of the file
+   * @param name  The name of the file
+   * @author Lucas Eiruff
+   * <p>
+   * Saves the game state in a .json file
    */
   public static void saveBoard(Board board, String name) {
     BoardTemplate template = new BoardTemplate();
@@ -368,25 +348,24 @@ public class LoadBoard {
 
             for (int k = 0; k < 8; k++) {
               CommandCard card = space.getPlayer().getCardField(k).getCard();
-                if (card != null) {
-                    spaceTemplate.player.commandCards.add(card.command);
-                } else {
-                    spaceTemplate.player.commandCards.add(null);
-                }
+              if (card != null) {
+                spaceTemplate.player.commandCards.add(card.command);
+              } else {
+                spaceTemplate.player.commandCards.add(null);
+              }
             }
             for (int l = 0; l < 5; l++) {
               CommandCard card = space.getPlayer().getProgramField(l).getCard();
-                if (card != null) {
-                    spaceTemplate.player.commandCardsInRegisters.add(card.command);
-                } else {
-                    spaceTemplate.player.commandCardsInRegisters.add(null);
-                }
+              if (card != null) {
+                spaceTemplate.player.commandCardsInRegisters.add(card.command);
+              } else {
+                spaceTemplate.player.commandCardsInRegisters.add(null);
+              }
             }
           }
           if (!isPlayerSpace) {
             template.spaces.add(spaceTemplate);
-          }
-          else {
+          } else {
             playerSpaces.add(spaceTemplate);
             isPlayerSpace = false;
           }
@@ -404,7 +383,7 @@ public class LoadBoard {
       }
     }
 
-    String filename = BOARDSFOLDER + "\\" + name + "." + JSON_EXT;
+    String filename = SAVED_BOARDS_PATH + "\\" + name + "." + JSON_EXT;
 
     GsonBuilder simpleBuilder = new GsonBuilder().
         registerTypeAdapter(FieldAction.class, new Adapter<FieldAction>()).

@@ -1,25 +1,23 @@
 package com.roborally.server;
 
 import java.io.BufferedReader;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.Scanner;
 
 public class Client {
+
   private Socket clientSocket;
   private PrintWriter out;
   private BufferedReader in;
 
   /**
-   * @author Lucas Eiruff
-   *
-   * Connects the client to the host
-   *
-   * @param ip the ip of the host
+   * @param ip   the ip of the host
    * @param port the port used for the game
+   * @author Lucas Eiruff
+   * <p>
+   * Connects the client to the host
    */
   public void startConnection(String ip, int port) {
     try {
@@ -33,12 +31,11 @@ public class Client {
   }
 
   /**
-   * @author Lucas Eiruff
-   *
-   * Updates the server on the game changes from the clients side
-   *
    * @param msg
    * @return
+   * @author Lucas Eiruff
+   * <p>
+   * Updates the server on the game changes from the clients side
    */
   public String post(String msg) {
     try {
@@ -70,7 +67,7 @@ public class Client {
   }
 
   //This method is for testing purposes only. it starts the game as a client by default
-  public static void main(String[] argvs) throws InterruptedException {
+  public static void main(String[] argvs) {
     Client client1 = new Client();
     client1.startConnection("127.0.0.1", 6666);
     //String reponse1 = client1.post("exit");

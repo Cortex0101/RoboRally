@@ -21,13 +21,12 @@ public class Gear extends FieldAction {
   }
 
   /**
-   * @author Lucas Eiruff
-   *
-   * Rotates the player based on the direction of the gear, if the player lands on it
-   *
    * @param gameController The gameController of the respective game
    * @param space          The space this action should be executed for
    * @return Returns true if the player landed on the field, false otherwise
+   * @author Lucas Eiruff
+   * <p>
+   * Rotates the player based on the direction of the gear, if the player lands on it
    */
   @Override
   public boolean doAction(GameController gameController, Space space) {

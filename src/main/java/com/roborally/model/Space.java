@@ -23,7 +23,6 @@ package com.roborally.model;
 
 import com.roborally.controller.FieldAction;
 import designpatterns.observer.Subject;
-
 import java.util.ArrayList;
 import java.util.List;
 

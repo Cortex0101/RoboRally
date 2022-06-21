@@ -5,6 +5,7 @@ import com.roborally.model.Player;
 import com.roborally.model.Space;
 
 public class SingleBoardLaser extends FieldAction {
+
   private Heading heading;
 
   public Heading getHeading() {
@@ -16,13 +17,13 @@ public class SingleBoardLaser extends FieldAction {
   }
 
   /**
-   * @author August Hjortholm
-   *
-   * Removes all cards from the players register, and moves the player to the field which they started on
-   *
    * @param gameController The gameController of the respective game
    * @param space          The space this action should be executed for
    * @return Returns true if the player landed on the field, false otherwise
+   * @author August Hjortholm
+   * <p>
+   * Removes all cards from the players register, and moves the player to the field which they
+   * started on
    */
   @Override
   public boolean doAction(GameController gameController, Space space) {
