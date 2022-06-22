@@ -60,19 +60,6 @@
       "walls": [],
       "actions": [
         {
-          "CLASSNAME": "com.roborally.controller.BlueConveyorBelt",
-          "INSTANCE": {
-            "heading": "EAST"
-          }
-        }
-      ],
-      "x": 2,
-      "y": 0
-    },
-    {
-      "walls": [],
-      "actions": [
-        {
           "CLASSNAME": "com.roborally.controller.SingleBoardLaserNonOrigin",
           "INSTANCE": {
             "heading": "WEST"
@@ -176,6 +163,19 @@
       ],
       "x": 4,
       "y": 2
+    },
+    {
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "com.roborally.controller.Gear",
+          "INSTANCE": {
+            "direction": "LEFT"
+          }
+        }
+      ],
+      "x": 4,
+      "y": 3
     },
     {
       "walls": [],

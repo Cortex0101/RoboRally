@@ -41,7 +41,7 @@ import javafx.scene.input.KeyCode;
 
 public class AppController implements Observer {
 
-  final private RoboRally roboRally;
+  final public RoboRally roboRally;
   private GameController gameController;
 
   /**
