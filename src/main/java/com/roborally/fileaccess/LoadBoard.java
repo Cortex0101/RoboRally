@@ -58,7 +58,8 @@ public class LoadBoard {
   public enum DefaultBoard {
     easy,
     medium,
-    hard
+    hard,
+    test
   }
 
   /**
@@ -100,6 +101,15 @@ public class LoadBoard {
         playerStartingPositions[3] = new int[]{11, 5};
         playerStartingPositions[4] = new int[]{12, 6};
         playerStartingPositions[5] = new int[]{11, 8};
+      }
+      case test -> {
+        boardname = "test";
+        playerStartingPositions[0] = new int[]{0, 2};
+        playerStartingPositions[1] = new int[]{1, 0};
+        playerStartingPositions[2] = new int[]{1, 4};
+        playerStartingPositions[3] = new int[]{1, 5};
+        playerStartingPositions[4] = new int[]{0, 7};
+        playerStartingPositions[5] = new int[]{1, 9};
       }
     }
 

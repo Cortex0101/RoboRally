@@ -32,6 +32,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 /**
  * Main method for roborally. Instantiates the elements required to start a game.
@@ -75,7 +76,6 @@ public class RoboRally extends Application {
     stage.setOnCloseRequest(
         e -> {
           e.consume();
-          System.out.println("test");
           appController.exit();
         });
     stage.setResizable(false);

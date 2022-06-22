@@ -1,0 +1,9 @@
+module:com.roborally
+com.roborally
+com.roborally.controller
+com.roborally.fileaccess
+com.roborally.fileaccess.model
+com.roborally.model
+com.roborally.server
+com.roborally.view
+designpatterns.observer
