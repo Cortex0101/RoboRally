@@ -28,6 +28,7 @@ import com.roborally.controller.Gear;
 import com.roborally.controller.GreenConveyorBelt;
 import com.roborally.controller.SingleBoardLaser;
 import com.roborally.controller.SingleBoardLaserNonOrigin;
+import com.roborally.fileaccess.LoadBoard;
 import com.roborally.model.Heading;
 import com.roborally.model.Player;
 import com.roborally.model.Space;
@@ -270,6 +271,21 @@ public class SpaceView extends StackPane implements ViewObserver {
     }
   }
 
+  private void updateStartingPositions() {
+    if (LoadBoard.playerStartingPositions[0] == null) {
+      return;
+    }
+
+    int i = 1;
+    for (var pos : LoadBoard.playerStartingPositions) {
+      if (space.x == pos[0] && space.y == pos[1]) {
+        ImageView view = SpriteSheetSingleton.getInstance().spriteSheet.getFrame("start " + i);
+        this.getChildren().add(view);
+      }
+      ++i;
+    }
+  }
+
   /**
    * @author August Hjortholm
    * @author Lucas Eiruff
@@ -282,6 +298,7 @@ public class SpaceView extends StackPane implements ViewObserver {
       this.getChildren().clear();
       this.getChildren().add(SpriteSheetSingleton.getInstance().spriteSheet.getFrame("blank"));
       updateWall();
+      updateStartingPositions();
       updateGreenConveyorBelt();
       updateBlueConveyorBelt();
       updateGears();

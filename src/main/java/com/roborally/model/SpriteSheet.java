@@ -70,14 +70,10 @@ public class SpriteSheet {
     frameMap.put("blue conveyor belt west", new Pair<>(5, 2));
     frameMap.put("blue conveyor belt right turn", new Pair<>(2, 2));
     frameMap.put("blue conveyor belt left turn", new Pair<>(1, 2));
-    frameMap.put("checkpoint 1", new Pair<>(0, 15));
-    frameMap.put("checkpoint 2", new Pair<>(1, 15));
-    frameMap.put("checkpoint 3", new Pair<>(2, 15));
-    frameMap.put("checkpoint 4", new Pair<>(3, 15));
-    frameMap.put("checkpoint 5", new Pair<>(0, 16));
-    frameMap.put("checkpoint 6", new Pair<>(1, 16));
-    frameMap.put("checkpoint 7", new Pair<>(2, 16));
-    frameMap.put("checkpoint 8", new Pair<>(3, 16));
+    frameMap.put("checkpoint 1", new Pair<>(6, 6));
+    frameMap.put("checkpoint 2", new Pair<>(6, 7));
+    frameMap.put("checkpoint 3", new Pair<>(6, 8));
+    frameMap.put("checkpoint 4", new Pair<>(6, 9));
     frameMap.put("south wall", new Pair<>(4, 3));
     frameMap.put("west wall", new Pair<>(5, 3));
     frameMap.put("north wall", new Pair<>(6, 3));
@@ -95,6 +91,12 @@ public class SpriteSheet {
     frameMap.put("single laser horizontal", new Pair<>(6, 4));
     frameMap.put("single laser vertical", new Pair<>(6, 5));
     frameMap.put("single laser cross", new Pair<>(7, 5));
+    frameMap.put("start 1", new Pair<>(0, 15));
+    frameMap.put("start 2", new Pair<>(1, 15));
+    frameMap.put("start 3", new Pair<>(2, 15));
+    frameMap.put("start 4", new Pair<>(3, 15));
+    frameMap.put("start 5", new Pair<>(0, 16));
+    frameMap.put("start 6", new Pair<>(1, 16));
   }
 
   public ImageView getFrame(int row, int col) {

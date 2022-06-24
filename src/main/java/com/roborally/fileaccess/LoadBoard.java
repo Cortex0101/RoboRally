@@ -62,6 +62,8 @@ public class LoadBoard {
     test
   }
 
+  public static int[][] playerStartingPositions = new int[6][2];
+
   /**
    * @param boardConfig  the settings of the board, like the player amount
    * @param defaultBoard the default board used
@@ -72,7 +74,6 @@ public class LoadBoard {
    */
   public static Board loadDefaultBoard(BoardConfig boardConfig, DefaultBoard defaultBoard) {
     String boardname = null;
-    int[][] playerStartingPositions = new int[6][2];
 
     switch (defaultBoard) {
       case easy -> {
