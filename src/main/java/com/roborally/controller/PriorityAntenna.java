@@ -1,6 +1,7 @@
 package com.roborally.controller;
 
 import com.roborally.model.Player;
+import com.roborally.model.Position;
 import com.roborally.model.Space;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -14,16 +15,21 @@ public class PriorityAntenna extends FieldAction {
   public boolean doAction(GameController gameController, Space space) {
     Map<Player, Double> playerDistances = new HashMap<>(); // Associate a player with a distance from the antenna.
     for (Player player : gameController.board.getPlayers()) {
-      int[] playerPos = new int[]{player.getSpace().x, player.getSpace().y};
-      int[] antennaPos = new int[]{space.x, space.y};
+      Position playerPos = player.getPosition();
+      Position antennaPos = new Position(space.x, space.y);
 
-
-      int deltaX = Math.abs(playerPos[0] - antennaPos[0]);
-      int deltaY = Math.abs(playerPos[1] - antennaPos[1]);
-      Double distance = Math.sqrt((deltaX * deltaY) + (deltaY * deltaY));
+      int deltaX = Math.abs(playerPos.x - antennaPos.x);
+      int deltaY = Math.abs(playerPos.y - antennaPos.y);
+      double distance = Math.sqrt((deltaX * deltaY) + (deltaY * deltaY));
       playerDistances.put(player, distance);
     }
 
+    List<Player> playerOrder = getPlayerOrderAsList(playerDistances);
+    gameController.board.setPlayerOrder(playerOrder);
+    return true;
+  }
+
+  private List<Player> getPlayerOrderAsList(Map<Player, Double> playerDistances) {
     List<Player> playerOrder = new ArrayList<>();
     while (playerDistances.size() != 0) {
       Player player = Collections.max(playerDistances.entrySet(), Map.Entry.comparingByValue())
@@ -31,6 +37,6 @@ public class PriorityAntenna extends FieldAction {
       playerDistances.remove(player);
       playerOrder.add(player);
     }
-    return true;
+    return playerOrder;
   }
 }

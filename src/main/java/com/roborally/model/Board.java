@@ -49,7 +49,7 @@ public class Board extends Subject {
 
   private final List<Space> checkPointSpaces = new ArrayList<>();
 
-  private final List<Player> players = new ArrayList<>();
+  private List<Player> players = new ArrayList<>();
 
   private Player current;
 
@@ -73,6 +73,15 @@ public class Board extends Subject {
       }
     }
     this.stepMode = false;
+  }
+
+  /**
+   * Method sets the order of players in execution of the game.
+   *
+   * @param playerOrder list of players in their proper order
+   */
+  public void setPlayerOrder(List<Player> playerOrder) {
+    this.players = playerOrder;
   }
 
   public void addCheckPoint(Space space) {
