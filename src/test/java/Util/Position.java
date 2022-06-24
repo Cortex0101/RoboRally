@@ -1,8 +1,10 @@
+package Util;
+
 import java.util.Objects;
 
 public class Position {
 
-  Position(int x, int y) {
+  public Position(int x, int y) {
     this.x = x;
     this.y = y;
   }
@@ -30,7 +32,7 @@ public class Position {
 
   @Override
   public String toString() {
-    return "Position{" +
+    return "Util.Position{" +
         "x=" + x +
         ", y=" + y +
         '}';

@@ -1,3 +1,5 @@
+import Util.Position;
+import Util.TestUtil;
 import com.roborally.controller.AppController;
 import com.roborally.controller.GameController;
 import com.roborally.model.Board;
@@ -6,10 +8,8 @@ import com.roborally.model.CommandCard;
 import com.roborally.model.Heading;
 import com.roborally.model.Player;
 import java.util.List;
-import java.util.Objects;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 public class RobotMovementTests {
