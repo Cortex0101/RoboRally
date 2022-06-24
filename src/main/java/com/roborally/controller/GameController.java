@@ -205,6 +205,23 @@ public class GameController {
 
   /**
    * @author Lucas Eiruff
+   * @param register the register to set invisible
+   * <p>
+   * sets a card as invisible, to avoid other players to see the card
+   *
+   */
+  private void makeProgramFieldInvisible(int register) {
+    if (register < 0 || register >= Player.NO_REGISTERS) {
+      return;
+    }
+
+    for (Player player : board.getPlayers()) {
+      player.getProgramField(register).setVisible(false);
+    }
+  }
+
+  /**
+   * @author Lucas Eiruff
    * <p>
    * Executes all registers for all players
    */
