@@ -37,6 +37,7 @@ import com.roborally.model.PlayerTurnLeftCommand;
 import com.roborally.model.PlayerTurnRightCommand;
 import com.roborally.model.PlayerUTurnCommand;
 import com.roborally.model.Space;
+import java.util.Arrays;
 import java.util.List;
 import org.jetbrains.annotations.NotNull;
 
@@ -46,6 +47,7 @@ public class GameController {
   final public Board board;
   private final RoboAI[] ai;
   public RoboRally roboRally;
+  public boolean activatePriorityAntenna = true;
 
   public GameController(@NotNull Board board) {
     this.board = board;
@@ -151,7 +153,13 @@ public class GameController {
     for (Player player : board.getPlayers()) {
       if (player.isAI()) {
         setPlayerProgram(player,
-            ai[i].findBestProgramToGetTo(board.getCheckPoint(player.getLastCheckpoint() + 1)));
+            Arrays.stream(ai).filter(roboAI -> {
+              if (roboAI == null) {
+                return false;
+              }
+              return roboAI.getAiPlayerOrig().equals(player);
+                }).findFirst()
+                .get().findBestProgramToGetTo(board.getCheckPoint(player.getLastCheckpoint() + 1)));
       }
       ++i;
     }
@@ -227,6 +235,7 @@ public class GameController {
    */
   public void executePrograms() {
     board.setStepMode(false);
+    activateBoardElements();
     continuePrograms();
   }
 
@@ -237,6 +246,7 @@ public class GameController {
    */
   public void executeStep() {
     board.setStepMode(true);
+    activateBoardElements();
     continuePrograms();
   }
 
@@ -274,8 +284,9 @@ public class GameController {
     if (++step < Player.NO_REGISTERS) {
       makeProgramFieldsVisible(step);
       board.setStep(step);
-      board.setCurrentPlayer(board.getPlayer(0));
+      activatePriorityAntenna = true;
       activateBoardElements();
+      board.setCurrentPlayer(board.getPlayer(0));
     } else {
       startProgrammingPhase(true);
       activateBoardElements();

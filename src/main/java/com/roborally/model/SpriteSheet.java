@@ -97,6 +97,7 @@ public class SpriteSheet {
     frameMap.put("start 4", new Pair<>(3, 15));
     frameMap.put("start 5", new Pair<>(0, 16));
     frameMap.put("start 6", new Pair<>(1, 16));
+    frameMap.put("priority antenna", new Pair<>(1, 11));
   }
 
   public ImageView getFrame(int row, int col) {

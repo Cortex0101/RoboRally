@@ -26,6 +26,7 @@ import com.roborally.controller.CheckPoint;
 import com.roborally.controller.FieldAction;
 import com.roborally.controller.Gear;
 import com.roborally.controller.GreenConveyorBelt;
+import com.roborally.controller.PriorityAntenna;
 import com.roborally.controller.SingleBoardLaser;
 import com.roborally.controller.SingleBoardLaserNonOrigin;
 import com.roborally.fileaccess.LoadBoard;
@@ -271,6 +272,18 @@ public class SpaceView extends StackPane implements ViewObserver {
     }
   }
 
+  private void updatePriorityAntenna() {
+    for (FieldAction fieldAction : space.getActions()) {
+      if (fieldAction.getClass().getName()
+          .equals("com.roborally.controller.PriorityAntenna")) {
+        PriorityAntenna priorityAntenna = (PriorityAntenna) fieldAction;
+        ImageView view = SpriteSheetSingleton.getInstance().spriteSheet.getFrame(
+            "priority antenna");
+        this.getChildren().add(view);
+      }
+    }
+  }
+
   private void updateStartingPositions() {
     if (LoadBoard.playerStartingPositions[0] == null) {
       return;
@@ -298,6 +311,7 @@ public class SpaceView extends StackPane implements ViewObserver {
       this.getChildren().clear();
       this.getChildren().add(SpriteSheetSingleton.getInstance().spriteSheet.getFrame("blank"));
       updateWall();
+      updatePriorityAntenna();
       updateStartingPositions();
       updateGreenConveyorBelt();
       updateBlueConveyorBelt();

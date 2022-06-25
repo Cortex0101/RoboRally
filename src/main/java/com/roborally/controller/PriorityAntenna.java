@@ -13,6 +13,9 @@ public class PriorityAntenna extends FieldAction {
 
   @Override
   public boolean doAction(GameController gameController, Space space) {
+    if (!gameController.activatePriorityAntenna)
+      return false;
+
     Map<Player, Double> playerDistances = new HashMap<>(); // Associate a player with a distance from the antenna.
     for (Player player : gameController.board.getPlayers()) {
       Position playerPos = player.getPosition();
@@ -20,7 +23,9 @@ public class PriorityAntenna extends FieldAction {
 
       int deltaX = Math.abs(playerPos.x - antennaPos.x);
       int deltaY = Math.abs(playerPos.y - antennaPos.y);
-      double distance = Math.sqrt((deltaX * deltaY) + (deltaY * deltaY));
+      double distance = Math.sqrt((deltaX * deltaX) + (deltaY * deltaY));
+      if (gameController.board.getPlayersNumber() != 1)
+        System.out.println("Activated antenna. " + player.getName() + " distance = " + distance);
       playerDistances.put(player, distance);
     }
 
@@ -32,7 +37,7 @@ public class PriorityAntenna extends FieldAction {
   private List<Player> getPlayerOrderAsList(Map<Player, Double> playerDistances) {
     List<Player> playerOrder = new ArrayList<>();
     while (playerDistances.size() != 0) {
-      Player player = Collections.max(playerDistances.entrySet(), Map.Entry.comparingByValue())
+      Player player = Collections.min(playerDistances.entrySet(), Map.Entry.comparingByValue())
           .getKey();
       playerDistances.remove(player);
       playerOrder.add(player);

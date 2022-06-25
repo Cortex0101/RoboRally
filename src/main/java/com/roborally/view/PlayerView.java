@@ -45,7 +45,7 @@ import org.jetbrains.annotations.NotNull;
  */
 public class PlayerView extends Tab implements ViewObserver {
 
-  private final Player player;
+  public final Player player;
 
   private final GridPane programPane;
 

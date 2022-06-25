@@ -25,6 +25,7 @@ import com.roborally.controller.GameController;
 import com.roborally.model.Board;
 import com.roborally.model.Player;
 import designpatterns.observer.Subject;
+import java.util.Arrays;
 import javafx.scene.control.TabPane;
 
 /**
@@ -36,6 +37,7 @@ public class PlayersView extends TabPane implements ViewObserver {
 
   private final Board board;
   final GameController gameController;
+  PlayerView[] playerViews;
 
   public PlayersView(GameController gameController) {
     this.gameController = gameController;
@@ -43,7 +45,7 @@ public class PlayersView extends TabPane implements ViewObserver {
 
     this.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
 
-    PlayerView[] playerViews = new PlayerView[board.getPlayersNumber()];
+    playerViews = new PlayerView[board.getPlayersNumber()];
     for (int i = 0; i < board.getPlayersNumber(); i++) {
       playerViews[i] = new PlayerView(gameController, board.getPlayer(i));
       this.getTabs().add(playerViews[i]);
@@ -56,10 +58,12 @@ public class PlayersView extends TabPane implements ViewObserver {
   public void updateView(Subject subject) {
     if (subject == board) {
       if (gameController.roboRally.isClient) {
-        this.getSelectionModel().select(gameController.roboRally.clientNum - 1);
+        getSelectionModel().select(Arrays.stream(playerViews).filter(playerView -> playerView.player == board.getCurrentPlayer()).findFirst().get());
+        //this.getSelectionModel().select(gameController.roboRally.clientNum - 1);
       } else {
-        Player current = board.getCurrentPlayer();
-        this.getSelectionModel().select(board.getPlayerNumber(current));
+        getSelectionModel().select(Arrays.stream(playerViews).filter(playerView -> playerView.player == board.getCurrentPlayer()).findFirst().get());
+        //Player current = board.getCurrentPlayer();
+        //this.getSelectionModel().select(board.getPlayerNumber(current));
       }
     }
   }

@@ -3,6 +3,17 @@
   "height": 10,
   "spaces": [
     {
+      "walls": [],
+      "actions": [
+        {
+          "CLASSNAME": "com.roborally.controller.PriorityAntenna",
+          "INSTANCE": {}
+        }
+      ],
+      "x": 0,
+      "y": 4
+    },
+    {
       "walls": [
         "NORTH"
       ],

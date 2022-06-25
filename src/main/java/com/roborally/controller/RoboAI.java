@@ -46,6 +46,10 @@ public class RoboAI {
     gameCopy.moveCurrentPlayerToSpace(aiPlayerCopy.getStartingSpace());
   }
 
+  public Player getAiPlayerOrig() {
+    return aiPlayerOrig;
+  }
+
   /**
    * @author Lucas Eiruff
    * <p>
