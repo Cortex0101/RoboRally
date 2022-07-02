@@ -30,6 +30,7 @@ import com.roborally.controller.PriorityAntenna;
 import com.roborally.controller.SingleBoardLaser;
 import com.roborally.controller.SingleBoardLaserNonOrigin;
 import com.roborally.fileaccess.LoadBoard;
+import com.roborally.model.Board;
 import com.roborally.model.Heading;
 import com.roborally.model.Player;
 import com.roborally.model.Space;
@@ -145,43 +146,234 @@ public class SpaceView extends StackPane implements ViewObserver {
     }
   }
 
+  private enum ConveyorBeltConnections {
+    NONE,
+    LEFT,
+    RIGHT,
+    LEFT_AND_RIGHT,
+    LEFT_AND_BOTTOM,
+    RIGHT_AND_BOTTOM,
+    LEFT_AND_RIGHT_AND_BOTTOM
+  }
+
+  private ConveyorBeltConnections getGreenConveyorBeltConnections(Heading heading, Space space) {
+    final Board board = space.board;
+
+    boolean leftConnection = false;
+    boolean rightConnection = false;
+    boolean bottomConnection = false;
+
+    try {
+      switch (heading) {
+        case NORTH:
+          rightConnection = board.getNeighbour(space, Heading.EAST).getActions().stream().anyMatch(
+              a -> a.getClass() == GreenConveyorBelt.class && ((GreenConveyorBelt) a).getHeading()
+                  .equals(Heading.WEST));
+          leftConnection = board.getNeighbour(space, Heading.WEST).getActions().stream().anyMatch(
+              a -> a.getClass() == GreenConveyorBelt.class && ((GreenConveyorBelt) a).getHeading()
+                  .equals(Heading.EAST));
+          bottomConnection = board.getNeighbour(space, Heading.SOUTH).getActions().stream()
+              .anyMatch(a -> a.getClass() == GreenConveyorBelt.class
+                  && ((GreenConveyorBelt) a).getHeading().equals(Heading.NORTH));
+          break;
+        case EAST:
+          rightConnection = board.getNeighbour(space, Heading.SOUTH).getActions().stream().anyMatch(
+              a -> a.getClass() == GreenConveyorBelt.class && ((GreenConveyorBelt) a).getHeading()
+                  .equals(Heading.NORTH));
+          leftConnection = board.getNeighbour(space, Heading.NORTH).getActions().stream().anyMatch(
+              a -> a.getClass() == GreenConveyorBelt.class && ((GreenConveyorBelt) a).getHeading()
+                  .equals(Heading.SOUTH));
+          bottomConnection = board.getNeighbour(space, Heading.EAST).getActions().stream().anyMatch(
+              a -> a.getClass() == GreenConveyorBelt.class && ((GreenConveyorBelt) a).getHeading()
+                  .equals(Heading.WEST));
+          break;
+        case SOUTH:
+          rightConnection = board.getNeighbour(space, Heading.WEST).getActions().stream().anyMatch(
+              a -> a.getClass() == GreenConveyorBelt.class && ((GreenConveyorBelt) a).getHeading()
+                  .equals(Heading.EAST));
+          leftConnection = board.getNeighbour(space, Heading.EAST).getActions().stream().anyMatch(
+              a -> a.getClass() == GreenConveyorBelt.class && ((GreenConveyorBelt) a).getHeading()
+                  .equals(Heading.WEST));
+          bottomConnection = board.getNeighbour(space, Heading.NORTH).getActions().stream()
+              .anyMatch(a -> a.getClass() == GreenConveyorBelt.class
+                  && ((GreenConveyorBelt) a).getHeading().equals(Heading.SOUTH));
+          break;
+        case WEST:
+          rightConnection = board.getNeighbour(space, Heading.NORTH).getActions().stream().anyMatch(
+              a -> a.getClass() == GreenConveyorBelt.class && ((GreenConveyorBelt) a).getHeading()
+                  .equals(Heading.SOUTH));
+          leftConnection = board.getNeighbour(space, Heading.SOUTH).getActions().stream().anyMatch(
+              a -> a.getClass() == GreenConveyorBelt.class && ((GreenConveyorBelt) a).getHeading()
+                  .equals(Heading.NORTH));
+          bottomConnection = board.getNeighbour(space, Heading.WEST).getActions().stream().anyMatch(
+              a -> a.getClass() == GreenConveyorBelt.class && ((GreenConveyorBelt) a).getHeading()
+                  .equals(Heading.EAST));
+          break;
+      }
+    } catch (NullPointerException ignored) {
+    }
+
+    if (rightConnection && leftConnection && bottomConnection)
+      return ConveyorBeltConnections.LEFT_AND_RIGHT_AND_BOTTOM;
+    else if (leftConnection && rightConnection)
+      return ConveyorBeltConnections.LEFT_AND_RIGHT;
+    else if (leftConnection && bottomConnection)
+      return ConveyorBeltConnections.LEFT_AND_BOTTOM;
+    else if (rightConnection && bottomConnection)
+      return ConveyorBeltConnections.RIGHT_AND_BOTTOM;
+    else if (leftConnection)
+      return ConveyorBeltConnections.LEFT;
+    else if (rightConnection)
+      return ConveyorBeltConnections.RIGHT;
+    else
+      return ConveyorBeltConnections.NONE;
+  }
+
   private void updateGreenConveyorBelt() {
     for (FieldAction fieldAction : space.getActions()) {
       if (fieldAction.getClass().getName().equals("com.roborally.controller.GreenConveyorBelt")) {
         GreenConveyorBelt conveyorBelt = (GreenConveyorBelt) fieldAction;
-        ImageView view = null;
-        switch (conveyorBelt.getHeading()) {
-          case NORTH -> view = SpriteSheetSingleton.getInstance().spriteSheet.getFrame(
+        ImageView view2 = null;
+        ConveyorBeltConnections connections = getGreenConveyorBeltConnections(
+            conveyorBelt.getHeading(), space);
+        view2 = switch (connections) {
+          case NONE -> SpriteSheetSingleton.getInstance().spriteSheet.getFrame(
               "green conveyor belt north");
-          case EAST -> view = SpriteSheetSingleton.getInstance().spriteSheet.getFrame(
-              "green conveyor belt east");
-          case SOUTH -> view = SpriteSheetSingleton.getInstance().spriteSheet.getFrame(
-              "green conveyor belt south");
-          case WEST -> view = SpriteSheetSingleton.getInstance().spriteSheet.getFrame(
-              "green conveyor belt west");
+          case LEFT -> SpriteSheetSingleton.getInstance().spriteSheet.getFrame(
+              "green conveyor belt left connection");
+          case RIGHT -> SpriteSheetSingleton.getInstance().spriteSheet.getFrame(
+              "green conveyor belt right connection");
+          case LEFT_AND_RIGHT, LEFT_AND_RIGHT_AND_BOTTOM -> SpriteSheetSingleton.getInstance().spriteSheet.getFrame(
+              "green conveyor belt left and right connection");
+          case LEFT_AND_BOTTOM -> SpriteSheetSingleton.getInstance().spriteSheet.getFrame(
+              "green conveyor belt left and bottom connection");
+          case RIGHT_AND_BOTTOM -> SpriteSheetSingleton.getInstance().spriteSheet.getFrame(
+              "green conveyor belt right and bottom connection");
+        };
+
+        switch (conveyorBelt.getHeading()) {
+          case NORTH -> {
+            view2.setRotate(0);
+          }
+          case EAST -> {
+            view2.setRotate(90);
+          }
+          case SOUTH -> {
+            view2.setRotate(180);
+          }
+          case WEST -> {
+            view2.setRotate(270);
+          }
         }
-        this.getChildren().add(view);
+
+        this.getChildren().add(view2);
       }
     }
+  }
+
+  private ConveyorBeltConnections getBlueConveyorBeltConnections(Heading heading, Space space) {
+    final Board board = space.board;
+
+    boolean leftConnection = false;
+    boolean rightConnection = false;
+    boolean bottomConnection = false;
+
+    try {
+      switch (heading) {
+        case NORTH:
+          rightConnection = board.getNeighbour(space, Heading.EAST).getActions().stream().anyMatch(
+              a -> a.getClass() == BlueConveyorBelt.class && ((BlueConveyorBelt) a).getHeading()
+                  .equals(Heading.WEST));
+          leftConnection = board.getNeighbour(space, Heading.WEST).getActions().stream().anyMatch(
+              a -> a.getClass() == BlueConveyorBelt.class && ((BlueConveyorBelt) a).getHeading()
+                  .equals(Heading.EAST));
+          bottomConnection = board.getNeighbour(space, Heading.SOUTH).getActions().stream()
+              .anyMatch(a -> a.getClass() == BlueConveyorBelt.class
+                  && ((BlueConveyorBelt) a).getHeading().equals(Heading.NORTH));
+          break;
+        case EAST:
+          rightConnection = board.getNeighbour(space, Heading.SOUTH).getActions().stream().anyMatch(
+              a -> a.getClass() == BlueConveyorBelt.class && ((BlueConveyorBelt) a).getHeading()
+                  .equals(Heading.NORTH));
+          leftConnection = board.getNeighbour(space, Heading.NORTH).getActions().stream().anyMatch(
+              a -> a.getClass() == BlueConveyorBelt.class && ((BlueConveyorBelt) a).getHeading()
+                  .equals(Heading.SOUTH));
+          bottomConnection = board.getNeighbour(space, Heading.EAST).getActions().stream().anyMatch(
+              a -> a.getClass() == BlueConveyorBelt.class && ((BlueConveyorBelt) a).getHeading()
+                  .equals(Heading.WEST));
+          break;
+        case SOUTH:
+          rightConnection = board.getNeighbour(space, Heading.WEST).getActions().stream().anyMatch(
+              a -> a.getClass() == BlueConveyorBelt.class && ((BlueConveyorBelt) a).getHeading()
+                  .equals(Heading.EAST));
+          leftConnection = board.getNeighbour(space, Heading.EAST).getActions().stream().anyMatch(
+              a -> a.getClass() == BlueConveyorBelt.class && ((BlueConveyorBelt) a).getHeading()
+                  .equals(Heading.WEST));
+          bottomConnection = board.getNeighbour(space, Heading.NORTH).getActions().stream()
+              .anyMatch(a -> a.getClass() == BlueConveyorBelt.class
+                  && ((BlueConveyorBelt) a).getHeading().equals(Heading.SOUTH));
+          break;
+        case WEST:
+          rightConnection = board.getNeighbour(space, Heading.NORTH).getActions().stream().anyMatch(
+              a -> a.getClass() == BlueConveyorBelt.class && ((BlueConveyorBelt) a).getHeading()
+                  .equals(Heading.SOUTH));
+          leftConnection = board.getNeighbour(space, Heading.SOUTH).getActions().stream().anyMatch(
+              a -> a.getClass() == BlueConveyorBelt.class && ((BlueConveyorBelt) a).getHeading()
+                  .equals(Heading.NORTH));
+          bottomConnection = board.getNeighbour(space, Heading.WEST).getActions().stream().anyMatch(
+              a -> a.getClass() == BlueConveyorBelt.class && ((BlueConveyorBelt) a).getHeading()
+                  .equals(Heading.EAST));
+          break;
+      }
+    } catch (NullPointerException ignored) {
+    }
+
+    if (rightConnection && leftConnection && bottomConnection)
+      return ConveyorBeltConnections.LEFT_AND_RIGHT_AND_BOTTOM;
+    else if (leftConnection && rightConnection)
+      return ConveyorBeltConnections.LEFT_AND_RIGHT;
+    else if (leftConnection && bottomConnection)
+      return ConveyorBeltConnections.LEFT_AND_BOTTOM;
+    else if (rightConnection && bottomConnection)
+      return ConveyorBeltConnections.RIGHT_AND_BOTTOM;
+    else if (leftConnection)
+      return ConveyorBeltConnections.LEFT;
+    else if (rightConnection)
+      return ConveyorBeltConnections.RIGHT;
+    else
+      return ConveyorBeltConnections.NONE;
   }
 
   private void updateBlueConveyorBelt() {
     for (FieldAction fieldAction : space.getActions()) {
       if (fieldAction.getClass().getName().equals("com.roborally.controller.BlueConveyorBelt")) {
         BlueConveyorBelt conveyorBelt = (BlueConveyorBelt) fieldAction;
-        ImageView view = SpriteSheetSingleton.getInstance().spriteSheet.getFrame(
-            "blue conveyor belt");
-        switch (conveyorBelt.getHeading()) {
-          case NORTH -> view = SpriteSheetSingleton.getInstance().spriteSheet.getFrame(
+
+        ImageView view2 = null;
+        ConveyorBeltConnections connections = getBlueConveyorBeltConnections(conveyorBelt.getHeading(), space);
+        view2 = switch (connections) {
+          case NONE -> SpriteSheetSingleton.getInstance().spriteSheet.getFrame(
               "blue conveyor belt north");
-          case EAST -> view = SpriteSheetSingleton.getInstance().spriteSheet.getFrame(
-              "blue conveyor belt east");
-          case SOUTH -> view = SpriteSheetSingleton.getInstance().spriteSheet.getFrame(
-              "blue conveyor belt south");
-          case WEST -> view = SpriteSheetSingleton.getInstance().spriteSheet.getFrame(
-              "blue conveyor belt west");
+          case LEFT -> SpriteSheetSingleton.getInstance().spriteSheet.getFrame(
+              "blue conveyor belt left connection");
+          case RIGHT -> SpriteSheetSingleton.getInstance().spriteSheet.getFrame(
+              "blue conveyor belt right connection");
+          case LEFT_AND_RIGHT, LEFT_AND_RIGHT_AND_BOTTOM -> SpriteSheetSingleton.getInstance().spriteSheet.getFrame(
+              "blue conveyor belt left and right connection");
+          case LEFT_AND_BOTTOM -> SpriteSheetSingleton.getInstance().spriteSheet.getFrame(
+              "blue conveyor belt left and bottom connection");
+          case RIGHT_AND_BOTTOM -> SpriteSheetSingleton.getInstance().spriteSheet.getFrame(
+              "blue conveyor belt right and bottom connection");
+        };
+
+        switch (conveyorBelt.getHeading()) {
+          case NORTH -> view2.setRotate(0);
+          case EAST -> view2.setRotate(90);
+          case SOUTH -> view2.setRotate(180);
+          case WEST -> view2.setRotate(270);
         }
-        this.getChildren().add(view);
+
+        this.getChildren().add(view2);
       }
     }
   }
