@@ -29,6 +29,7 @@ import com.roborally.model.CommandCardField;
 import com.roborally.model.Heading;
 import com.roborally.model.Phase;
 import com.roborally.model.Player;
+import com.roborally.model.PlayerBackUpCommand;
 import com.roborally.model.PlayerCommandManager;
 import com.roborally.model.PlayerMove1Command;
 import com.roborally.model.PlayerMove2Command;
@@ -136,6 +137,7 @@ public class GameController {
    * Generates and returns a random command card
    *
    * @return a random command card
+   * @author Lucas Eiruff
    */
   private CommandCard generateRandomCommandCard() {
     Command[] commands = Command.values();
@@ -332,6 +334,7 @@ public class GameController {
         case RIGHT -> playerCommandManager.executeCommand(new PlayerTurnRightCommand(board.getPlayers(), player));
         case LEFT -> playerCommandManager.executeCommand(new PlayerTurnLeftCommand(board.getPlayers(), player));
         case U_TURN -> playerCommandManager.executeCommand(new PlayerUTurnCommand(board.getPlayers(), player));
+        case BACK_UP -> playerCommandManager.executeCommand(new PlayerBackUpCommand(board.getPlayers(), player));
         default -> {
         }
       }
@@ -388,6 +391,26 @@ public class GameController {
       }
     }
     player.setSpace(space);
+  }
+
+  /**
+   * Moves player one field in the direction opposite of its heading.
+   *
+   * @param player player to move
+   * @author Lucas Eiruff
+   */
+  public void backUp(@NotNull Player player) {
+    if (player.board != board) {
+      return;
+    }
+
+    Space target = board.getNeighbour(player.getSpace(), player.getHeading().prev().prev());
+    if (target == null)
+      return;
+
+    try {
+      moveToSpace(player, target, player.getHeading().prev().prev());
+    } catch (ImpossibleMoveException ignore) {}
   }
 
   /**

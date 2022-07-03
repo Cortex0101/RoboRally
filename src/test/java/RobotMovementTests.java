@@ -108,6 +108,19 @@ public class RobotMovementTests {
   }
 
   @Test
+  void backUpTest() {
+    TestUtil.performMoves(List.of(new CommandCard(Command.MOVE1), new CommandCard(Command.BACK_UP)), player1, game);
+
+    Position expectedPosition = new Position(0,2);
+    Heading expectedHeading = Heading.SOUTH;
+    Position actualPosition = TestUtil.getPos(player1);
+    Heading actualHeading = player1.getHeading();
+
+    Assertions.assertEquals(expectedPosition, actualPosition);
+    Assertions.assertSame(expectedHeading, actualHeading);
+  }
+
+  @Test
   void playersCantMovePastBordEdgesTest() {
     TestUtil.performMoves(List.of(new CommandCard(Command.RIGHT), new CommandCard(Command.MOVE2)), player1, game);
 
