@@ -36,6 +36,7 @@ public enum Command {
   LEFT("Turn Left"),
   U_TURN("U-turn"),
   BACK_UP("Back up"),
+  AGAIN("Again"),
   OPTION_LEFT_RIGHT("Left OR Right", LEFT, RIGHT);
 
   final public String displayName;

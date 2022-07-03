@@ -120,6 +120,9 @@ public class RoboAI {
 
     for (List<Integer> commandCardPermutations : Itertools.permutations(commandCardIndexes, 5)) {
       List<CommandCard> cards = getCommandCardsBasedOnIndexes(commandCardPermutations);
+      if (cards.get(0).command.equals(Command.AGAIN)) {
+        continue;
+      }
       updateAIPosition();
       performMoves(cards);
       int distance = boardCopy.getDistanceBetweenSpaces(aiPlayerCopy.getSpace(), desiredSpace);

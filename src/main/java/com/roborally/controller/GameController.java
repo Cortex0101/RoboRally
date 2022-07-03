@@ -29,6 +29,7 @@ import com.roborally.model.CommandCardField;
 import com.roborally.model.Heading;
 import com.roborally.model.Phase;
 import com.roborally.model.Player;
+import com.roborally.model.PlayerAgainCommand;
 import com.roborally.model.PlayerBackUpCommand;
 import com.roborally.model.PlayerCommandManager;
 import com.roborally.model.PlayerMove1Command;
@@ -41,6 +42,7 @@ import com.roborally.model.Space;
 import java.util.Arrays;
 import java.util.List;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class GameController {
 
@@ -335,6 +337,7 @@ public class GameController {
         case LEFT -> playerCommandManager.executeCommand(new PlayerTurnLeftCommand(board.getPlayers(), player));
         case U_TURN -> playerCommandManager.executeCommand(new PlayerUTurnCommand(board.getPlayers(), player));
         case BACK_UP -> playerCommandManager.executeCommand(new PlayerBackUpCommand(board.getPlayers(), player));
+        case AGAIN -> playerCommandManager.executeCommand(new PlayerAgainCommand(board.getPlayers(), player));
         default -> {
         }
       }
@@ -391,6 +394,30 @@ public class GameController {
       }
     }
     player.setSpace(space);
+  }
+
+  /**
+   * Executes most recently executed 'non again' command.
+   * This card may not be placed in the first register.
+   *
+   * @author Lucas Eiruff
+   */
+  public void again(@NotNull Player player) {
+    if (player.board != board) {
+      return;
+    }
+
+    for (int i = 1; ; ++i) {
+      int idx = board.getStep() - i;
+      if (idx < 0) {
+        return;
+      }
+      Command command = player.getProgramField(idx).getCard().command;
+      if (command != Command.AGAIN) {
+        executeCommand(player, command);
+        return;
+      }
+    }
   }
 
   /**
