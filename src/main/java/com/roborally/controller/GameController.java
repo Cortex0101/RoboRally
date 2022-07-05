@@ -239,7 +239,7 @@ public class GameController {
    */
   public void executePrograms() {
     board.setStepMode(false);
-    activateBoardElements();
+    activeBoardElementInOrder();
     continuePrograms();
   }
 
@@ -250,7 +250,7 @@ public class GameController {
    */
   public void executeStep() {
     board.setStepMode(true);
-    activateBoardElements();
+    activeBoardElementInOrder();
     continuePrograms();
   }
 
@@ -289,17 +289,50 @@ public class GameController {
       makeProgramFieldsVisible(step);
       board.setStep(step);
       activatePriorityAntenna = true;
-      activateBoardElements();
+      activeBoardElementInOrder();
       board.setCurrentPlayer(board.getPlayer(0));
     } else {
       startProgrammingPhase(true);
-      activateBoardElements();
+      activeBoardElementInOrder();
       for (Player player : board.getPlayers()) {
         if (player.isRebooting()) {
           player.reboot(this);
         }
       }
     }
+  }
+
+  /**
+   * Iterates through each of the boards spaces 5 times and on iteration i calls the space's:
+   * <ol>
+   *  <li>Blue conveyor belts</li>
+   *  <li>Green conveyor belts</li>
+   *  <li>Gears</li>
+   *  <li>Board lasers</li>
+   *  <li>Checkpoints</li>
+   * </ol>
+   */
+  public void activeBoardElementInOrder() {
+    for (int elementOrder = 0; elementOrder < 5; elementOrder++) {
+      for (int i = 0; i < board.width; i++) {
+        for (int j = 0; j < board.height; j++) {
+          Space space = board.getSpace(i, j);
+          for (FieldAction action : space.getActions()) {
+            if (elementOrder == 0 && action.getClass().getName().equals("com.roborally.controller.BlueConveyorBelt"))
+              action.doAction(this, space);
+            else if (elementOrder == 1 && action.getClass().getName().equals("com.roborally.controller.GreenConveyorBelt"))
+              action.doAction(this, space);
+            else if (elementOrder == 2 && action.getClass().getName().equals("com.roborally.controller.Gear"))
+              action.doAction(this, space);
+            else if (elementOrder == 3 && (action.getClass().getName().equals("com.roborally.controller.BoardLaser") || action.getClass().getName().equals("com.roborally.controller.BoardLaserNonOrigin")))
+              action.doAction(this, space);
+            else if (elementOrder == 4 && action.getClass().getName().equals("com.roborally.controller.CheckPoint"))
+              action.doAction(this, space);
+          }
+        }
+      }
+    }
+    resetPlayersMoveBlockers();
   }
 
   private void activateBoardElements() {
