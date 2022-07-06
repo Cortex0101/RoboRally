@@ -236,7 +236,7 @@ public class GameController {
    */
   public void executePrograms() {
     board.setStepMode(false);
-    activeBoardElementInOrder();
+    //activeBoardElementInOrder();
     continuePrograms();
   }
 
@@ -247,7 +247,7 @@ public class GameController {
    */
   public void executeStep() {
     board.setStepMode(true);
-    activeBoardElementInOrder();
+    //activeBoardElementInOrder();
     continuePrograms();
   }
 
