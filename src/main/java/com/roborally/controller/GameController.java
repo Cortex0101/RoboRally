@@ -128,10 +128,7 @@ public class GameController {
    */
   public void generatePlayerCards() {
     for (Player player : board.getPlayers()) {
-      for (CommandCardField field : player.getCards()) {
-        field.setCard(generateRandomCommandCard());
-        field.setVisible(true);
-      }
+      player.drawCards();
     }
   }
 

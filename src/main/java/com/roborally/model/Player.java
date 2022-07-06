@@ -26,6 +26,7 @@ import static com.roborally.model.Heading.SOUTH;
 import com.roborally.controller.GameController;
 import designpatterns.observer.Subject;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 import org.jetbrains.annotations.NotNull;
 
@@ -59,6 +60,8 @@ public class Player extends Subject {
 
   public boolean movedByBlueConveyorThisTurn = false;
   public boolean movedByGreenConveyorThisTurn = false;
+
+  private CommandCardDeck commandCardDeck = new CommandCardDeck();
 
   public Player(@NotNull Board board, String color, @NotNull String name, Space startingSpace) {
     this.startingSpace = startingSpace;
@@ -203,5 +206,18 @@ public class Player extends Subject {
 
   public Position getPosition() {
     return new Position(space.x, space.y);
+  }
+
+  public CommandCardDeck getCommandCardDeck() {
+    return commandCardDeck;
+  }
+
+  public void drawCards() {
+    int i = 0;
+    for (CommandCard commandCard : commandCardDeck.drawCards(NO_CARDS)) {
+      getCards()[i].setCard(commandCard);
+      getCards()[i].setVisible(true);
+      ++i;
+    }
   }
 }
