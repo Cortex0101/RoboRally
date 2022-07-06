@@ -260,25 +260,27 @@ public class GameController {
     } while (board.getPhase() == Phase.ACTIVATION && !board.isStepMode());
   }
 
-  private void executeRegister(Player player, int register) {
+  private boolean executeRegister(Player player, int register) {
     if (!player.isRebooting()) {
       CommandCard card = board.getCurrentPlayer().getProgramField(register).getCard();
       if (card != null) {
         Command command = card.command;
         if (command.isInteractive()) {
           board.setPhase(Phase.PLAYER_INTERACTION);
-          return;
+          return false;
         }
         executeCommand(board.getCurrentPlayer(), command);
       }
     }
+    return true;
   }
 
   private void executeNextStep() {
     int step = board.getStep();
     Player currentPlayer = board.getCurrentPlayer();
 
-    executeRegister(currentPlayer, board.getStep());
+    if (!executeRegister(currentPlayer, board.getStep()))
+      return;
 
     if (!board.lastPlayerIsCurrent()) {
       board.setNextPlayerAsCurrent();
