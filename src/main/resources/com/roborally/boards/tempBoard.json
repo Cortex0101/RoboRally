@@ -75,6 +75,20 @@
       "walls": [],
       "actions": [
         {
+          "CLASSNAME": "com.roborally.controller.PushPanel",
+          "INSTANCE": {
+            "heading": "SOUTH",
+            "type": "PUSH_PANEL_1"
+          }
+        }
+      ],
+      "x": 3,
+      "y": 0
+    },
+    {
+      "walls": [],
+      "actions": [
+        {
           "CLASSNAME": "com.roborally.controller.BlueConveyorBelt",
           "INSTANCE": {
             "heading": "WEST"

@@ -27,6 +27,8 @@ import com.roborally.controller.FieldAction;
 import com.roborally.controller.Gear;
 import com.roborally.controller.GreenConveyorBelt;
 import com.roborally.controller.PriorityAntenna;
+import com.roborally.controller.PushPanel;
+import com.roborally.controller.PushPanel.Type;
 import com.roborally.controller.SingleBoardLaser;
 import com.roborally.controller.SingleBoardLaserNonOrigin;
 import com.roborally.fileaccess.LoadBoard;
@@ -491,6 +493,25 @@ public class SpaceView extends StackPane implements ViewObserver {
     }
   }
 
+  private void updatePushPanels() {
+    for (FieldAction fieldAction : space.getActions()) {
+      if (fieldAction.getClass().getName()
+          .equals("com.roborally.controller.PushPanel")) {
+        PushPanel pushPanel = (PushPanel) fieldAction;
+        ImageView view = SpriteSheetSingleton.getInstance().spriteSheet.getFrame(
+            pushPanel.getType() == Type.PUSH_PANEL_1 ? "push panel 1" : "push panel 2");
+
+        switch (pushPanel.getHeading()) {
+          case NORTH -> view.setRotate(0);
+          case EAST -> view.setRotate(90);
+          case SOUTH -> view.setRotate(180);
+          case WEST -> view.setRotate(270);
+        }
+        this.getChildren().add(view);
+      }
+    }
+  }
+
   /**
    * @author August Hjortholm
    * @author Lucas Eiruff
@@ -512,6 +533,7 @@ public class SpaceView extends StackPane implements ViewObserver {
       updateCheckPoints();
       updateSingleLaserNonOrigin();
       updateSingleLasers();
+      updatePushPanels();
       updatePlayer();
     }
   }

@@ -306,13 +306,14 @@ public class GameController {
    * <ol>
    *  <li>Blue conveyor belts</li>
    *  <li>Green conveyor belts</li>
+   *  <li>Push panels</li>
    *  <li>Gears</li>
    *  <li>Board lasers</li>
    *  <li>Checkpoints</li>
    * </ol>
    */
   public void activeBoardElementInOrder() {
-    for (int elementOrder = 0; elementOrder < 5; elementOrder++) {
+    for (int elementOrder = 0; elementOrder < 6; elementOrder++) {
       for (int i = 0; i < board.width; i++) {
         for (int j = 0; j < board.height; j++) {
           Space space = board.getSpace(i, j);
@@ -321,11 +322,13 @@ public class GameController {
               action.doAction(this, space);
             else if (elementOrder == 1 && action.getClass().getName().equals("com.roborally.controller.GreenConveyorBelt"))
               action.doAction(this, space);
-            else if (elementOrder == 2 && action.getClass().getName().equals("com.roborally.controller.Gear"))
+            else if (elementOrder == 2 && action.getClass().getName().equals("com.roborally.controller.PushPanel"))
               action.doAction(this, space);
-            else if (elementOrder == 3 && (action.getClass().getName().equals("com.roborally.controller.BoardLaser") || action.getClass().getName().equals("com.roborally.controller.BoardLaserNonOrigin")))
+            else if (elementOrder == 3 && action.getClass().getName().equals("com.roborally.controller.Gear"))
               action.doAction(this, space);
-            else if (elementOrder == 4 && action.getClass().getName().equals("com.roborally.controller.CheckPoint"))
+            else if (elementOrder == 4 && action.getClass().getName().equals("com.roborally.controller.BoardLaser"))
+              action.doAction(this, space);
+            else if (elementOrder == 5 && action.getClass().getName().equals("com.roborally.controller.Checkpoint"))
               action.doAction(this, space);
           }
         }
