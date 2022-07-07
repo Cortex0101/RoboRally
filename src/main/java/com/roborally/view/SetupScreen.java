@@ -33,8 +33,8 @@ import javafx.util.Pair;
 
 public class SetupScreen {
 
-  final String IMAGES_PATH =
-      System.getProperty("user.dir") + "\\src\\main\\resources\\com\\roborally\\images\\";
+  final String IMAGES_PATH = "file:" + System.getProperty("user.home") + "/IdeaProjects/RoboRally/src/main/resources/com/roborally/images/";
+  // /Users/numanbashir/IdeaProjects/RoboRally/src/main/resources/com/roborally/images
 
   final HBox twoColumn = new HBox();
 
