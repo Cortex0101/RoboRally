@@ -5,6 +5,7 @@ module com.roborally {
 
   requires org.jetbrains.annotations;
   requires com.google.gson;
+  requires java.desktop;
 
   opens com.roborally to javafx.fxml;
   opens com.roborally.controller to com.google.gson;

@@ -39,10 +39,21 @@ import com.roborally.model.Space;
 import com.roborally.model.SpriteSheetSingleton;
 import designpatterns.observer.Subject;
 import java.util.List;
+import javafx.beans.binding.Bindings;
+import javafx.scene.CacheHint;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.effect.Blend;
+import javafx.scene.effect.BlendMode;
+import javafx.scene.effect.ColorAdjust;
+import javafx.scene.effect.ColorInput;
+import javafx.scene.effect.Effect;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.image.PixelReader;
+import javafx.scene.image.PixelWriter;
+import javafx.scene.image.WritableImage;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -81,9 +92,58 @@ public class SpaceView extends StackPane implements ViewObserver {
     update(space);
   }
 
+  /**
+   * reColor the given InputImage to the given color
+   * inspired by https://stackoverflow.com/a/12945629/1497139
+   * @param inputImage
+   * @param sourceColor
+   * @param finalColor
+   * @return reColored Image
+   *
+   */
+  private static Image reColor(Image inputImage, Color sourceColor, Color finalColor) {
+    int            W           = (int) inputImage.getWidth();
+    int            H           = (int) inputImage.getHeight();
+    WritableImage outputImage = new WritableImage(W, H);
+    PixelReader reader      = inputImage.getPixelReader();
+    PixelWriter writer      = outputImage.getPixelWriter();
+    float          ocR         = (float) sourceColor.getRed();
+    float          ocG         = (float) sourceColor.getGreen();
+    float          ocB         = (float) sourceColor.getBlue();
+    float          ncR         = (float) finalColor.getRed();
+    float          ncG         = (float) finalColor.getGreen();
+    float          ncB         = (float) finalColor.getBlue();
+    java.awt.Color oldColor    = new java.awt.Color(ocR, ocG, ocB);
+    java.awt.Color newColor    = new java.awt.Color(ncR, ncG, ncB);
+    for (int y = 0; y < H; y++) {
+      for (int x = 0; x < W; x++) {
+        int            argb       = reader.getArgb(x, y);
+        java.awt.Color pixelColor = new java.awt.Color(argb, true);
+        writer.setArgb(x, y,
+            pixelColor.equals(oldColor) ?
+                newColor.getRGB() :
+                pixelColor.getRGB());
+      }
+    }
+    return outputImage;
+  }
+
+  private ImageView playerView = new ImageView(new Image( System.getProperty("user.dir") + "\\src\\main\\resources\\com\\roborally\\images\\player.png"));
+
   private void updatePlayer() {
     Player player = space.getPlayer();
-    if (player != null) {
+    if (player == null) 
+      return;
+
+    playerView = new ImageView(reColor(playerView.getImage(), Color.WHITE, Color.valueOf(player.getColor())));
+
+    playerView.setFitWidth(SPACE_WIDTH);
+    playerView.setFitHeight(SPACE_HEIGHT);
+    this.playerView.setRotate((90 * player.getHeading().ordinal() % 360) + 90);
+
+    this.getChildren().add(playerView);
+    
+    /*
       Polygon arrow = new Polygon(0.0, 0.0,
           10.0, 20.0,
           20.0, 0.0);
@@ -114,7 +174,7 @@ public class SpaceView extends StackPane implements ViewObserver {
       SnapshotParameters parameters = new SnapshotParameters();
       parameters.setFill(Color.TRANSPARENT);
       gc.drawImage(sPane.snapshot(parameters, null), x, y);
-    }
+     */
   }
 
   private void updateWall() {

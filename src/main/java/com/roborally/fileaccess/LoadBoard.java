@@ -31,7 +31,6 @@ import java.util.stream.Collectors;
  * loads the board from a .json file
  */
 public class LoadBoard {
-
   private static final String RESOURCE_FOLDER_PATH =
       System.getProperty("user.dir") + "\\src\\main\\resources";
   private static final String SAVED_BOARDS_PATH = RESOURCE_FOLDER_PATH + "\\com\\roborally\\boards";
