@@ -214,10 +214,12 @@ public class Player extends Subject {
 
   public void drawCards() {
     int i = 0;
-    for (CommandCard commandCard : commandCardDeck.drawCards(NO_CARDS)) {
+    commandCardDeck.drawCards(NO_CARDS);
+    for (CommandCard commandCard : commandCardDeck.getDrawnCards()) {
       getCards()[i].setCard(commandCard);
       getCards()[i].setVisible(true);
       ++i;
+      if (i == 8) break;
     }
   }
 }

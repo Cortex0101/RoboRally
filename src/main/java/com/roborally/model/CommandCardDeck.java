@@ -55,7 +55,10 @@ public class CommandCardDeck {
   };
 
   // Field contains the cards that this deck currently contains.
-  private List<CommandCard> cards = new ArrayList<>(originalCards.length);
+  private List<CommandCard> programmingDeck = new ArrayList<>(originalCards.length);
+
+  // Field contains the 8 cards that have been drawn from this deck and are availble to program.
+  private List<CommandCard> drawnCards = new ArrayList<>(8);
 
   public CommandCardDeck() {
     reshuffle();
@@ -66,22 +69,38 @@ public class CommandCardDeck {
    *
    * @return The n cards drawn.
    */
-  public List<CommandCard> drawCards(int numberOfCards) {
-    if (cards.size() < numberOfCards) {
+  public void drawCards(int numberOfCards) {
+    drawnCards.clear();
+    if (programmingDeck.size() < numberOfCards) {
+      drawnCards.addAll(new ArrayList<>(programmingDeck.subList(0, programmingDeck.size())));
+      programmingDeck.subList(0, programmingDeck.size()).clear();
+      numberOfCards -= programmingDeck.size();
       reshuffle();
     }
-    List<CommandCard> drawnCards = new ArrayList<>(cards.subList(0, numberOfCards));
-    cards.subList(0, numberOfCards).clear();
+    drawnCards.addAll(new ArrayList<>(programmingDeck.subList(0, numberOfCards)));
+    programmingDeck.subList(0, numberOfCards).clear();
+  }
+
+  public List<CommandCard> getDrawnCards() {
     return drawnCards;
+  }
+
+  /**
+   * Places the given cards back into the deck.
+   *
+   * @param cards The cards to be placed back into the deck.
+   */
+  public void addCardsToDeck(List<CommandCard> cards) {
+    this.programmingDeck.addAll(cards);
   }
 
   /**
    * Reshuffles the deck.
    */
   private void reshuffle() {
-    cards.clear();
-    cards.addAll(Arrays.asList(originalCards));
-    Collections.shuffle(cards);
+    programmingDeck.clear();
+    programmingDeck.addAll(Arrays.asList(originalCards));
+    Collections.shuffle(programmingDeck);
   }
 
   /**
@@ -90,7 +109,7 @@ public class CommandCardDeck {
    * @return The number of cards left in the deck.
    */
   public int getNumberOfCardsLeft() {
-    return cards.size();
+    return programmingDeck.size();
   }
 }
 
