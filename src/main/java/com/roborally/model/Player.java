@@ -32,8 +32,6 @@ import org.jetbrains.annotations.NotNull;
 
 /**
  * Defines the properties of a player
- *
- * @author Ekkart Kindler, ekki@dtu.dk
  */
 public class Player extends Subject {
 

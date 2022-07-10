@@ -35,6 +35,7 @@ import com.roborally.model.PlayerCommandManager;
 import com.roborally.model.PlayerMove1Command;
 import com.roborally.model.PlayerMove2Command;
 import com.roborally.model.PlayerMove3Command;
+import com.roborally.model.PlayerShootLaserCommand;
 import com.roborally.model.PlayerTurnLeftCommand;
 import com.roborally.model.PlayerTurnRightCommand;
 import com.roborally.model.PlayerUTurnCommand;
@@ -118,6 +119,36 @@ public class GameController {
       CommandCardField field = player.getProgramField(i);
       field.setCard(cards.get(i));
       field.setVisible(true);
+    }
+  }
+
+  /**
+   * Shoots a laser in the direction of the player's heading.
+   * The laser will travel in the players direction until it hits a wall or a player.
+   * If any robot is hit, it is rebooted.
+   */
+  public void shootLaser(Player player) {
+    if (player.isRebooting() || player.getSpace() == null)
+      return;
+
+    Space currentSpace = player.getSpace();
+    Space nextSpace = player.board.getNeighbour(currentSpace, player.getHeading());
+    while (nextSpace != null) {
+      if (nextSpace.getWalls().contains(player.getHeading().next().next())) {
+        break;
+      }
+
+      if (nextSpace.getPlayer() != null) {
+        nextSpace.getPlayer().setRebooting(true);
+        break;
+      }
+
+      if (nextSpace.getWalls().contains(player.getHeading())) {
+        break;
+      }
+
+      currentSpace = nextSpace;
+      nextSpace = player.board.getNeighbour(currentSpace, player.getHeading());
     }
   }
 
@@ -313,10 +344,16 @@ public class GameController {
    * </ol>
    */
   public void activeBoardElementInOrder() {
-    for (int elementOrder = 0; elementOrder < 6; elementOrder++) {
+    for (int elementOrder = 0; elementOrder < 7; elementOrder++) {
       for (int i = 0; i < board.width; i++) {
         for (int j = 0; j < board.height; j++) {
           Space space = board.getSpace(i, j);
+          if (elementOrder == 5) {
+            for (Player player : board.getPlayers()) {
+              playerCommandManager.executeCommand(new PlayerShootLaserCommand(board.getPlayers(), player));
+            }
+            elementOrder = 6;
+          }
           for (FieldAction action : space.getActions()) {
             if (elementOrder == 0 && action.getClass().getName().equals("com.roborally.controller.BlueConveyorBelt"))
               action.doAction(this, space);
@@ -328,7 +365,7 @@ public class GameController {
               action.doAction(this, space);
             else if (elementOrder == 4 && action.getClass().getName().equals("com.roborally.controller.BoardLaser"))
               action.doAction(this, space);
-            else if (elementOrder == 5 && action.getClass().getName().equals("com.roborally.controller.Checkpoint"))
+            else if (elementOrder == 6 && action.getClass().getName().equals("com.roborally.controller.Checkpoint"))
               action.doAction(this, space);
           }
         }

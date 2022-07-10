@@ -42,8 +42,12 @@ public abstract class PlayerMovementCommand {
 
   public void undo() {
     for (int i = 0; i < players.size(); i++) {
-      players.get(i).setHeading(prevPlayerHeadings.get(i));
-      players.get(i).setSpace(prevPlayerSpaces.get(i));
+      try {
+        players.get(i).setHeading(prevPlayerHeadings.get(i));
+        players.get(i).setSpace(prevPlayerSpaces.get(i));
+      } catch (IndexOutOfBoundsException ignored) {
+        // do nothing
+      }
     }
   }
 

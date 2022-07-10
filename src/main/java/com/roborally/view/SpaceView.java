@@ -314,18 +314,10 @@ public class SpaceView extends StackPane implements ViewObserver {
         };
 
         switch (conveyorBelt.getHeading()) {
-          case NORTH -> {
-            view2.setRotate(0);
-          }
-          case EAST -> {
-            view2.setRotate(90);
-          }
-          case SOUTH -> {
-            view2.setRotate(180);
-          }
-          case WEST -> {
-            view2.setRotate(270);
-          }
+          case NORTH -> view2.setRotate(0);
+          case EAST -> view2.setRotate(90);
+          case SOUTH -> view2.setRotate(180);
+          case WEST -> view2.setRotate(270);
         }
 
         this.getChildren().add(view2);
