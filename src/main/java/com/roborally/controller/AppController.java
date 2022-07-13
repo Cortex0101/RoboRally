@@ -31,6 +31,7 @@ import com.roborally.model.Player;
 import com.roborally.view.DialogFacade;
 import com.roborally.view.SetupScreen;
 import designpatterns.observer.Observer;
+import designpatterns.observer.RESTfulAPIInterface;
 import designpatterns.observer.Subject;
 import java.io.File;
 import java.util.ArrayList;
@@ -38,8 +39,9 @@ import java.util.List;
 import java.util.Objects;
 import javafx.application.Platform;
 import javafx.scene.input.KeyCode;
+import javafx.scene.paint.Color;
 
-public class AppController implements Observer {
+public class AppController implements Observer, RESTfulAPIInterface {
 
   final public RoboRally roboRally;
   private GameController gameController;
@@ -313,5 +315,50 @@ public class AppController implements Observer {
 
   @Override
   public void update(Subject subject) {
+  }
+
+  @Override
+  public Board getBoards() {
+    return null;
+  }
+
+  @Override
+  public String createBoard(String saveName) {
+    return null;
+  }
+
+  @Override
+  public void deleteBoard(String saveName) {
+
+  }
+
+  @Override
+  public String getBoard(String saveName) {
+    return null;
+  }
+
+  @Override
+  public String updateBoard(String saveName) {
+    return null;
+  }
+
+  @Override
+  public void createPlayer(String name, Color color, boolean isAI) {
+
+  }
+
+  @Override
+  public Player getAllPlayers() {
+    return null;
+  }
+
+  @Override
+  public Player getPlayer() {
+    return null;
+  }
+
+  @Override
+  public Player updatePlayer() {
+    return null;
   }
 }
