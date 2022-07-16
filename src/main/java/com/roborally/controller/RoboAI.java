@@ -7,6 +7,8 @@ import com.roborally.model.CommandCardField;
 import com.roborally.model.Player;
 import com.roborally.model.Space;
 import designpatterns.observer.Itertools;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -79,6 +81,16 @@ public class RoboAI {
     gameCopy.executePrograms();
   }
 
+  private Random rand;  // SecureRandom is preferred to Random
+
+  {
+    try {
+      rand = SecureRandom.getInstanceStrong();
+    } catch (NoSuchAlgorithmException e) {
+      e.printStackTrace();
+    }
+  }
+
   /**
    * @param indexes The indexes
    * @return Returns a list of command cards drawn from the command card deck at the indexes
@@ -94,7 +106,7 @@ public class RoboAI {
           .getCard(); // We use the original player as this is the one that has the proper cards.
       // For now a LEFT_OR_RIGHT command will randomly select one or the other.
       if (card.getName().equals("Left OR Right")) {
-        if (new Random().nextBoolean()) {
+        if (rand.nextBoolean()) {
           card = new CommandCard(Command.RIGHT);
         } else {
           card = new CommandCard(Command.LEFT);
