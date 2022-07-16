@@ -26,6 +26,7 @@ import com.roborally.controller.CheckPoint;
 import com.roborally.controller.FieldAction;
 import com.roborally.controller.Gear;
 import com.roborally.controller.GreenConveyorBelt;
+import com.roborally.controller.Pit;
 import com.roborally.controller.PriorityAntenna;
 import com.roborally.controller.PushPanel;
 import com.roborally.controller.PushPanel.Type;
@@ -293,7 +294,7 @@ public class SpaceView extends StackPane implements ViewObserver {
 
   private void updateGreenConveyorBelt() {
     for (FieldAction fieldAction : space.getActions()) {
-      if (fieldAction.getClass().getName().equals("com.roborally.controller.GreenConveyorBelt")) {
+      if (fieldAction instanceof GreenConveyorBelt) {
         GreenConveyorBelt conveyorBelt = (GreenConveyorBelt) fieldAction;
         ImageView view2 = null;
         ConveyorBeltConnections connections = getGreenConveyorBeltConnections(
@@ -400,7 +401,7 @@ public class SpaceView extends StackPane implements ViewObserver {
 
   private void updateBlueConveyorBelt() {
     for (FieldAction fieldAction : space.getActions()) {
-      if (fieldAction.getClass().getName().equals("com.roborally.controller.BlueConveyorBelt")) {
+      if (fieldAction instanceof BlueConveyorBelt) {
         BlueConveyorBelt conveyorBelt = (BlueConveyorBelt) fieldAction;
 
         ImageView view2 = null;
@@ -434,7 +435,7 @@ public class SpaceView extends StackPane implements ViewObserver {
 
   private void updateGears() {
     for (FieldAction fieldAction : space.getActions()) {
-      if (fieldAction.getClass().getName().equals("com.roborally.controller.Gear")) {
+      if (fieldAction instanceof Gear) {
         Gear gear = (Gear) fieldAction;
         if (gear.getDirection().equals(Gear.Direction.LEFT)) {
           ImageView view = SpriteSheetSingleton.getInstance().spriteSheet.getFrame("left gear");
@@ -451,7 +452,7 @@ public class SpaceView extends StackPane implements ViewObserver {
 
   private void updatePits() {
     for (FieldAction fieldAction : space.getActions()) {
-      if (fieldAction.getClass().getName().equals("com.roborally.controller.Pit")) {
+      if (fieldAction instanceof Pit) {
         ImageView view = SpriteSheetSingleton.getInstance().spriteSheet.getFrame("pit");
         view.toFront();
         this.getChildren().add(view);
@@ -461,7 +462,7 @@ public class SpaceView extends StackPane implements ViewObserver {
 
   private void updateCheckPoints() {
     for (FieldAction fieldAction : space.getActions()) {
-      if (fieldAction.getClass().getName().equals("com.roborally.controller.CheckPoint")) {
+      if (fieldAction instanceof CheckPoint) {
         CheckPoint checkPoint = (CheckPoint) fieldAction;
         ImageView view = SpriteSheetSingleton.getInstance().spriteSheet.getFrame(
             "checkpoint " + checkPoint.getCheckpointNum());
@@ -473,7 +474,7 @@ public class SpaceView extends StackPane implements ViewObserver {
 
   private void updateSingleLasers() {
     for (FieldAction fieldAction : space.getActions()) {
-      if (fieldAction.getClass().getName().equals("com.roborally.controller.SingleBoardLaser")) {
+      if (fieldAction instanceof SingleBoardLaser) {
         SingleBoardLaser singleBoardLaser = (SingleBoardLaser) fieldAction;
         ImageView view = SpriteSheetSingleton.getInstance().spriteSheet.getFrame(
             "single laser wall");
@@ -502,8 +503,7 @@ public class SpaceView extends StackPane implements ViewObserver {
   //Above method updates the actual wall with the laser shooter, while this one updates individual lasers
   private void updateSingleLaserNonOrigin() {
     for (FieldAction fieldAction : space.getActions()) {
-      if (fieldAction.getClass().getName()
-          .equals("com.roborally.controller.SingleBoardLaserNonOrigin")) {
+      if (fieldAction instanceof SingleBoardLaserNonOrigin) {
         SingleBoardLaserNonOrigin singleBoardLaser = (SingleBoardLaserNonOrigin) fieldAction;
         ImageView view = SpriteSheetSingleton.getInstance().spriteSheet.getFrame(
             "single laser wall");
@@ -520,8 +520,7 @@ public class SpaceView extends StackPane implements ViewObserver {
 
   private void updatePriorityAntenna() {
     for (FieldAction fieldAction : space.getActions()) {
-      if (fieldAction.getClass().getName()
-          .equals("com.roborally.controller.PriorityAntenna")) {
+      if (fieldAction instanceof PriorityAntenna) {
         PriorityAntenna priorityAntenna = (PriorityAntenna) fieldAction;
         ImageView view = SpriteSheetSingleton.getInstance().spriteSheet.getFrame(
             "priority antenna");
@@ -547,8 +546,7 @@ public class SpaceView extends StackPane implements ViewObserver {
 
   private void updatePushPanels() {
     for (FieldAction fieldAction : space.getActions()) {
-      if (fieldAction.getClass().getName()
-          .equals("com.roborally.controller.PushPanel")) {
+      if (fieldAction instanceof PushPanel) {
         PushPanel pushPanel = (PushPanel) fieldAction;
         ImageView view = SpriteSheetSingleton.getInstance().spriteSheet.getFrame(
             pushPanel.getType() == Type.PUSH_PANEL_1 ? "push panel 1" : "push panel 2");
