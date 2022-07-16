@@ -21,8 +21,8 @@ public class PriorityAntenna extends FieldAction {
       Position playerPos = player.getPosition();
       Position antennaPos = new Position(space.x, space.y);
 
-      int deltaX = Math.abs(playerPos.x - antennaPos.x);
-      int deltaY = Math.abs(playerPos.y - antennaPos.y);
+      double deltaX = Math.abs(playerPos.x - antennaPos.x);
+      double deltaY = Math.abs(playerPos.y - antennaPos.y);
       double distance = Math.sqrt((deltaX * deltaX) + (deltaY * deltaY));
       if (gameController.board.getPlayersNumber() != 1)
         System.out.println("Activated antenna. " + player.getName() + " distance = " + distance);
