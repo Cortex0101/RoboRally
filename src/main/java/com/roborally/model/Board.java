@@ -100,8 +100,7 @@ public class Board extends Subject {
     if (num <= getNumCheckpoints()) {
       for (Space space : checkPointSpaces) {
         for (FieldAction fieldAction : space.getActions()) {
-          if (fieldAction.getClass().getName().equals("com.roborally.controller.CheckPoint")) {
-            CheckPoint checkPoint = (CheckPoint) fieldAction;
+          if (fieldAction instanceof CheckPoint checkPoint) {
             if (checkPoint.getCheckpointNum() == num) {
               return space;
             }

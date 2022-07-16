@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+import com.roborally.controller.CheckPoint;
 import com.roborally.controller.FieldAction;
 import com.roborally.fileaccess.model.BoardTemplate;
 import com.roborally.fileaccess.model.PlayerTemplate;
@@ -139,7 +140,7 @@ public class LoadBoard {
           space.getWalls().addAll(spaceTemplate.walls);
 
           for (FieldAction fieldAction : space.getActions()) {
-            if (fieldAction.getClass().getName().equals("com.roborally.controller.CheckPoint")) {
+            if (fieldAction instanceof CheckPoint) {
               result.addCheckPoint(space);
             }
           }
@@ -191,7 +192,7 @@ public class LoadBoard {
     }
 
     return new BufferedReader(
-        new InputStreamReader(inputStream, StandardCharsets.UTF_8))
+        new InputStreamReader(Objects.requireNonNull(inputStream), StandardCharsets.UTF_8))
         .lines()
         .collect(Collectors.joining("\n"));
   }
@@ -306,7 +307,7 @@ public class LoadBoard {
     to.getActions().addAll(from.actions);
     to.getWalls().addAll(from.walls);
     for (FieldAction fieldAction : to.getActions()) {
-      if (fieldAction.getClass().getName().equals("com.roborally.controller.CheckPoint")) {
+      if (fieldAction instanceof CheckPoint) {
         to.board.addCheckPoint(to);
       }
     }
@@ -334,7 +335,7 @@ public class LoadBoard {
     template.width = board.width;
     template.height = board.height;
 
-    List<SpaceTemplate> playerSpaces = new ArrayList<SpaceTemplate>();
+    List<SpaceTemplate> playerSpaces = new ArrayList<>();
 
     for (int i = 0; i < board.width; i++) {
       for (int j = 0; j < board.height; j++) {

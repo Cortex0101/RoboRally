@@ -355,17 +355,17 @@ public class GameController {
             elementOrder = 6;
           }
           for (FieldAction action : space.getActions()) {
-            if (elementOrder == 0 && action.getClass().getName().equals("com.roborally.controller.BlueConveyorBelt"))
+            if (elementOrder == 0 && action instanceof BlueConveyorBelt)
               action.doAction(this, space);
-            else if (elementOrder == 1 && action.getClass().getName().equals("com.roborally.controller.GreenConveyorBelt"))
+            else if (elementOrder == 1 && action instanceof GreenConveyorBelt)
               action.doAction(this, space);
-            else if (elementOrder == 2 && action.getClass().getName().equals("com.roborally.controller.PushPanel"))
+            else if (elementOrder == 2 && action instanceof PushPanel)
               action.doAction(this, space);
-            else if (elementOrder == 3 && action.getClass().getName().equals("com.roborally.controller.Gear"))
+            else if (elementOrder == 3 && action instanceof Gear)
               action.doAction(this, space);
-            else if (elementOrder == 4 && action.getClass().getName().equals("com.roborally.controller.BoardLaser"))
+            else if (elementOrder == 4 && (action instanceof SingleBoardLaser || action instanceof SingleBoardLaserNonOrigin))
               action.doAction(this, space);
-            else if (elementOrder == 6 && action.getClass().getName().equals("com.roborally.controller.Checkpoint"))
+            else if (elementOrder == 6 && action instanceof CheckPoint)
               action.doAction(this, space);
           }
         }
