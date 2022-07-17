@@ -101,11 +101,13 @@ public class AppController implements Observer, RESTfulAPIInterface {
    * <p>
    * Saves the game state into a .json file
    */
+
+  //TODO - Restructure to RESTapi
   public void saveGame(String name) {
     LoadBoard.saveBoard(gameController.board, name);
   }
 
-
+  //TODO - Restructure to RESTapi
   public Board loadBoard(String name) {
     return LoadBoard.loadBoardFromFile(name);
   }
