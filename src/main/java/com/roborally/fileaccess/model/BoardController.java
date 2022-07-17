@@ -43,7 +43,7 @@ public class BoardController {
       Files.walk(Paths.get(LoadBoard.SAVED_BOARDS_PATH)).forEach(path -> {
         if (Files.isRegularFile(path) && !Files.isDirectory(path)) {
           try {
-            String boardName = path.toString().substring(path.toString().indexOf("boards") + "boards".length(), path.toString().length() - 5);
+            String boardName = path.toString().substring(path.toString().indexOf("boards") + "boards/".length(), path.toString().length() - 5);
             this.boards.put(boardName, LoadBoard.getBoardContent(boardName));
             System.out.println(path);
           } catch (Exception e) {
@@ -58,29 +58,42 @@ public class BoardController {
 
   @GetMapping("/boards")
   List<String> all() {
-    return boards.values().stream().toList();
+    return boards.keySet().stream().toList();
   }
 
   @GetMapping("/boards/{name}")
   String one(@PathVariable String name) {
-    return boards.getOrDefault("\\" + name, "404, board not found");
+    return boards.getOrDefault(name, "404, board not found");
   }
 
   @PutMapping("/boards/{name}")
   String update(@PathVariable String name, @RequestBody String board) {
-    boards.put(name, board);
-    return "200, board updated";
+    if (boards.containsKey(name)) {
+      boards.put(name, board);
+      return "200, board updated";
+    } else {
+      return "404, board not found";
+    }
   }
 
   @PostMapping("/boards")
-  String newBoard(@RequestBody String newBoard, @RequestBody String newBoardName) {
-    boards.put(newBoardName, newBoard);
-    return newBoard;
+  String newBoard(@RequestBody String newBoardName, @RequestBody String newBoard) {
+    if (boards.containsKey(newBoardName)) {
+      return "409, board already exists";
+    } else {
+      boards.put(newBoardName, newBoard);
+      return "201, board created";
+    }
   }
 
   @DeleteMapping("/boards/{name}")
-  void deleteBoard(@PathVariable String name) {
-    boards.remove(name);
+  String deleteBoard(@PathVariable String name) {
+    if (boards.containsKey(name)) {
+      boards.remove(name);
+      return "200, board deleted";
+    } else {
+      return "404, board not found";
+    }
   }
 
   enum Action {
