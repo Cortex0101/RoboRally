@@ -14,6 +14,8 @@ import com.roborally.model.CommandCard;
 import com.roborally.model.Heading;
 import com.roborally.model.Player;
 import com.roborally.model.Space;
+import org.jetbrains.annotations.NotNull;
+
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -71,7 +73,7 @@ public class LoadBoard {
    * <p>
    * loads a default board. called when no board has been chosen as an alternative
    */
-  public static Board loadDefaultBoard(BoardConfig boardConfig, DefaultBoard defaultBoard) {
+  public static @NotNull Board loadDefaultBoard(BoardConfig boardConfig, DefaultBoard defaultBoard) {
     String boardname = null;
 
     switch (defaultBoard) {
@@ -118,7 +120,8 @@ public class LoadBoard {
       inputStream = new FileInputStream(DEFAULT_BOARDS_PATH + "\\" + boardname + "." + JSON_EXT);
     } catch (FileNotFoundException fileNotFoundException) {
       fileNotFoundException.printStackTrace();
-      return new Board(8, 8); // Returns a default 8x8 board - do something else in the future
+      //TODO revert
+      return new Board(8, 8, "defaultboard"); // Returns a default 8x8 board - do something else in the future
     }
 
     GsonBuilder simpleBuilder = new GsonBuilder().

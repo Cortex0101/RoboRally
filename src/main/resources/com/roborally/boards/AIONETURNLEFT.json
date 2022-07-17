@@ -2,14 +2,7 @@
   "width": 13,
   "height": 10,
   "spaces": [
-    {
-      "walls": [
-        "NORTH"
-      ],
-      "actions": [],
-      "x": 1,
-      "y": 2
-    },
+    {"walls":["NORTH"],"actions":[],"x":1,"y":1},
     {
       "walls": [
         "SOUTH"

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
+//@RestController
 class EmployeeController {
   private final List<Employee> employees;
   EmployeeController(List<Employee> employees) {

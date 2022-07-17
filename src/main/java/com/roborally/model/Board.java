@@ -1,5 +1,5 @@
 /*
- *  This file is part of the initial project provided for the
+ *  Th0s file is part of the initial project provided for the
  *  course "Project in Software Development (02362)" held at
  *  DTU Compute at the Technical University of Denmark.
  *
@@ -23,29 +23,36 @@ package com.roborally.model;
 
 import static com.roborally.model.Phase.INITIALISATION;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.roborally.controller.CheckPoint;
 import com.roborally.controller.FieldAction;
 import designpatterns.observer.Subject;
 import java.util.ArrayList;
 import java.util.List;
+
+import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * Defines the properties of the board
  *
  * @author Ekkart Kindler, ekki@dtu.dk
  */
+@NoArgsConstructor
+@Component
 public class Board extends Subject {
 
-  public final int width;
+  public int width;
 
-  public final int height;
+  public int height;
 
-  public final String boardName;
+  public String boardName;
 
   private Integer gameId;
 
-  private final Space[][] spaces;
+  private Space[][] spaces;
 
   private final List<Space> checkPointSpaces = new ArrayList<>();
 
@@ -65,7 +72,6 @@ public class Board extends Subject {
     this.boardName = boardName;
     this.width = width;
     this.height = height;
-    spaces = new Space[width][height];
     for (int x = 0; x < width; x++) {
       for (int y = 0; y < height; y++) {
         Space space = new Space(this, x, y);
@@ -112,9 +118,10 @@ public class Board extends Subject {
     return null;
   }
 
-  public Board(int width, int height) {
-    this(width, height, "defaultboard");
-  }
+  //TODO revert
+  //public Board(int width, int height) {
+  // this(width, height, "defaultboard");
+  //}
 
   public Integer getGameId() {
     return gameId;
@@ -266,6 +273,10 @@ public class Board extends Subject {
    */
   public int getDistanceBetweenSpaces(@NotNull Space space1, @NotNull Space space2) {
     return Math.abs(space1.x - space2.x) + Math.abs(space1.y - space2.y);
+  }
+
+  public String getBoardName() {
+    return boardName;
   }
 
   public String getStatusMessage() {

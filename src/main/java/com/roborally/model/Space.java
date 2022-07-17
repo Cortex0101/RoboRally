@@ -21,6 +21,7 @@
  */
 package com.roborally.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.roborally.controller.FieldAction;
 import designpatterns.observer.Subject;
 import java.util.ArrayList;
