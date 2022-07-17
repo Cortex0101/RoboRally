@@ -34,7 +34,7 @@ import java.util.stream.Collectors;
 public class LoadBoard {
   private static final String RESOURCE_FOLDER_PATH =
       System.getProperty("user.dir") + "\\src\\main\\resources";
-  private static final String SAVED_BOARDS_PATH = RESOURCE_FOLDER_PATH + "\\com\\roborally\\boards";
+  public static final String SAVED_BOARDS_PATH = RESOURCE_FOLDER_PATH + "\\com\\roborally\\boards";
   private static final String DEFAULT_BOARDS_PATH =
       RESOURCE_FOLDER_PATH + "\\com\\roborally\\defaultBoards";
   private static final String DEFAULTBOARD = "defaultboard";
@@ -189,6 +189,7 @@ public class LoadBoard {
       inputStream = new FileInputStream(SAVED_BOARDS_PATH + "\\" + boardgames + "." + JSON_EXT);
     } catch (Exception e) {
       e.printStackTrace();
+      return null;
     }
 
     return new BufferedReader(
