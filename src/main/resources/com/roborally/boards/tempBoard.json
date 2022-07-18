@@ -1,6 +1,7 @@
 {
   "width": 5,
   "height": 4,
+  "name": "default",
   "spaces": [
     {
       "walls": [],

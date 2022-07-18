@@ -1,11 +1,7 @@
 package com.roborally.fileaccess.model;
 
-import com.roborally.RESTapi.KmkmkmApplication;
-import com.roborally.fileaccess.LoadBoard;
-import com.roborally.model.Board;
 import com.roborally.model.Heading;
 import java.util.List;
-import java.util.Objects;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -63,7 +59,7 @@ public class PlayerController {
 
   @PutMapping("/players/{name}")
   PlayerTemplate replacePlayer(@RequestBody PlayerTemplate newPlayer, @PathVariable String name) {
-    PlayerTemplate player = players.stream()
+    var player = players.stream()
         .filter(player1 -> player1.name.equals(name))
         .findFirst().orElse(null);
     player = newPlayer;
