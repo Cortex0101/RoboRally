@@ -96,14 +96,17 @@ public class BoardController {
     }
   }
 
-  enum Action {
+  public enum Action {
     POST,
     PUT,
     DELETE,
     GET
   }
 
-  public static void sendRequest(Action action, String url, String body) throws IOException, InterruptedException {
+  public static String DEFAULT_URI = "http://localhost:8080/boards";
+
+
+  public static String sendRequest(Action action, String url, String body) throws IOException, InterruptedException {
     HttpClient client = HttpClient.newBuilder()
         .version(Version.HTTP_1_1)
         .connectTimeout(Duration.ofSeconds(10))
@@ -142,23 +145,17 @@ public class BoardController {
         break;
     }
 
-    client.sendAsync(request, BodyHandlers.ofString()).thenApply(HttpResponse::body).join();//.thenAccept(System.out::println).join();
+    return client.sendAsync(request, BodyHandlers.ofString()).thenApply(HttpResponse::body).join();
   }
 
   public static void main(String[] args) {
     SpringApplication.run(BoardController.class, args);
 
-    String URI = "http://localhost:8080/boards";
-
     try {
       //sendRequest(URI, "");
-      sendRequest(Action.GET, URI + "/x", "");
-      sendRequest(Action.PUT, URI + "/x", "{ width: 10 }");
-      sendRequest(Action.GET, URI + "/x", "");
-      sendRequest(Action.GET, URI + "/x", "");
-      sendRequest(Action.DELETE, URI + "/x", "");
+      sendRequest(Action.GET, DEFAULT_URI + "/d", "");
       Thread.sleep(1000);
-      sendRequest(Action.GET, URI + "/x", "");
+      sendRequest(Action.GET, DEFAULT_URI + "/x", "");
     } catch (IOException e) {
       e.printStackTrace();
     } catch (InterruptedException e) {

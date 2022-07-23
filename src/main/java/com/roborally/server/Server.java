@@ -2,6 +2,8 @@ package com.roborally.server;
 
 import com.roborally.RoboRally;
 import com.roborally.fileaccess.LoadBoard;
+import com.roborally.fileaccess.model.BoardController;
+import com.roborally.fileaccess.model.BoardController.Action;
 import com.roborally.model.Command;
 import com.roborally.model.CommandCard;
 import java.io.BufferedReader;
@@ -12,6 +14,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.boot.SpringApplication;
 
 public class Server {
 
@@ -28,6 +31,7 @@ public class Server {
    * Creates a game which can be joined and starts a connection
    */
   public void start(int port) {
+    SpringApplication.run(BoardController.class);
     try {
       serverSocket = new ServerSocket(port);
       while (true) {
@@ -106,6 +110,11 @@ public class Server {
       if (message.equals("GET_BOARD")) {
         roboRally.getAppController().saveGame("tempSave");
         String jsonBoard = LoadBoard.getBoardContent();
+        try {
+          jsonBoard = BoardController.sendRequest(BoardController.Action.GET, BoardController.DEFAULT_URI + "/tempSave", "");
+        } catch (IOException | InterruptedException e) {
+          e.printStackTrace();
+        }
         out.print(jsonBoard);
         out.println();
       }
