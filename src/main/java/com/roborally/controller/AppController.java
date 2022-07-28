@@ -36,8 +36,12 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.scene.input.KeyCode;
+import javafx.util.Duration;
 
 public class AppController implements Observer {
 
@@ -63,12 +67,24 @@ public class AppController implements Observer {
     roboRally.setScene(setupScreen.getScene());
 
     // TODO: The server should communicate with the client directly somehow, instead of having this mouse event be the trigger.
+    Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), ev -> {
+      if (roboRally.readyToUpdateBoard) {
+        gameController.roboRally.readyToUpdateBoard = false;
+        setGame();
+      }
+    }));
+    timeline.setCycleCount(Animation.INDEFINITE);
+    timeline.play();
+
+    /*
     roboRally.getPrimaryScene().setOnMouseMoved(e -> {
       if (roboRally.readyToUpdateBoard) {
         gameController.roboRally.readyToUpdateBoard = false;
         setGame();
       }
     });
+
+     */
 
     roboRally.getPrimaryScene().setOnKeyPressed(keyEvent -> {
       if (keyEvent.getCode() == KeyCode.Z && keyEvent.isShiftDown()) {
