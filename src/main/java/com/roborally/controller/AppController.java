@@ -107,7 +107,7 @@ public class AppController implements Observer {
     } else if (roboRally.isClient) {
       String json = roboRally.client.post("GET_BOARD");
       System.out.println(json.indexOf("com.roborally.controller.CheckPoint"));
-      if (json.indexOf("com.roborally.controller.CheckPoint") == 124) {
+      if (json.indexOf("com.roborally.controller.CheckPoint") == 137) {
         LoadBoard.playerStartingPositions[0] = new int[]{11, 1};
         LoadBoard.playerStartingPositions[1] = new int[]{12, 3};
         LoadBoard.playerStartingPositions[2] = new int[]{11, 4};
