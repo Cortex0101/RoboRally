@@ -42,6 +42,7 @@ import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.scene.input.KeyCode;
 import javafx.util.Duration;
+import javax.swing.LookAndFeel;
 
 public class AppController implements Observer {
 
@@ -104,7 +105,25 @@ public class AppController implements Observer {
     if (roboRally.isHost) {
       startGame(loadBoard("tempSave"));
     } else if (roboRally.isClient) {
-      startGame(LoadBoard.loadBoardFromJson(roboRally.client.post("GET_BOARD")));
+      String json = roboRally.client.post("GET_BOARD");
+      System.out.println(json.indexOf("com.roborally.controller.CheckPoint"));
+      if (json.indexOf("com.roborally.controller.CheckPoint") == 124) {
+        LoadBoard.playerStartingPositions[0] = new int[]{11, 1};
+        LoadBoard.playerStartingPositions[1] = new int[]{12, 3};
+        LoadBoard.playerStartingPositions[2] = new int[]{11, 4};
+        LoadBoard.playerStartingPositions[3] = new int[]{11, 5};
+        LoadBoard.playerStartingPositions[4] = new int[]{12, 6};
+        LoadBoard.playerStartingPositions[5] = new int[]{11, 8};
+        System.out.println("hard map!");
+      } else {
+        LoadBoard.playerStartingPositions[0] = new int[]{1, 0};
+        LoadBoard.playerStartingPositions[1] = new int[]{0, 2};
+        LoadBoard.playerStartingPositions[2] = new int[]{1, 4};
+        LoadBoard.playerStartingPositions[3] = new int[]{1, 5};
+        LoadBoard.playerStartingPositions[4] = new int[]{0, 7};
+        LoadBoard.playerStartingPositions[5] = new int[]{1, 9};
+      }
+      startGame(LoadBoard.loadBoardFromJson(json));
       roboRally.client.post("SUBTRACT_READY");
       gameController.roboRally = roboRally;
     }

@@ -1,8 +1,6 @@
 
 _
 /src/main/java/com/roborally/view/BoardView.java,f\0\f0b1e95301c45bf704aac5577af4be6edddf3bfc
-_
-/src/main/java/com/roborally/view/SpaceView.java,4\5\45351b7878bc39aa291d266792b6d9dc7e3648db
 `
 0src/main/java/com/roborally/view/PlayerView.java,2\9\29e3282dc53c607a8342fe94829a559ddd3d05c8
 b
@@ -55,8 +53,6 @@ o
 ?src/main/java/com/roborally/model/GreenConveyorBeltCommand.java,2\c\2cdb49cbd3bef35c5cb17efe3a8bc3fd3079f00b
 `
 0src/main/java/com/roborally/controller/Gear.java,4\4\4470594367c5c05ffe537329fdcb6b2ef4397419
-b
-2src/main/java/com/roborally/controller/RoboAI.java,5\7\573dfae3ade4dff525643964518595b24bc59021
 e
 5src/main/java/com/roborally/controller/PushPanel.java,1\3\131dc61e017a89d4a38a6335772356283b9d9feb
 f
@@ -358,12 +354,8 @@ _
 /src/main/java/com/roborally/controller/Pit.java,b\1\b19a6912af6ef1c8c4b0273ac7697b91e33d5d35
 S
 #src/test/java/FieldActionsTest.java,d\0\d0077196d4474d290d383f0a34e3ed69e501dbd5
-l
-<src/main/java/com/roborally/controller/SingleBoardLaser.java,a\4\a4b3f1ea3d8069e30e92584386e0604aff02e793
 b
 2src/main/java/com/roborally/view/ViewObserver.java,8\a\8a8726d4f2e34f51922fb92040337134236172e2
-\
-,src/main/java/com/roborally/model/Board.java,1\7\178ff42018d54ff07104b20c1fe6318d3d698eef
 ]
 -src/main/java/com/roborally/model/Player.java,b\9\b99afd941154dde89065e92c8e065388ec9f5ce0
 o
