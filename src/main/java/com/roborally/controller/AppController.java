@@ -41,7 +41,7 @@ import javafx.scene.input.KeyCode;
 
 public class AppController implements Observer {
 
-  final public RoboRally roboRally;
+  public final RoboRally roboRally;
   private GameController gameController;
 
   /**
@@ -88,7 +88,7 @@ public class AppController implements Observer {
     if (roboRally.isHost) {
       startGame(loadBoard("tempSave"));
     } else if (roboRally.isClient) {
-      startGame(loadBoard(roboRally.client.post("GET_BOARD")));
+      startGame(LoadBoard.loadBoardFromJson(roboRally.client.post("GET_BOARD")));
       roboRally.client.post("SUBTRACT_READY");
       gameController.roboRally = roboRally;
     }
@@ -274,8 +274,6 @@ public class AppController implements Observer {
     Platform.exit();
   }
 
-  // TODO: This method probably belongs in some client class
-
   /**
    * @author Lucas Eiruff
    * <p>
@@ -313,5 +311,6 @@ public class AppController implements Observer {
 
   @Override
   public void update(Subject subject) {
+    // Nothing to update.
   }
 }

@@ -1,0 +1,15 @@
+
+X	java:S110$"<This class has 6 parents which is greater than 5 authorized.(íÕ®8ˆ÷‚¡0
+m
+java:S3655="PCall "Optional#isPresent()" or "!Optional#isEmpty()" before accessing the value.(Ûò©§8÷‚¡0
+m
+java:S3655@"PCall "Optional#isPresent()" or "!Optional#isEmpty()" before accessing the value.(Ûò©§8÷‚¡0
+¦
+AYIGEN03jjn3J-F2LZjd
+java:S3923<"[Remove this conditional structure or edit its code blocks so that they're not all the same.(—Ó»ÿÿÿÿÿ2Cortex0101@github8ø¢âê”0
+
+AYIGEN03jjn3J-F2LZje	java:S125>"<This block of commented-out lines of code should be removed.(Ü¦2Cortex0101@github8ğ“şÏ™0
+†
+AYIGEN03jjn3J-F2LZjf	java:S125A"<This block of commented-out lines of code should be removed.(»„³ûÿÿÿÿÿ2Cortex0101@github8ğ“şÏ™0
+T
+java:S1128"7Remove this unused import 'com.roborally.model.Player'.(°şø«8¬÷‚¡0

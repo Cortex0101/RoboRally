@@ -23,6 +23,7 @@ public class Server {
   public RoboRally roboRally;
   private int playersReady = 0;
   private boolean everyoneReady = false;
+  private boolean running = true;
 
   /**
    * @param port
@@ -34,7 +35,7 @@ public class Server {
     SpringApplication.run(BoardController.class);
     try {
       serverSocket = new ServerSocket(port);
-      while (true) {
+      while (running) {
         ClientHandler clientHandler = new ClientHandler(serverSocket.accept());
         clientHandler.start();
         clientHandlerList.add(clientHandler);
@@ -53,6 +54,7 @@ public class Server {
    */
   public void stop() {
     try {
+      running = false;
       serverSocket.close();
     } catch (IOException e) {
       e.printStackTrace();
@@ -110,11 +112,15 @@ public class Server {
       if (message.equals("GET_BOARD")) {
         roboRally.getAppController().saveGame("tempSave");
         String jsonBoard = LoadBoard.getBoardContent();
+        System.out.println(jsonBoard);
         try {
+          BoardController.sendRequest(Action.PUT, BoardController.DEFAULT_URI + "/tempSave", jsonBoard);
           jsonBoard = BoardController.sendRequest(BoardController.Action.GET, BoardController.DEFAULT_URI + "/tempSave", "");
         } catch (IOException | InterruptedException e) {
           e.printStackTrace();
         }
+        System.out.println("----------------------------------------------------");
+        System.out.println(jsonBoard);
         out.print(jsonBoard);
         out.println();
       }
