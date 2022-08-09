@@ -129,7 +129,7 @@ public class SpaceView extends StackPane implements ViewObserver {
     return outputImage;
   }
 
-  private ImageView playerView = new ImageView(new Image( System.getProperty("user.dir") + "\\src\\main\\resources\\com\\roborally\\images\\player.png"));
+  private ImageView playerView = new ImageView(new Image( "file:" + System.getProperty("user.home") + "/src/main/resources/com/roborally/images/player.png"));
 
   private void updatePlayer() {
     Player player = space.getPlayer();

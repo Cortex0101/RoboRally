@@ -7,8 +7,7 @@ public class SpriteSheetSingleton {
   public final SpriteSheet spriteSheet;
 
   private SpriteSheetSingleton() {
-    spriteSheet = new SpriteSheet(System.getProperty("user.dir")
-        + "\\src\\main\\resources\\com\\roborally\\images\\TileMap.png", 8, 17);
+    spriteSheet = new SpriteSheet( "file:" + System.getProperty("user.home") + "/IdeaProjects/RoboRally/src/main/resources/com/roborally/images/TileMap.png", 8, 17);
   }
 
   /**

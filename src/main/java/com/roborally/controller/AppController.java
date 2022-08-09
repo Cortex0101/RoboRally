@@ -130,8 +130,7 @@ public class AppController implements Observer {
    * folder.
    */
   public String getLoadNameFromUser() {
-    final List<String> savedGames = getFileNames(
-        System.getProperty("user.dir") + "\\src\\main\\resources\\com\\roborally\\boards\\");
+    final List<String> savedGames = getFileNames(System.getProperty("user.home") + "/IdeaProjects/RoboRally/src/main/resources/com/roborally/boards/");
     return DialogFacade.newChoiceDialog(savedGames, "Load game", "Select game to be loaded");
   }
 
